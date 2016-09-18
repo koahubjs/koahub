@@ -15,8 +15,7 @@
     "framework",
     "koa",
     "koahub",
-    "koahubjs",
-    "router"
+    "koahubjs"
   ],
   "author": "js.koahub.com",
   "license": "ISC",
