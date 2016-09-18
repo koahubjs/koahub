@@ -9,7 +9,6 @@ export default class extends koahub.http{
 
     constructor() {
         super();
-        
         console.log('base constructor');
     }
 
@@ -24,7 +23,6 @@ export default class extends base{
 
     constructor() {
         super();
-        
         console.log('index constructor');
     }
 
