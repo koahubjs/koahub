@@ -53,6 +53,8 @@ export default class {
 
             koahub.ctx = ctx;
 
+            global.ctx = ctx;
+
             let path = ctx.path;
             let action = path.slice(path.lastIndexOf('/'));
 
