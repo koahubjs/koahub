@@ -46,24 +46,55 @@ export default class extends base{
 * 支持 MySQL数据库
 * ...
 
-## 下载
+## 安装
 
 ```sh
-git clone https://github.com/einsqing/koahubjs.git
+npm install koahubjs --save
 ```
 
-## 安装依赖
+## 创建启动文件
 
 ```sh
-cd koahubjs
-npm install
+//创建start.js启动文件
+var Koahub = require("koahubjs");
+
+//默认app是项目目录
+const app = new Koahub.default();
+
+app.getKoa();获取koahubjs实例化，支持自定义koa中间件
+
+app.run(3000);
 ```
+
+## 目录结构
+
+```sh
+// 推荐目录结构
+app
+--addon
+--config
+--controller
+--data
+--model
+--util
+node_modules
+src
+--addon
+--config
+--controller
+--data
+--model
+--util
+package.json
+start.js
+```
+
+
 
 ## 开始应用
 
 ```sh
-npm run compile
-npm run start
+node start.js
 ```
 
 启动信息:

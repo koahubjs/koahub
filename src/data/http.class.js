@@ -5,14 +5,14 @@ export default class {
     }
 
     isGet() {
-        if (koahub.ctx.method == 'GET') {
+        if (ctx.method == 'GET') {
             return true;
         }
         return false;
     }
 
     isPost() {
-        if (koahub.ctx.method == 'POST') {
+        if (ctx.method == 'POST') {
             return true;
         }
         return false;
@@ -23,6 +23,6 @@ export default class {
     }
 
     json(data) {
-        koahub.ctx.body = data;
+        ctx.body = data;
     }
 }

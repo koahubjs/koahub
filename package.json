@@ -1,11 +1,10 @@
 {
   "name": "koahubjs",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
-  "main": "./dist/index.js",
+  "main": "./lib/index.js",
   "scripts": {
-    "start": "node ./dist/index.js",
-    "compile": "babel --presets es2015,stage-3 --plugins transform-runtime src/ --out-dir dist/ --watch"
+    "compile": "babel --presets es2015,stage-3 --plugins transform-runtime src/ --out-dir lib/ --watch --source-maps"
   },
   "keywords": [
     "web",
@@ -21,11 +20,7 @@
   "license": "ISC",
   "dependencies": {
     "babel-runtime": "^6.11.6",
-    "bookshelf": "^0.10.1",
-    "co": "^4.6.0",
-    "knex": "^0.12.0",
-    "koa": "^2.0.0-alpha.7",
-    "mysql": "^2.11.1"
+    "koa": "^2.0.0-alpha.7"
   },
   "devDependencies": {
     "babel-cli": "^6.14.0",
