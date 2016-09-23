@@ -43,7 +43,7 @@ export default class extends base{
 * 支持断点调试 ES2015+ 项目
 * 支持多种项目结构和多种项目环境
 * 支持多级 Controller
-* 支持 MySQL数据库
+* 支持自动加载
 * ...
 
 ## 安装
