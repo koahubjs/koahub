@@ -55,11 +55,11 @@ npm install koahubjs --save
 ## 创建启动文件
 
 ```sh
-//创建start.js启动文件
-var Koahub = require("koahubjs");
+// src/index.js启动文件
+import Koahub from "koahubjs";
 
 //默认app是项目目录
-const app = new Koahub.default();
+const app = new Koahub();
 
 app.getKoa();获取koahubjs实例化，支持自定义koa中间件
 
@@ -85,16 +85,15 @@ src
 --data
 --model
 --util
+--index.js
 package.json
-start.js
 ```
-
-
 
 ## 开始应用
 
 ```sh
-node start.js
+npm run compile
+npm run start
 ```
 
 启动信息:
@@ -108,4 +107,5 @@ server running at http://127.0.0.1:3000
 制作中....
 
 ## 官网
-[http://js.koahub.com]http://js.koahub.com
+[KoaHub.js官网](http://js.koahub.com)
+
