@@ -1,6 +1,6 @@
 {
   "name": "koahubjs",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "KoaHub.js -- 基于 Koa.js 平台的 Node.js web 快速开发框架。可以直接在项目里使用 ES6/7（Generator Function, Class, Async & Await）等特性，借助 Babel 编译，可稳定运行在 Node.js 环境上。",
   "main": "./lib/index.js",
   "scripts": {

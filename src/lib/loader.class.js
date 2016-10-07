@@ -60,18 +60,23 @@ export default class {
             return;
         }
 
-        paths.forEach(function (value, index) {
+        paths.forEach(function(value, index) {
             var _path = path.relative(options.root, value);
             if (_path.lastIndexOf(options.suffix) != -1) {
                 _path = _path.slice(0, _path.lastIndexOf(options.suffix));
 
-                options.filter.forEach(function (v, i) {
+                options.filter.forEach(function(v, i) {
                     _path = _path.replace(v, '');
                 });
 
                 _path = options.prefix + _path;
 
-                loaders[_path] = require(value).default;
+                let lib = require(value);
+                if (lib.hasOwnProperty('default') && Object.keys(lib).length == 1) {
+                    loaders[_path] = lib.default;
+                } else {
+                    loaders[_path] = lib;
+                }
             }
         });
 
