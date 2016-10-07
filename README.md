@@ -44,6 +44,7 @@ export default class extends base{
 * 支持多种项目结构和多种项目环境
 * 支持多级 Controller
 * 支持自动加载
+* 钩子机制
 * ...
 
 ## 安装
@@ -108,4 +109,3 @@ server running at http://127.0.0.1:3000
 
 ## 官网
 [KoaHub.js官网](http://js.koahub.com)
-

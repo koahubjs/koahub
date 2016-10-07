@@ -4,6 +4,7 @@ import path from "path";
 import Loader from "./lib/loader.class";
 import Http from "./data/http.class";
 import Config from "./config/config.class";
+import Hook from "./lib/hook.class";
 
 export default class {
 
@@ -44,6 +45,10 @@ export default class {
         koahub.controllers = new Loader(this.config.controller);
     }
 
+    loadHooks() {
+        koahub.hook = new Hook();
+    }
+
     loadUtils() {
         koahub.utils = new Loader(this.config.util);
     }
@@ -61,6 +66,7 @@ export default class {
         this.loadModels();
         this.loadUtils();
         this.loadConfigs();
+        this.loadHooks();
 
         koahub.app.use(function(ctx, next) {
 
