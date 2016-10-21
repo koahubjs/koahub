@@ -44,7 +44,8 @@ export default class extends base{
 * 支持多种项目结构和多种项目环境
 * 支持多级 Controller
 * 支持自动加载
-* 钩子机制
+* 支持钩子机制
+* 支持Socket.io
 * ...
 
 ## 安装

@@ -1,5 +1,6 @@
 import Koa from "koa";
 import path from "path";
+import http from "http";
 
 import Loader from "./lib/loader.class";
 import Http from "./data/http.class";
@@ -114,6 +115,12 @@ export default class {
         });
     }
 
+    // 支持soket.io
+    getServer() {
+        const server = http.Server(koahub.app.callback());
+        return this.server = server;
+    }
+
     // 支持自定义中间件
     getKoa() {
         return koahub.app;
@@ -123,7 +130,11 @@ export default class {
 
         this.init();
 
-        koahub.app.listen(port);
+        if (this.server) {
+            this.server.listen(port);
+        } else {
+            this.getServer().listen(port);
+        }
 
         console.log(`server running at http://127.0.0.1:${port}`);
     }
