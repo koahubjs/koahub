@@ -60,12 +60,12 @@ export default class {
             return;
         }
 
-        paths.forEach(function(value, index) {
+        paths.forEach(function (value, index) {
             var _path = path.relative(options.root, value);
             if (_path.lastIndexOf(options.suffix) != -1) {
                 _path = _path.slice(0, _path.lastIndexOf(options.suffix));
 
-                options.filter.forEach(function(v, i) {
+                options.filter.forEach(function (v, i) {
                     _path = _path.replace(v, '');
                 });
 

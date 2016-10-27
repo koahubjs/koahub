@@ -1,24 +1,22 @@
-import Koa from "koa";
 import path from "path";
 import http from "http";
-
+import Koa from "koa";
 import Loader from "./lib/loader.class";
 import Http from "./data/http.class";
-import Config from "./config/config.class";
 import Hook from "./lib/hook.class";
+import config from "./config/default.config";
+import {runAction} from "./util/default.util";
 
 export default class {
 
-    constructor(appName = 'app') {
+    constructor() {
 
         if (global.koahub == undefined) {
             // 加载全局变量
             global.koahub = {};
         }
 
-        this.config = Config.loader(appName);
-
-        this.loadPaths(appName);
+        this.loadPaths(config.app_path);
 
         // new Koa()
         const app = new Koa();
@@ -43,7 +41,7 @@ export default class {
     loadControllers() {
         // controller依赖http
         koahub.http = Http;
-        koahub.controllers = new Loader(this.config.controller);
+        koahub.controllers = new Loader(config.loader.controller);
     }
 
     loadHooks() {
@@ -51,15 +49,16 @@ export default class {
     }
 
     loadUtils() {
-        koahub.utils = new Loader(this.config.util);
+        koahub.utils = new Loader(config.loader.util);
     }
 
     loadModels() {
-        koahub.models = new Loader(this.config.model);
+        koahub.models = new Loader(config.loader.model);
     }
 
     loadConfigs() {
-        koahub.configs = new Loader(this.config.config);
+        koahub.configs = new Loader(config.loader.config);
+        koahub.configs.default = Object.assign(config, koahub.configs.default);
     }
 
     init() {
@@ -69,49 +68,14 @@ export default class {
         this.loadConfigs();
         this.loadHooks();
 
-        koahub.app.use(function(ctx, next) {
+        koahub.app.use(function (ctx, next) {
 
             koahub.ctx = ctx;
 
             // 快捷方法
             global.ctx = ctx;
 
-            let path = ctx.path;
-            let action = path.slice(path.lastIndexOf('/'));
-
-            path = path.slice(0, path.lastIndexOf('/'));
-
-            let include = false;
-            for (let key in koahub.controllers) {
-                if (key == path) {
-                    include = true;
-                    break;
-                }
-            }
-
-            if (include) {
-                let ctrl = koahub.controllers[path];
-                let pros = Object.getOwnPropertyNames(ctrl.prototype).filter(function(value) {
-                    if (value == 'constructor') {
-                        return false;
-                    }
-                    return true;
-                });
-
-                var callFlag = true;
-                for (let k in pros) {
-                    if ('/' + pros[k] == action) {
-                        Object.getPrototypeOf(new ctrl())[pros[k]].call(this);
-                        callFlag = false;
-                    }
-                }
-
-                if (callFlag) {
-                    ctx.throw(404, 'Not Found Method');
-                }
-            } else {
-                ctx.throw(404, 'Not Found Controller');
-            }
+            runAction(ctx.path);
         });
     }
 
@@ -126,7 +90,7 @@ export default class {
         return koahub.app;
     }
 
-    run(port = 3000) {
+    run(port = config.port) {
 
         this.init();
 

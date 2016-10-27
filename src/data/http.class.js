@@ -18,11 +18,15 @@ export default class {
         return false;
     }
 
-    view() {
-
+    view(data) {
+        ctx.body = data;
     }
 
-    json(data) {
-        ctx.body = data;
+    json(data, msg = '') {
+        ctx.body = {
+            data: data,
+            msg: msg
+        };
+        ctx.body.code = ctx.status;
     }
 }

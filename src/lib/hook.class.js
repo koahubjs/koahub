@@ -36,45 +36,43 @@ export default class {
                     if (/\w+\(.*\)$/.test(path)) {
                         this.runFunction(path);
                     } else {
-                        this.runController(path);
+                        this.runAction(path);
                     }
                 }
             }
         }
     }
 
-    runController(path) {
-        let action = path.slice(path.lastIndexOf('/'));
-        path = path.slice(0, path.lastIndexOf('/'));
+    runAction(path) {
+        const paths = path.split('/');
+        const action = paths[paths.length - 1];
+        const _path = path.slice(0, path.lastIndexOf('/'));
 
         let include = false;
         for (let _key in koahub.controllers) {
-            if (_key == path) {
+            if (_key == _path) {
                 include = true;
                 break;
             }
         }
 
         if (include) {
-            let ctrl = koahub.controllers[path];
-            let pros = Object.getOwnPropertyNames(ctrl.prototype).filter(function(value) {
+            let controller = koahub.controllers[_path];
+            let property = Object.getOwnPropertyNames(controller.prototype).filter(function (value) {
                 if (value == 'constructor') {
                     return false;
                 }
                 return true;
             });
 
-            let callFlag = true;
-            for (let k in pros) {
-                if ('/' + pros[k] == action) {
-                    Object.getPrototypeOf(new ctrl())[pros[k]].call(this);
-                    callFlag = false;
+            for (let k in property) {
+                if (property[k] == action) {
+                    Object.getPrototypeOf(new controller())[property[k]].call(this);
+                    return;
                 }
             }
 
-            if (callFlag) {
-                console.error('Hook Not Found Method');
-            }
+            console.error('Hook Not Found Action');
         } else {
             console.error('Hook Not Found Controller');
         }
