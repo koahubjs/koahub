@@ -10,6 +10,8 @@ export default {
     default_controller: 'index',
     default_action: 'index',
 
+    log_on: true,
+
     //自动加载配置
     loader: {
         "controller": [{

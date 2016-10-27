@@ -1,6 +1,7 @@
 import path from "path";
 import http from "http";
 import Koa from "koa";
+import logger from "koa-logger";
 import Loader from "./lib/loader.class";
 import Http from "./data/http.class";
 import Hook from "./lib/hook.class";
@@ -61,12 +62,19 @@ export default class {
         koahub.configs.default = Object.assign(config, koahub.configs.default);
     }
 
+    loadMiddlewares() {
+        if (koahub.configs.default.log_on) {
+            koahub.app.use(logger());
+        }
+    }
+
     init() {
         this.loadControllers();
         this.loadModels();
         this.loadUtils();
         this.loadConfigs();
         this.loadHooks();
+        this.loadMiddlewares();
 
         koahub.app.use(function (ctx, next) {
 
