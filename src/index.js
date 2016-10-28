@@ -113,7 +113,8 @@ export default class {
             this.getServer().listen(port);
         }
 
-        console.log(`[Koahubjs] Server running at http://127.0.0.1:${port}`);
         console.log(`[Koahubjs] Koahubjs version: ${koahub.version}`);
+        console.log(`[Koahubjs] Koahubjs website: http://js.koahub.com`);
+        console.log(`[Koahubjs] Server running at http://127.0.0.1:${port}`);
     }
 }
