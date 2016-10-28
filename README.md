@@ -27,9 +27,11 @@ export default class extends base{
     }
 
     index() {
-        super.isLogin();
-        super.json({msg: 'this is a msg'});
-        console.log('index index');
+        super.view(1);
+    }
+    
+    index2() {
+        super.json(1,2);
     }
 }
 ```
@@ -65,7 +67,7 @@ const app = new Koahub();
 
 app.getKoa();获取koahubjs实例化，支持自定义koa中间件
 
-app.run(3000);
+app.run();
 ```
 
 ## 目录结构
@@ -91,6 +93,72 @@ src
 package.json
 ```
 
+## 配置
+```sh
+// src/config/default.config.js
+export default {
+    port: 3000,
+    default_module: 'admin'
+}
+
+以下为默认配置
+//启动端口
+port: 3000,
+
+//项目目录
+app_path: 'app',
+
+//默认模块，控制器，操作
+default_module: 'home',
+default_controller: 'index',
+default_action: 'index',
+
+//http日志
+log_on: true,
+
+//favicon设置
+favicon: 'www/public/favicon.ico',
+
+//自动加载配置
+loader: {
+    "controller": [{
+        root: 'app/controller',
+        suffix: '.controller.js',
+        prefix: '/',
+    }, {
+        root: 'app/addon',
+        suffix: '.controller.js',
+        prefix: '/addon/',
+        filter: [/\w*\/controller\//]
+    }],
+    "util": [{
+        root: 'app/util',
+        suffix: '.util.js'
+    }, {
+        root: 'app/addon',
+        suffix: '.util.js',
+        filter: [/\w*\/util\//]
+    }],
+    "model": [{
+        root: 'app/model',
+        suffix: '.model.js'
+    }, {
+        root: 'app/addon',
+        suffix: '.model.js',
+        filter: [/\w*\/model\//]
+    }],
+    "config": [{
+        root: 'app/config',
+        suffix: '.config.js'
+    }, {
+        root: 'app/addon',
+        suffix: '.config.js',
+        filter: [/\w*\/config\//]
+    }]
+}
+
+```
+
 ## 开始应用
 
 ```sh
@@ -101,12 +169,11 @@ npm run start
 启动信息:
 
 ```text
-server running at http://127.0.0.1:3000
+[Koahubjs] Koahubjs version: 0.1.7
+[Koahubjs] Koahubjs website: http://js.koahub.com
+[Koahubjs] Server running at http://127.0.0.1:3000
 ```
 
-## 文档
-
-制作中....
 
 ## 官网
 [KoaHub.js官网](http://js.koahub.com)
