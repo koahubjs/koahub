@@ -1,26 +1,11 @@
 // run module/controller/action
-export function runAction(path) {
+export function runAction(path, _throw = false) {
 
-    const paths = path.split('/');
-    const action = paths[paths.length - 1];
-    const module = paths[1];
-    const _path = path.slice(0, path.lastIndexOf('/'));
+    let {module, controller, action} = getModuleControllerAction(path);
 
-    let include = false;
-    let modules = [];
-    for (let key in koahub.controllers) {
-        if (key == _path) {
-            include = true;
-        }
-
-        let _module = key.split('/')[1];
-        modules.push(_module);
-    }
-    modules = koahub.utils.lodash.union(modules);
-
-    if (include) {
-        let controller = koahub.controllers[_path];
-        let property = Object.getOwnPropertyNames(controller.prototype).filter(function (value) {
+    let ctrl = koahub.controllers[`/${module}/${controller}`];
+    if (ctrl) {
+        let property = Object.getOwnPropertyNames(ctrl.prototype).filter(function (value) {
             if (value == 'constructor') {
                 return false;
             }
@@ -29,27 +14,93 @@ export function runAction(path) {
 
         for (let k in property) {
             if (property[k] == action) {
-                Object.getPrototypeOf(new controller())[property[k]].call(this);
+                Object.getPrototypeOf(new ctrl())[property[k]].call(this);
                 return;
             }
         }
 
-        if (`${_path}/index` == path) {
+        if (_throw) {
             ctx.throw(404, 'Not Found Action');
-            return;
+        } else {
+            console.error('Not Found Action');
         }
-        ctx.redirect(`${_path}/index`);
     } else {
 
-        if (module && !koahub.utils.lodash.includes(modules, module)) {
-            ctx.throw(404, 'Not Found Module');
-            return;
-        }
-
-        if (!module || module == koahub.configs.default.default_module) {
-            ctx.redirect(`/${koahub.configs.default.default_module}/${koahub.configs.default.default_controller}/${koahub.configs.default.default_action}`);
+        if (_throw) {
+            ctx.throw(404, 'Not Found Controller');
         } else {
-            ctx.redirect(`/${module}/${koahub.configs.default.default_controller}/${koahub.configs.default.default_action}`);
+            console.error('Not Found Controller');
         }
+    }
+}
+
+// get all modules
+export function getAllModules() {
+
+    let modules = [];
+    for (let key in koahub.controllers) {
+        modules.push(key.split('/')[1]);
+    }
+    modules = koahub.utils.lodash.union(modules);
+    return modules;
+}
+
+// get module controller action
+export function getModuleControllerAction(path) {
+
+    let paths = [];
+    if (path != '/') {
+        paths = path.substr(1, path.length).split('/');
+        for (var key in paths) {
+            if (!paths[key]) {
+                ctx.throw(403, 'The url is error');
+                return;
+            }
+        }
+    }
+
+    let module = koahub.configs.default.default_module;
+    let controller = koahub.configs.default.default_controller;
+    let action = koahub.configs.default.default_action;
+
+    switch (paths.length) {
+        case 0:
+
+            break;
+        case 1:
+
+            module = paths[0];
+            break;
+        case 2:
+
+            module = paths[0];
+            controller = paths[1];
+            break;
+        case 3:
+
+            module = paths[0];
+            controller = paths[1];
+            action = paths[2];
+            break;
+        default:
+
+            module = paths[0];
+            controller = '';
+            for (var key in paths) {
+                if (key > 0 && key < paths.length - 1) {
+                    if (key == paths.length - 2) {
+                        controller += paths[key];
+                        break;
+                    }
+                    controller += paths[key] + '/';
+                }
+            }
+            action = paths[paths.length - 1];
+    }
+
+    return {
+        module: module,
+        controller: controller,
+        action: action
     }
 }

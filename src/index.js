@@ -88,7 +88,7 @@ export default class {
             // 快捷方法
             global.ctx = ctx;
 
-            runAction(ctx.path);
+            runAction(ctx.path, true);
         });
     }
 

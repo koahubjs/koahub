@@ -1,6 +1,8 @@
+import {runAction} from "./../util/default.util";
+
 // hooks 定义
 // {
-//     addOrder: [
+//     hook1: [
 //         '/admin/index/index'
 //     ]
 // }
@@ -44,38 +46,7 @@ export default class {
     }
 
     runAction(path) {
-        const paths = path.split('/');
-        const action = paths[paths.length - 1];
-        const _path = path.slice(0, path.lastIndexOf('/'));
-
-        let include = false;
-        for (let _key in koahub.controllers) {
-            if (_key == _path) {
-                include = true;
-                break;
-            }
-        }
-
-        if (include) {
-            let controller = koahub.controllers[_path];
-            let property = Object.getOwnPropertyNames(controller.prototype).filter(function (value) {
-                if (value == 'constructor') {
-                    return false;
-                }
-                return true;
-            });
-
-            for (let k in property) {
-                if (property[k] == action) {
-                    Object.getPrototypeOf(new controller())[property[k]].call(this);
-                    return;
-                }
-            }
-
-            console.error('Hook Not Found Action');
-        } else {
-            console.error('Hook Not Found Controller');
-        }
+        runAction(path);
     }
 
     runFunction(value) {
