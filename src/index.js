@@ -1,5 +1,6 @@
 import path from "path";
 import http from "http";
+import packageFile from "./../package.json";
 import Koa from "koa";
 import logger from "koa-logger";
 import favicon from "koa-favicon";
@@ -16,7 +17,7 @@ export default class {
 
         if (global.koahub == undefined) {
             // 加载全局变量
-            global.koahub = {};
+            global.koahub = lodash.merge({}, packageFile);
         }
 
         this.loadPaths(config.app_path);
@@ -112,6 +113,7 @@ export default class {
             this.getServer().listen(port);
         }
 
-        console.log(`server running at http://127.0.0.1:${port}`);
+        console.log(`[Koahubjs] Server running at http://127.0.0.1:${port}`);
+        console.log(`[Koahubjs] Koahubjs version: ${koahub.version}`);
     }
 }
