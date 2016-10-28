@@ -2,6 +2,8 @@ import path from "path";
 import http from "http";
 import Koa from "koa";
 import logger from "koa-logger";
+import favicon from "koa-favicon";
+import lodash from "lodash";
 import Loader from "./lib/loader.class";
 import Http from "./data/http.class";
 import Hook from "./lib/hook.class";
@@ -51,6 +53,7 @@ export default class {
 
     loadUtils() {
         koahub.utils = new Loader(config.loader.util);
+        koahub.utils.lodash = lodash;
     }
 
     loadModels() {
@@ -66,6 +69,7 @@ export default class {
         if (koahub.configs.default.log_on) {
             koahub.app.use(logger());
         }
+        koahub.app.use(favicon(koahub.configs.default.favicon));
     }
 
     init() {

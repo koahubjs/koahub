@@ -1,10 +1,24 @@
 {
-  "name": "koahubjs",
-  "version": "0.1.2",
-  "description": "KoaHub.js -- 基于 Koa.js 平台的 Node.js web 快速开发框架。可以直接在项目里使用 ES6/7（Generator Function, Class, Async & Await）等特性，借助 Babel 编译，可稳定运行在 Node.js 环境上。",
-  "main": "./lib/index.js",
-  "scripts": {
-    "compile": "babel --presets es2015,stage-3 --plugins transform-runtime src/ --out-dir lib/ --watch --source-maps"
+  "author": {
+    "name": "js.koahub.com"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.11.6",
+    "koa": "^2.0.0-alpha.7",
+    "koa-favicon": "^2.0.0",
+    "koa-logger": "^2.0.0",
+    "lodash": "^4.16.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.14.0",
+    "babel-core": "^6.14.0",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-stage-3": "^6.11.0"
+  },
+  "directories": {},
+  "engines": {
+    "node": ">= 0.12.0"
   },
   "keywords": [
     "web",
@@ -16,23 +30,18 @@
     "koahub",
     "koahubjs"
   ],
-  "author": {
-    "name": "js.koahub.com"
-  },
   "license": "ISC",
-  "dependencies": {
-    "babel-runtime": "^6.11.6",
-    "koa": "^2.0.0-alpha.7",
-    "koa-logger": "^2.0.0"
+  "main": "./lib/index.js",
+  "maintainers": [
+    {
+      "name": "einsqing",
+      "email": "786699892@qq.com"
+    }
+  ],
+  "name": "koahubjs",
+  "optionalDependencies": {},
+  "scripts": {
+    "compile": "babel --presets es2015,stage-3 --plugins transform-runtime src/ --out-dir lib/ --watch --source-maps"
   },
-  "devDependencies": {
-    "babel-cli": "^6.14.0",
-    "babel-core": "^6.14.0",
-    "babel-plugin-transform-runtime": "^6.15.0",
-    "babel-preset-es2015": "^6.14.0",
-    "babel-preset-stage-3": "^6.11.0"
-  },
-  "engines": {
-    "node": ">= 0.12.0"
-  }
+  "version": "0.1.3"
 }

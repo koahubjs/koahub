@@ -10,7 +10,11 @@ export default {
     default_controller: 'index',
     default_action: 'index',
 
+    //http日志
     log_on: true,
+
+    //favicon设置
+    favicon: 'www/public/favicon.ico',
 
     //自动加载配置
     loader: {
