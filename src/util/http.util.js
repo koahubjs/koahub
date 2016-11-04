@@ -59,9 +59,9 @@ export function getModuleControllerAction(path) {
         }
     }
 
-    let module = koahub.configs.default.default_module;
-    let controller = koahub.configs.default.default_controller;
-    let action = koahub.configs.default.default_action;
+    let module = koahub.configs.index.default_module;
+    let controller = koahub.configs.index.default_controller;
+    let action = koahub.configs.index.default_action;
 
     switch (paths.length) {
         case 0:

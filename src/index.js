@@ -8,8 +8,8 @@ import lodash from "lodash";
 import Loader from "./lib/loader.class";
 import Http from "./data/http.class";
 import Hook from "./lib/hook.class";
-import config from "./config/default.config";
-import {runAction} from "./util/default.util";
+import config from "./config/index.config";
+import {runAction} from "./util/http.util";
 
 export default class {
 
@@ -63,14 +63,14 @@ export default class {
 
     loadConfigs() {
         koahub.configs = new Loader(config.loader.config);
-        koahub.configs.default = Object.assign(config, koahub.configs.default);
+        koahub.configs.index = Object.assign(config, koahub.configs.index);
     }
 
     loadMiddlewares() {
-        if (koahub.configs.default.log_on) {
+        if (koahub.configs.index.log_on) {
             koahub.app.use(logger());
         }
-        koahub.app.use(favicon(koahub.configs.default.favicon));
+        koahub.app.use(favicon(koahub.configs.index.favicon));
     }
 
     init() {

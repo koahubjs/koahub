@@ -65,7 +65,8 @@ import Koahub from "koahubjs";
 //默认app是项目目录
 const app = new Koahub();
 
-app.getKoa();获取koahubjs实例化，支持自定义koa中间件
+app.getKoa();获取koa实例化，支持自定义koa中间件
+app.getServer();获取server实例化，支持socket.io
 
 app.run();
 ```
@@ -95,7 +96,7 @@ package.json
 
 ## 配置
 ```sh
-// src/config/default.config.js
+// src/config/index.config.js
 export default {
     port: 3000,
     default_module: 'admin'
@@ -169,7 +170,7 @@ npm run start
 启动信息:
 
 ```text
-[Koahubjs] Koahubjs version: 0.1.7
+[Koahubjs] Koahubjs version: 0.1.8
 [Koahubjs] Koahubjs website: http://js.koahub.com
 [Koahubjs] Server running at http://127.0.0.1:3000
 ```

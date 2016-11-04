@@ -43,5 +43,5 @@
   "scripts": {
     "compile": "babel --presets es2015,stage-3 --plugins transform-runtime src/ --out-dir lib/ --watch --source-maps"
   },
-  "version": "0.1.7"
+  "version": "0.1.8"
 }
