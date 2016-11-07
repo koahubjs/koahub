@@ -103,9 +103,13 @@ export default class {
         return koahub.app;
     }
 
-    run(port = config.port) {
+    run(port) {
 
         this.init();
+
+        if (!port) {
+            port = koahub.configs.index.port;
+        }
 
         if (this.server) {
             this.server.listen(port);

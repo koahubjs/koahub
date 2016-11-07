@@ -1,9 +1,19 @@
 // run module/controller/action
 export function runAction(path, _throw = false) {
 
-    let {module, controller, action} = getModuleControllerAction(path);
+    const {module, controller, action} = getModuleControllerAction(path);
 
-    let ctrl = koahub.controllers[`/${module}/${controller}`];
+    const modules = getAllModules();
+    if (!koahub.utils.lodash.includes(modules, module)) {
+        if (_throw) {
+            ctx.throw(404, 'Not Found Module');
+        } else {
+            console.error('Not Found Module');
+        }
+        return;
+    }
+
+    const ctrl = koahub.controllers[`/${module}/${controller}`];
     if (ctrl) {
         let property = Object.getOwnPropertyNames(ctrl.prototype).filter(function (value) {
             if (value == 'constructor') {
