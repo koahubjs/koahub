@@ -15,24 +15,20 @@ export function runAction(path, _throw = false) {
 
     const ctrl = koahub.controllers[`/${module}/${controller}`];
     if (ctrl) {
-        let property = Object.getOwnPropertyNames(ctrl.prototype).filter(function (value) {
-            if (value == 'constructor') {
-                return false;
-            }
-            return true;
+
+        const _ctrl = new ctrl();
+        const methods = Object.getOwnPropertyNames(ctrl.prototype).filter(function (value) {
+            return typeof _ctrl[value] === 'function' && value !== 'constructor';
         });
 
-        for (let k in property) {
-            if (property[k] == action) {
-                Object.getPrototypeOf(new ctrl())[property[k]].call(this);
-                return;
-            }
-        }
-
-        if (_throw) {
-            ctx.throw(404, 'Not Found Action');
+        if (koahub.utils.lodash.includes(methods, action)) {
+            _ctrl[action](this);
         } else {
-            console.error('Not Found Action');
+            if (_throw) {
+                ctx.throw(404, 'Not Found Action');
+            } else {
+                console.error('Not Found Action');
+            }
         }
     } else {
 
