@@ -18,7 +18,7 @@ export function runAction(path, _throw = false) {
 
         const _ctrl = new ctrl();
         const methods = Object.getOwnPropertyNames(ctrl.prototype).filter(function (value) {
-            return typeof _ctrl[value] === 'function' && value !== 'constructor';
+            return value !== 'constructor';
         });
 
         if (koahub.utils.lodash.includes(methods, action)) {
