@@ -16,10 +16,6 @@
   },
   "devDependencies": {},
   "directories": {},
-  "dist": {
-    "shasum": "4eb55d64f5028b33e8ddc35f53e21d98cacd3498",
-    "tarball": "https://registry.npmjs.org/koahubjs/-/koahubjs-0.2.1.tgz"
-  },
   "engines": {
     "node": ">= 0.12.0"
   },
@@ -46,5 +42,5 @@
   "scripts": {
     "compile": "babel --presets es2015,stage-3 --plugins transform-runtime src/ --out-dir lib/ --watch --source-maps"
   },
-  "version": "0.2.4"
+  "version": "0.2.6"
 }

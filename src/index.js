@@ -108,15 +108,23 @@ export default class {
             }
             return false;
         }));
+    }
+
+    handleError() {
 
         // 监控错误日志
         koahub.app.on("error", function (err, ctx) {
+            console.error(err);
+        });
 
-            if (err.status == 500) {
-                console.error(err);
-            } else {
-                console.error(err.message);
-            }
+        // 捕获promise reject错误
+        process.on('unhandledRejection', function (reason, promise) {
+            console.error(reason);
+        });
+
+        // 捕获位置错误
+        process.on('uncaughtException', function (error) {
+            console.error(error);
         });
     }
 
@@ -145,6 +153,7 @@ export default class {
     run(port) {
 
         this.init();
+        this.handleError();
 
         if (!port) {
             port = koahub.configs.index.port;
