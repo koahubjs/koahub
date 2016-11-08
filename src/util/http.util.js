@@ -22,7 +22,12 @@ export function runAction(path, _throw = false) {
         });
 
         if (koahub.utils.lodash.includes(methods, action)) {
-            _ctrl[action](this);
+
+            try {
+                _ctrl[action](this);
+            } catch (err) {
+                throw err;
+            }
         } else {
             if (_throw) {
                 ctx.throw(404, 'Not Found Action');
@@ -57,12 +62,6 @@ export function getModuleControllerAction(path) {
     let paths = [];
     if (path != '/') {
         paths = path.substr(1, path.length).split('/');
-        for (var key in paths) {
-            if (!paths[key]) {
-                ctx.throw(403, 'The url is error');
-                return;
-            }
-        }
     }
 
     let module = koahub.configs.index.default_module;
