@@ -1,15 +1,14 @@
+import {http as httpDebug} from "./debug.util";
+
 // run module/controller/action
-export function runAction(path, _throw = false) {
+export function runAction(path) {
 
     const {module, controller, action} = getModuleControllerAction(path);
 
     const modules = getAllModules();
     if (!koahub.utils.lodash.includes(modules, module)) {
-        if (_throw) {
-            ctx.throw(404, 'Not Found Module');
-        } else {
-            console.error('Not Found Module');
-        }
+
+        httpDebug('Not Found Module');
         return;
     }
 
@@ -29,19 +28,12 @@ export function runAction(path, _throw = false) {
                 throw err;
             }
         } else {
-            if (_throw) {
-                ctx.throw(404, 'Not Found Action');
-            } else {
-                console.error('Not Found Action');
-            }
+
+            httpDebug('Not Found Action');
         }
     } else {
 
-        if (_throw) {
-            ctx.throw(404, 'Not Found Controller');
-        } else {
-            console.error('Not Found Controller');
-        }
+        httpDebug('Not Found Controller');
     }
 }
 

@@ -107,6 +107,9 @@ export default {
 //启动端口
 port: 3000,
 
+//调试模式
+debug: true,
+    
 //项目目录
 app_path: 'app',
 
@@ -171,7 +174,7 @@ npm run start
 启动信息:
 
 ```text
-[Koahubjs] Koahubjs version: 0.2.6
+[Koahubjs] Koahubjs version: 0.2.7
 [Koahubjs] Koahubjs website: http://js.koahub.com
 [Koahubjs] Server running at http://127.0.0.1:3000
 ```

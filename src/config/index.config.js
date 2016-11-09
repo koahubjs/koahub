@@ -2,6 +2,9 @@ export default {
     //启动端口
     port: 3000,
 
+    //调试模式
+    debug: true,
+
     //项目目录
     app_path: 'app',
 

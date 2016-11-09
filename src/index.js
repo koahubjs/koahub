@@ -10,6 +10,7 @@ import Http from "./data/http.class";
 import Hook from "./lib/hook.class";
 import config from "./config/index.config";
 import {httpMiddleware} from "./middleware/http.middleware";
+import debug from "./util/debug.util";
 
 export default class {
 
@@ -114,17 +115,17 @@ export default class {
 
         // 监控错误日志
         koahub.app.on("error", function (err, ctx) {
-            console.error(err);
+            debug(err);
         });
 
         // 捕获promise reject错误
         process.on('unhandledRejection', function (reason, promise) {
-            console.error(reason);
+            debug(reason);
         });
 
-        // 捕获位置错误
-        process.on('uncaughtException', function (error) {
-            console.error(error);
+        // 捕获未知错误
+        process.on('uncaughtException', function (err) {
+            debug(err);
         });
     }
 
