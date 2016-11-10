@@ -10,7 +10,7 @@ export default function (err) {
 export function http(err, code = 404) {
 
     if (koahub.configs.index.debug) {
-        ctx.throw(err, code);
+        koahub.ctx.throw(err, code);
     } else {
         console.log(err);
     }

@@ -6,7 +6,7 @@ export function httpMiddleware() {
 
     const http = async function (ctx, next) {
 
-        runAction(ctx.path, true);
+        await runAction(ctx.path);
 
         await next();
     };

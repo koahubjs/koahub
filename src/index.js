@@ -30,6 +30,16 @@ export default class {
         this.loadPaths(config.app_path);
         // 加载配置文件
         this.loadConfigs();
+        // 提前加载ctx快捷方法
+        koahub.app.use(async function (ctx, next) {
+
+            koahub.ctx = ctx;
+
+            // 快捷方法
+            global.ctx = ctx;
+
+            await next();
+        });
     }
 
     loadPaths(appName) {
@@ -85,20 +95,10 @@ export default class {
 
     loadMiddlewares() {
 
-        koahub.app.use(async function (ctx, next) {
-
-            koahub.ctx = ctx;
-
-            // 快捷方法
-            global.ctx = ctx;
-
-            await next();
-        });
-
         // 加载http中间件
         koahub.app.use(httpMiddleware().skip(function () {
 
-            const path = ctx.path;
+            const path = koahub.ctx.path;
             if (path == '/') {
                 return false;
             }

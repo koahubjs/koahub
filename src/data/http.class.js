@@ -5,28 +5,28 @@ export default class {
     }
 
     isGet() {
-        if (ctx.method == 'GET') {
+        if (koahub.ctx.method == 'GET') {
             return true;
         }
         return false;
     }
 
     isPost() {
-        if (ctx.method == 'POST') {
+        if (koahub.ctx.method == 'POST') {
             return true;
         }
         return false;
     }
 
     view(data) {
-        ctx.body = data;
+        koahub.ctx.body = data;
     }
 
     json(data, msg = '') {
-        ctx.body = {
+        koahub.ctx.body = {
             data: data,
             msg: msg
         };
-        ctx.body.code = ctx.status;
+        koahub.ctx.body.code = koahub.ctx.status;
     }
 }

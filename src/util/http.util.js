@@ -1,7 +1,7 @@
 import {http as httpDebug} from "./debug.util";
 
 // run module/controller/action
-export function runAction(path) {
+export async function runAction(path) {
 
     const {module, controller, action} = getModuleControllerAction(path);
 
@@ -23,7 +23,7 @@ export function runAction(path) {
         if (koahub.utils.lodash.includes(methods, action)) {
 
             try {
-                _ctrl[action](this);
+                await _ctrl[action](this);
             } catch (err) {
                 throw err;
             }
