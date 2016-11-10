@@ -31,22 +31,22 @@ export default class {
         return this.get();
     }
 
-    run(name) {
+    async run(name) {
         for (let key in this.hooks) {
             if (name == key) {
                 for (let path of this.hooks[key]) {
                     if (/\w+\(.*\)$/.test(path)) {
                         this.runFunction(path);
                     } else {
-                        this.runAction(path);
+                        await this.runAction(path);
                     }
                 }
             }
         }
     }
 
-    runAction(path) {
-        runAction(path);
+    async runAction(path) {
+        await runAction(path);
     }
 
     runFunction(value) {
