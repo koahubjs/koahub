@@ -26,10 +26,7 @@ export default class {
 
         koahub.app = app;
 
-        // 加载路径变量
-        this.loadPaths(config.app_path);
-        // 加载配置文件
-        this.loadConfigs();
+        this.init();
     }
 
     loadPaths(appName) {
@@ -73,6 +70,9 @@ export default class {
 
         koahub.configs = new Loader(config.loader.config);
         koahub.configs.index = Object.assign(config, koahub.configs.index);
+    }
+
+    loadMiddlewares() {
 
         // log middleware
         if (koahub.configs.index.log_on) {
@@ -83,7 +83,50 @@ export default class {
         koahub.app.use(favicon(koahub.configs.index.favicon));
     }
 
-    loadMiddlewares() {
+    init() {
+
+        this.loadConfigs();
+        // 加载路径变量 依赖config
+        this.loadPaths(koahub.configs.index.app_path);
+        this.loadControllers();
+        this.loadModels();
+        this.loadUtils();
+        this.loadHooks();
+        this.loadMiddlewares();
+    }
+
+    // 支持soket.io
+    getServer() {
+
+        const server = http.Server(koahub.app.callback());
+        return this.server = server;
+    }
+
+    // 支持自定义中间件
+    getKoa() {
+
+        return koahub.app;
+    }
+
+    handleError() {
+
+        // 监控错误日志
+        koahub.app.on("error", function (err, ctx) {
+            debug(err);
+        });
+
+        // 捕获promise reject错误
+        process.on('unhandledRejection', function (reason, promise) {
+            debug(reason);
+        });
+
+        // 捕获未知错误
+        process.on('uncaughtException', function (err) {
+            debug(err);
+        });
+    }
+
+    loadHttpMiddlewares() {
 
         // 全局ctx快捷方法
         koahub.app.use(async function (ctx, next) {
@@ -112,49 +155,9 @@ export default class {
         }));
     }
 
-    handleError() {
-
-        // 监控错误日志
-        koahub.app.on("error", function (err, ctx) {
-            debug(err);
-        });
-
-        // 捕获promise reject错误
-        process.on('unhandledRejection', function (reason, promise) {
-            debug(reason);
-        });
-
-        // 捕获未知错误
-        process.on('uncaughtException', function (err) {
-            debug(err);
-        });
-    }
-
-    init() {
-
-        this.loadControllers();
-        this.loadModels();
-        this.loadUtils();
-        this.loadHooks();
-        this.loadMiddlewares();
-    }
-
-    // 支持soket.io
-    getServer() {
-
-        const server = http.Server(koahub.app.callback());
-        return this.server = server;
-    }
-
-    // 支持自定义中间件
-    getKoa() {
-
-        return koahub.app;
-    }
-
     run(port) {
 
-        this.init();
+        this.loadHttpMiddlewares();
         this.handleError();
 
         if (!port) {

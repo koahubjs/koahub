@@ -49,7 +49,8 @@ export default class extends base{
 * 支持钩子机制
 * 支持Socket.io
 * 支持错误处理
-* 全局ctx，koahub变量
+* 支持全局ctx，koahub变量
+* 支持快捷方法
 * ...
 
 ## 安装
@@ -175,7 +176,7 @@ npm run start
 启动信息:
 
 ```text
-[Koahubjs] Koahubjs version: 0.3.1
+[Koahubjs] Koahubjs version: 0.3.2
 [Koahubjs] Koahubjs website: http://js.koahub.com
 [Koahubjs] Server running at http://127.0.0.1:3000
 ```
