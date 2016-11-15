@@ -1,6 +1,6 @@
 import {runAction} from "./../util/http.util";
 
-// hooks 定义
+// hooks 定义 支持http和util
 // {
 //     hook1: [
 //         '/admin/index/index'

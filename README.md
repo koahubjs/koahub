@@ -33,6 +33,10 @@ export default class extends base{
     index2() {
         super.json(1,2);
     }
+    
+    async index3(){
+        await ctx.render('index');
+    }
 }
 ```
 
@@ -78,13 +82,6 @@ app.run();
 
 ```sh
 // 推荐目录结构
-app
---addon
---config
---controller
---data
---model
---util
 node_modules
 src
 --addon
@@ -92,6 +89,7 @@ src
 --controller
 --data
 --model
+--service
 --util
 --index.js
 package.json
@@ -111,9 +109,6 @@ port: 3000,
 
 //调试模式
 debug: true,
-    
-//项目目录
-app_path: 'app',
 
 //默认模块，控制器，操作
 default_module: 'home',
@@ -124,46 +119,7 @@ default_action: 'index',
 log_on: true,
 
 //favicon设置
-favicon: 'www/public/favicon.ico',
-
-//自动加载配置
-loader: {
-    "controller": [{
-        root: 'app/controller',
-        suffix: '.controller.js',
-        prefix: '/',
-    }, {
-        root: 'app/addon',
-        suffix: '.controller.js',
-        prefix: '/addon/',
-        filter: [/\w*\/controller\//]
-    }],
-    "util": [{
-        root: 'app/util',
-        suffix: '.util.js'
-    }, {
-        root: 'app/addon',
-        suffix: '.util.js',
-        filter: [/\w*\/util\//]
-    }],
-    "model": [{
-        root: 'app/model',
-        suffix: '.model.js'
-    }, {
-        root: 'app/addon',
-        suffix: '.model.js',
-        filter: [/\w*\/model\//]
-    }],
-    "config": [{
-        root: 'app/config',
-        suffix: '.config.js'
-    }, {
-        root: 'app/addon',
-        suffix: '.config.js',
-        filter: [/\w*\/config\//]
-    }]
-}
-
+favicon: 'www/public/favicon.ico'
 ```
 
 ## 开始应用
@@ -176,7 +132,7 @@ npm run start
 启动信息:
 
 ```text
-[Koahubjs] Koahubjs version: 0.3.2
+[Koahubjs] Koahubjs version: 0.3.4
 [Koahubjs] Koahubjs website: http://js.koahub.com
 [Koahubjs] Server running at http://127.0.0.1:3000
 ```
