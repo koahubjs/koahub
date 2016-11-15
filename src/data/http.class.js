@@ -78,6 +78,29 @@ export default class {
         }
     }
 
+    session(name, value) {
+        if (name) {
+            if (value) {
+                koahub.ctx.session[name] = value;
+            } else {
+                return koahub.ctx.session[name];
+            }
+        } else {
+            return koahub.ctx.session;
+        }
+    }
+
+    cookie() {
+        return {
+            get: function (name, options) {
+                return koahub.ctx.cookies.get(name, options);
+            },
+            set: function (name, value, options) {
+                return koahub.ctx.cookies.set(name, value, options);
+            }
+        }
+    }
+
     host() {
         return koahub.ctx.host;
     }
@@ -96,5 +119,9 @@ export default class {
             msg: msg
         };
         koahub.ctx.body.code = koahub.ctx.status;
+    }
+
+    async render(tpl, locals) {
+        await koahub.ctx.render(tpl, locals);
     }
 }

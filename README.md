@@ -91,12 +91,17 @@ super.ip();
 super.header(name, value);
 super.status(code);
 super.get(name);
-super.post(name);//需用户自定义中间件
-super.file(name);//需用户自定义中间件
+super.post(name);//需中间件，且快捷方法
+super.file(name);//需中间件，且快捷方法
+super.session(name, value);//需session中间件
+super.cookie().get(name, options);
+super.cookie().set(name, value, options);
 super.host();
 super.redirect(url);
 super.view(data);
 super.json(data, msg = '');
+await super.render(tpl, locals);
+
 ```
 
 ## 目录结构
@@ -153,7 +158,7 @@ npm run start
 启动信息:
 
 ```text
-[Koahubjs] Koahubjs version: 0.3.5
+[Koahubjs] Koahubjs version: 0.3.6
 [Koahubjs] Koahubjs website: http://js.koahub.com
 [Koahubjs] Server running at http://127.0.0.1:3000
 ```
