@@ -55,7 +55,27 @@ export default class {
     }
 
     get(name) {
-        return koahub.ctx.query[name];
+        if (name) {
+            return koahub.ctx.query[name];
+        } else {
+            return koahub.ctx.query;
+        }
+    }
+
+    post(name) {
+        if (name) {
+            return koahub.ctx.post[name];
+        } else {
+            return koahub.ctx.post;
+        }
+    }
+
+    file(name) {
+        if (name) {
+            return koahub.ctx.file[name];
+        } else {
+            return koahub.ctx.file;
+        }
     }
 
     host() {

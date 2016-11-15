@@ -78,6 +78,27 @@ app.getServer();获取server实例化，支持socket.io
 app.run();
 ```
 
+## 方法
+
+```sh
+super.method();
+super.isGet();
+super.isPost();
+super.isAjax();
+super.isPjax();
+super.isMethod(method);
+super.ip();
+super.header(name, value);
+super.status(code);
+super.get(name);
+super.post(name);//需用户自定义中间件
+super.file(name);//需用户自定义中间件
+super.host();
+super.redirect(url);
+super.view(data);
+super.json(data, msg = '');
+```
+
 ## 目录结构
 
 ```sh
@@ -132,7 +153,7 @@ npm run start
 启动信息:
 
 ```text
-[Koahubjs] Koahubjs version: 0.3.4
+[Koahubjs] Koahubjs version: 0.3.5
 [Koahubjs] Koahubjs website: http://js.koahub.com
 [Koahubjs] Server running at http://127.0.0.1:3000
 ```
