@@ -35,7 +35,7 @@ export default class extends base{
     }
     
     async index3(){
-        await ctx.render('index');
+        await super.render('index');
     }
 }
 ```
@@ -99,9 +99,36 @@ super.cookie().set(name, value, options);
 super.host();
 super.redirect(url);
 super.view(data);
-super.json(data, msg = '');
-await super.render(tpl, locals);
+super.json(data, msg);
+await super.render(tpl, locals);//需中间件
+```
 
+## 快捷中间件
+
+```sh
+// use koa-better-body 自定义post／file中间件
+koa.use(async function (ctx, next) {
+
+    if (ctx.request.fields) {
+        ctx.post = ctx.request.fields;
+    }
+
+    if (ctx.request.files) {
+        ctx.file = ctx.request.files;
+    }
+
+    await next();
+});
+
+// 自定义utils.model快捷中间件
+koa.use(async function (ctx, next) {
+
+    if (!global.model && koahub.utils.model) {
+        global.model = koahub.utils.model;
+    }
+
+    await next();
+});
 ```
 
 ## 目录结构
@@ -158,7 +185,7 @@ npm run start
 启动信息:
 
 ```text
-[Koahubjs] Koahubjs version: 0.3.6
+[Koahubjs] Koahubjs version: 0.3.7
 [Koahubjs] Koahubjs website: http://js.koahub.com
 [Koahubjs] Server running at http://127.0.0.1:3000
 ```

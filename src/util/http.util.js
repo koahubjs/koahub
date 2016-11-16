@@ -1,3 +1,4 @@
+import lodash from "lodash";
 import {http as httpDebug} from "./debug.util";
 
 // run module/controller/action
@@ -6,7 +7,7 @@ export async function runAction(path) {
     const {module, controller, action} = getModuleControllerAction(path);
 
     const modules = getAllModules();
-    if (!koahub.utils.lodash.includes(modules, module)) {
+    if (!lodash.includes(modules, module)) {
 
         httpDebug('Not Found Module');
         return;
@@ -20,7 +21,7 @@ export async function runAction(path) {
             return value !== 'constructor';
         });
 
-        if (koahub.utils.lodash.includes(methods, action)) {
+        if (lodash.includes(methods, action)) {
 
             try {
                 await _ctrl[action](this);
@@ -44,7 +45,7 @@ export function getAllModules() {
     for (let key in koahub.controllers) {
         modules.push(key.split('/')[1]);
     }
-    modules = koahub.utils.lodash.union(modules);
+    modules = lodash.union(modules);
     return modules;
 }
 

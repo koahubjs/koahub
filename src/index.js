@@ -61,7 +61,6 @@ export default class {
     loadUtils() {
 
         koahub.utils = new Loader(configDefault.loader.util);
-        koahub.utils.lodash = lodash;
     }
 
     loadModels() {
