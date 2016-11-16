@@ -29,11 +29,12 @@ export default class {
 
         var files = fs.readdirSync(dir);
         var list = [];
+
         for (var file of files) {
-            if (fs.statSync(dir + '/' + file).isDirectory()) {
-                list = list.concat(this.walk(dir + '/' + file));
+            if (fs.statSync(path.resolve(dir, file)).isDirectory()) {
+                list = list.concat(this.walk(path.resolve(dir, file)));
             } else {
-                list.push(dir + '/' + file);
+                list.push(path.resolve(dir, file));
             }
         }
 
@@ -70,6 +71,7 @@ export default class {
                 });
 
                 _path = options.prefix + _path;
+                _path = _path.replace(/\\/g, '/');
 
                 let lib = require(value);
                 if (lib.hasOwnProperty('default') && Object.keys(lib).length == 1) {
