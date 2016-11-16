@@ -39,7 +39,7 @@ export default class {
     }
 
     header(name, value) {
-        if (value) {
+        if (value != undefined) {
             koahub.ctx.set(name, value);
         } else {
             return koahub.ctx.get(name);
@@ -47,7 +47,7 @@ export default class {
     }
 
     status(code) {
-        if (code) {
+        if (code != undefined) {
             koahub.ctx.status = code;
         } else {
             return koahub.ctx.status;
@@ -55,7 +55,7 @@ export default class {
     }
 
     get(name) {
-        if (name) {
+        if (name != undefined) {
             return koahub.ctx.query[name];
         } else {
             return koahub.ctx.query;
@@ -63,7 +63,7 @@ export default class {
     }
 
     post(name) {
-        if (name) {
+        if (name != undefined) {
             return koahub.ctx.post[name];
         } else {
             return koahub.ctx.post;
@@ -71,7 +71,7 @@ export default class {
     }
 
     file(name) {
-        if (name) {
+        if (name != undefined) {
             return koahub.ctx.file[name];
         } else {
             return koahub.ctx.file;
@@ -79,8 +79,8 @@ export default class {
     }
 
     session(name, value) {
-        if (name) {
-            if (value) {
+        if (name != undefined) {
+            if (value != undefined) {
                 koahub.ctx.session[name] = value;
             } else {
                 return koahub.ctx.session[name];
@@ -102,8 +102,8 @@ export default class {
     }
 
     state(name, value) {
-        if (name) {
-            if (value) {
+        if (name != undefined) {
+            if (value != undefined) {
                 koahub.ctx.state[name] = value;
             } else {
                 return koahub.ctx.state[name];
