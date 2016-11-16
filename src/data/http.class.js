@@ -101,6 +101,18 @@ export default class {
         }
     }
 
+    state(name, value) {
+        if (name) {
+            if (value) {
+                koahub.ctx.state[name] = value;
+            } else {
+                return koahub.ctx.state[name];
+            }
+        } else {
+            return koahub.ctx.state;
+        }
+    }
+
     host() {
         return koahub.ctx.host;
     }
