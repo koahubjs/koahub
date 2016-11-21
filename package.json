@@ -14,7 +14,11 @@
     "koa-logger": "^2.0.0",
     "lodash": "^4.17.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "^3.1.2",
+    "should": "^11.1.1",
+    "supertest": "^2.0.1"
+  },
   "directories": {},
   "engines": {
     "node": ">= 0.12.0"
@@ -40,7 +44,8 @@
   "name": "koahubjs",
   "optionalDependencies": {},
   "scripts": {
-    "compile": "babel --presets es2015,stage-3 --plugins transform-runtime src/ --out-dir lib/ --watch --source-maps"
+    "compile": "babel src/ --out-dir lib/ --watch --source-maps",
+    "test": "mocha --recursive --require babel-polyfill --compilers js:babel-register"
   },
-  "version": "0.4.0"
+  "version": "0.4.1"
 }
