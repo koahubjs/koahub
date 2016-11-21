@@ -5,10 +5,10 @@ export default class {
 
     constructor(options) {
 
-        var loaders = [];
+        let loaders = [];
 
         if (options instanceof Array) {
-            for (var option of options) {
+            for (let option of options) {
                 loaders = this.concat(loaders, this.loader(option));
             }
         } else {
@@ -22,15 +22,15 @@ export default class {
 
         dir = path.resolve(process.cwd(), dir);
 
-        var exist = fs.existsSync(dir);
+        const exist = fs.existsSync(dir);
         if (!exist) {
             return;
         }
 
-        var files = fs.readdirSync(dir);
-        var list = [];
+        const files = fs.readdirSync(dir);
+        let list = [];
 
-        for (var file of files) {
+        for (let file of files) {
             if (fs.statSync(path.resolve(dir, file)).isDirectory()) {
                 list = list.concat(this.walk(path.resolve(dir, file)));
             } else {
@@ -47,7 +47,7 @@ export default class {
             options = {};
         }
 
-        var loaders = [];
+        let loaders = [];
         if (typeof options.root !== 'string') {
             throw Error('root must be specified');
         }
@@ -56,13 +56,13 @@ export default class {
         options.prefix = options.prefix || '';
         options.filter = options.filter || [];
 
-        var paths = this.walk(options.root);
+        const paths = this.walk(options.root);
         if (!paths) {
             return;
         }
 
         paths.forEach(function (value, index) {
-            var _path = path.relative(options.root, value);
+            let _path = path.relative(options.root, value);
             if (_path.lastIndexOf(options.suffix) != -1) {
                 _path = _path.slice(0, _path.lastIndexOf(options.suffix));
 
@@ -87,9 +87,9 @@ export default class {
 
     concat(arr1, arr2) {
 
-        var arr = arr1;
+        let arr = arr1;
 
-        for (var key in arr2) {
+        for (let key in arr2) {
             arr[key] = arr2[key];
         }
 

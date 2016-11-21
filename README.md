@@ -99,7 +99,7 @@ super.cookie().set(name, value, options);
 super.host();
 super.redirect(url);
 super.view(data);
-super.json(data, msg);
+super.json(data, msg, code);
 super.state(name, value);
 await super.render(tpl, locals);//需中间件
 ```
@@ -186,7 +186,7 @@ npm run start
 启动信息:
 
 ```text
-[Koahubjs] Koahubjs version: 0.4.2
+[Koahubjs] Koahubjs version: 0.4.3
 [Koahubjs] Koahubjs website: http://js.koahub.com
 [Koahubjs] Server running at http://127.0.0.1:3000
 ```

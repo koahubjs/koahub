@@ -125,12 +125,21 @@ export default class {
         koahub.ctx.body = data;
     }
 
-    json(data, msg = '') {
-        koahub.ctx.body = {
-            data: data,
-            msg: msg
-        };
-        koahub.ctx.body.code = koahub.ctx.status;
+    json(data, msg, code) {
+
+        let body = {};
+
+        if (data != undefined) {
+            body.data = data;
+        }
+        if (msg != undefined) {
+            body.msg = msg;
+        }
+        if (code != undefined) {
+            body.code = code;
+        }
+
+        koahub.ctx.body = body;
     }
 
     async render(tpl, locals) {
