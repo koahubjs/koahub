@@ -1,6 +1,6 @@
 export default class {
 
-    constructor(ctx) {
+    constructor(ctx, next) {
         if (ctx == undefined) {
             throw new Error('SyntaxError: missing super(ctx) call in constructor');
             return;

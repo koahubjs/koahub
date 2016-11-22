@@ -1,7 +1,7 @@
 export default class extends koahub.http {
 
     constructor(ctx, next) { //构造函数
-        super(ctx);
+        super(ctx, next);
     }
 
     index() {

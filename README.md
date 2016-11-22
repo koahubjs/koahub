@@ -8,7 +8,7 @@ KoaHub.js -- 基于 Koa.js 平台的 Node.js web 快速开发框架。可以直�
 export default class extends koahub.http{
 
     constructor(ctx, next) {
-        super(ctx);
+        super(ctx, next);
         console.log('base constructor');
     }
 
@@ -22,7 +22,7 @@ import base from "./base.controller";
 export default class extends base{
 
     constructor(ctx, next) {
-        super(ctx);
+        super(ctx, next);
         console.log('index constructor');
     }
 
@@ -186,7 +186,7 @@ npm run start
 启动信息:
 
 ```text
-[Koahubjs] Koahubjs version: 0.4.4
+[Koahubjs] Koahubjs version: 0.4.5
 [Koahubjs] Koahubjs website: http://js.koahub.com
 [Koahubjs] Server running at http://127.0.0.1:3000
 ```
