@@ -2,9 +2,9 @@ import lodash from "lodash";
 import {http as httpDebug} from "./debug.util";
 
 // run module/controller/action
-export async function runAction(path) {
+export async function runAction(ctx, next) {
 
-    const {module, controller, action} = getModuleControllerAction(path);
+    const {module, controller, action} = getModuleControllerAction(ctx.path);
 
     const modules = getAllModules();
     if (!lodash.includes(modules, module)) {
@@ -16,7 +16,7 @@ export async function runAction(path) {
     const ctrl = koahub.controllers[`/${module}/${controller}`];
     if (ctrl) {
 
-        const _ctrl = new ctrl();
+        const _ctrl = new ctrl(ctx, next);
         const methods = Object.getOwnPropertyNames(ctrl.prototype).filter(function (value) {
             return value !== 'constructor';
         });

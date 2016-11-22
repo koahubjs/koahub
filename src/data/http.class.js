@@ -1,22 +1,26 @@
 export default class {
 
-    constructor() {
-
+    constructor(ctx) {
+        if (ctx == undefined) {
+            throw new Error('SyntaxError: missing super(ctx) call in constructor');
+            return;
+        }
+        this.ctx = ctx;
     }
 
     method() {
-        return koahub.ctx.method;
+        return this.ctx.method;
     }
 
     isGet() {
-        if (koahub.ctx.method == 'GET') {
+        if (this.ctx.method == 'GET') {
             return true;
         }
         return false;
     }
 
     isPost() {
-        if (koahub.ctx.method == 'POST') {
+        if (this.ctx.method == 'POST') {
             return true;
         }
         return false;
@@ -31,72 +35,72 @@ export default class {
     }
 
     isMethod(method) {
-        return koahub.ctx.method === method.toUpperCase();
+        return this.ctx.method === method.toUpperCase();
     }
 
     ip() {
-        return koahub.ctx.ip;
+        return this.ctx.ip;
     }
 
     header(name, value) {
         if (value != undefined) {
-            koahub.ctx.set(name, value);
+            this.ctx.set(name, value);
         } else {
-            return koahub.ctx.get(name);
+            return this.ctx.get(name);
         }
     }
 
     status(code) {
         if (code != undefined) {
-            koahub.ctx.status = code;
+            this.ctx.status = code;
         } else {
-            return koahub.ctx.status;
+            return this.ctx.status;
         }
     }
 
     get(name) {
         if (name != undefined) {
-            return koahub.ctx.query[name];
+            return this.ctx.query[name];
         } else {
-            return koahub.ctx.query;
+            return this.ctx.query;
         }
     }
 
     post(name) {
         if (name != undefined) {
-            return koahub.ctx.post[name];
+            return this.ctx.post[name];
         } else {
-            return koahub.ctx.post;
+            return this.ctx.post;
         }
     }
 
     file(name) {
         if (name != undefined) {
-            return koahub.ctx.file[name];
+            return this.ctx.file[name];
         } else {
-            return koahub.ctx.file;
+            return this.ctx.file;
         }
     }
 
     session(name, value) {
         if (name != undefined) {
             if (value != undefined) {
-                koahub.ctx.session[name] = value;
+                this.ctx.session[name] = value;
             } else {
-                return koahub.ctx.session[name];
+                return this.ctx.session[name];
             }
         } else {
-            return koahub.ctx.session;
+            return this.ctx.session;
         }
     }
 
     cookie() {
         return {
             get: function (name, options) {
-                return koahub.ctx.cookies.get(name, options);
+                return this.ctx.cookies.get(name, options);
             },
             set: function (name, value, options) {
-                return koahub.ctx.cookies.set(name, value, options);
+                return this.ctx.cookies.set(name, value, options);
             }
         }
     }
@@ -104,25 +108,25 @@ export default class {
     state(name, value) {
         if (name != undefined) {
             if (value != undefined) {
-                koahub.ctx.state[name] = value;
+                this.ctx.state[name] = value;
             } else {
-                return koahub.ctx.state[name];
+                return this.ctx.state[name];
             }
         } else {
-            return koahub.ctx.state;
+            return this.ctx.state;
         }
     }
 
     host() {
-        return koahub.ctx.host;
+        return this.ctx.host;
     }
 
     redirect(url) {
-        koahub.ctx.redirect(url);
+        this.ctx.redirect(url);
     }
 
     view(data) {
-        koahub.ctx.body = data;
+        this.ctx.body = data;
     }
 
     json(data, msg, code) {
@@ -139,10 +143,10 @@ export default class {
             body.code = code;
         }
 
-        koahub.ctx.body = body;
+        this.ctx.body = body;
     }
 
     async render(tpl, locals) {
-        await koahub.ctx.render(tpl, locals);
+        await this.ctx.render(tpl, locals);
     }
 }

@@ -45,7 +45,7 @@
   "optionalDependencies": {},
   "scripts": {
     "compile": "babel src/ --out-dir lib/ --watch --source-maps",
-    "test": "mocha --recursive --require babel-polyfill --compilers js:babel-register"
+    "test": "mocha test/{,**/}*.test.js --recursive --require babel-polyfill --compilers js:babel-register"
   },
-  "version": "0.4.3"
+  "version": "0.4.4"
 }

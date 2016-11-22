@@ -6,9 +6,7 @@ export function httpMiddleware() {
 
     const http = async function (ctx, next) {
 
-        await runAction(ctx.path);
-
-        await next();
+        await runAction(ctx, next);
     };
 
     http.skip = skip;

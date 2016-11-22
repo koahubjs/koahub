@@ -129,21 +129,10 @@ export default class {
 
     loadHttpMiddlewares() {
 
-        // 全局ctx快捷方法
-        koahub.app.use(async function (ctx, next) {
-
-            koahub.ctx = ctx;
-
-            // 快捷方法
-            global.ctx = ctx;
-
-            await next();
-        });
-
         // 加载http中间件
-        koahub.app.use(httpMiddleware().skip(function () {
+        koahub.app.use(httpMiddleware().skip(function (ctx) {
 
-            const path = koahub.ctx.path;
+            const path = ctx.path;
             if (path == '/') {
                 return false;
             }
@@ -162,7 +151,7 @@ export default class {
             let url = '';
             for (let key in paths) {
                 if (!paths[key]) {
-                    koahub.ctx.redirect(url);
+                    ctx.redirect(url);
                     return true;
                 } else {
                     url += '/' + paths[key];
