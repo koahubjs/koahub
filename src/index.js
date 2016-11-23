@@ -53,8 +53,6 @@ export default class {
             runtimeName: runtime,
             runtimePath: runtimePath
         };
-
-        this.loadWatch(koahub.paths);
     }
 
     loadWatch(paths) {
@@ -191,10 +189,15 @@ export default class {
         }
 
         if (this.server) {
-            this.server.listen(port);
+            this.server.listen(port, this.started(port));
         } else {
-            this.getServer().listen(port);
+            this.getServer().listen(port, this.started(port));
         }
+    }
+
+    started(port) {
+
+        this.loadWatch(koahub.paths);
 
         console.log(colors.green(`[Koahubjs] Koahubjs version: ${koahub.version}`));
         console.log(colors.green(`[Koahubjs] Koahubjs website: http://js.koahub.com`));

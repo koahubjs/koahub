@@ -9,16 +9,26 @@ export function debug(err) {
     }
 }
 
-export function http(err, code = 404) {
+export function http(err) {
 
     if (koahub.configs.index.debug) {
-        koahub.ctx.throw(err, code);
+        console.error(err);
     } else {
         console.log(err);
     }
 }
 
-export function watch(path) {
+export function watch(path, type) {
 
-    console.log(colors.green('[File Changed Server Restart] %s'), path);
+    switch (type) {
+        case 'add':
+            console.log(colors.green('[File Add Server Restart] %s'), path);
+            break;
+        case 'change':
+            console.log(colors.green('[File Changed Server Restart] %s'), path);
+            break;
+        case 'unlink':
+            console.log(colors.green('[File Unlink Server Restart] %s'), path);
+            break;
+    }
 }

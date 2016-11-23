@@ -18,6 +18,6 @@ export default {
     //favicon设置
     favicon: 'www/public/favicon.ico',
 
-    //监控文件，自动重启系统
+    //监控文件，自动重启系统（需开启babel编译监控）
     watch_on: true
 }

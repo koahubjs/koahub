@@ -55,6 +55,7 @@ export default class extends base{
 * 支持错误处理
 * 支持全局ctx，koahub变量
 * 支持快捷方法
+* 支持代码自动更新，立即生效
 * ...
 
 ## 安装
@@ -175,7 +176,7 @@ log_on: true,
 //favicon设置
 favicon: 'www/public/favicon.ico'
 
-//监控文件，自动重启系统
+//监控文件，自动重启系统（需开启babel编译监控）
 watch_on: true
 ```
 
@@ -189,7 +190,7 @@ npm run start
 启动信息:
 
 ```text
-[Koahubjs] Koahubjs version: 0.4.6
+[Koahubjs] Koahubjs version: 0.4.7
 [Koahubjs] Koahubjs website: http://js.koahub.com
 [Koahubjs] Server running at http://127.0.0.1:3000
 ```
