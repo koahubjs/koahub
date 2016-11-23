@@ -62,22 +62,23 @@ export default class {
         }
 
         paths.forEach(function (value, index) {
-            let _path = path.relative(options.root, value);
-            if (_path.lastIndexOf(options.suffix) != -1) {
-                _path = _path.slice(0, _path.lastIndexOf(options.suffix));
+
+            let name = path.relative(options.root, value);
+            if (name.lastIndexOf(options.suffix) != -1) {
+                name = name.slice(0, name.lastIndexOf(options.suffix));
 
                 options.filter.forEach(function (v, i) {
-                    _path = _path.replace(v, '');
+                    name = name.replace(v, '');
                 });
 
-                _path = options.prefix + _path;
-                _path = _path.replace(/\\/g, '/');
+                name = options.prefix + name;
+                name = name.replace(/\\/g, '/');
 
                 let lib = require(value);
                 if (lib.hasOwnProperty('default') && Object.keys(lib).length == 1) {
-                    loaders[_path] = lib.default;
+                    loaders[name] = lib.default;
                 } else {
-                    loaders[_path] = lib;
+                    loaders[name] = lib;
                 }
             }
         });

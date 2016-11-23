@@ -4,18 +4,25 @@ import Koa from "koa";
 import logger from "koa-logger";
 import favicon from "koa-favicon";
 import lodash from "lodash";
+import bluebird from "bluebird";
+import colors from "colors/safe";
 import packageFile from "./../package.json";
 import Loader from "./lib/loader.class";
 import Hook from "./lib/hook.class";
 import Http from "./data/http.class";
+import Watcher from "./lib/watcher.class";
 import config from "./config/index.config";
 import configDefault from "./config/default.config";
 import {httpMiddleware} from "./middleware/http.middleware";
-import debug from "./util/debug.util";
+import {debug as captureDebug} from "./util/log.util";
+
+// 优化promise
+require('babel-runtime/core-js/promise').default = bluebird;
+global.Promise = bluebird;
 
 export default class {
 
-    constructor() {
+    constructor(options = {}) {
 
         // 加载全局变量
         global.koahub = lodash.merge({}, packageFile);
@@ -33,17 +40,29 @@ export default class {
 
     loadPaths() {
 
-        const appName = configDefault.app_path;
-        const mainFile = process.argv[1];
-        const mainPath = path.dirname(mainFile);
-        const appPath = path.resolve(mainPath, appName);
+        const rootPath = process.cwd();
+        const appName = configDefault.app;
+        const runtime = configDefault.runtime;
+        const appPath = path.resolve(rootPath, appName);
+        const runtimePath = path.resolve(rootPath, runtime);
 
         koahub.paths = {
-            mainFile: mainFile,
-            mainPath: mainPath,
+            rootPath: rootPath,
             appName: appName,
-            appPath: appPath
+            appPath: appPath,
+            runtimeName: runtime,
+            runtimePath: runtimePath
         };
+
+        this.loadWatch(koahub.paths);
+    }
+
+    loadWatch(paths) {
+
+        // watch依赖config
+        if (koahub.configs.index.watch_on) {
+            new Watcher(paths);
+        }
     }
 
     loadControllers() {
@@ -113,17 +132,17 @@ export default class {
 
         // 监控错误日志
         koahub.app.on("error", function (err, ctx) {
-            debug(err);
+            captureDebug(err);
         });
 
         // 捕获promise reject错误
         process.on('unhandledRejection', function (reason, promise) {
-            debug(reason);
+            captureDebug(reason);
         });
 
         // 捕获未知错误
         process.on('uncaughtException', function (err) {
-            debug(err);
+            captureDebug(err);
         });
     }
 
@@ -177,8 +196,8 @@ export default class {
             this.getServer().listen(port);
         }
 
-        console.log(`[Koahubjs] Koahubjs version: ${koahub.version}`);
-        console.log(`[Koahubjs] Koahubjs website: http://js.koahub.com`);
-        console.log(`[Koahubjs] Server running at http://127.0.0.1:${port}`);
+        console.log(colors.green(`[Koahubjs] Koahubjs version: ${koahub.version}`));
+        console.log(colors.green(`[Koahubjs] Koahubjs website: http://js.koahub.com`));
+        console.log(colors.green(`[Koahubjs] Server running at http://127.0.0.1:${port}`));
     }
 }

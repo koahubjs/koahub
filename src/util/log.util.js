@@ -1,4 +1,6 @@
-export default function (err) {
+import colors from "colors/safe";
+
+export function debug(err) {
 
     if (koahub.configs.index.debug) {
         console.error(err);
@@ -16,3 +18,7 @@ export function http(err, code = 404) {
     }
 }
 
+export function watch(path) {
+
+    console.log(colors.green('[File Changed Server Restart] %s'), path);
+}

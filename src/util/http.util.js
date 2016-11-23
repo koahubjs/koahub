@@ -1,5 +1,5 @@
 import lodash from "lodash";
-import {http as httpDebug} from "./debug.util";
+import {http as httpDebug} from "./log.util";
 
 // run module/controller/action
 export async function runAction(ctx, next) {

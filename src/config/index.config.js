@@ -16,5 +16,8 @@ export default {
     log_on: true,
 
     //favicon设置
-    favicon: 'www/public/favicon.ico'
+    favicon: 'www/public/favicon.ico',
+
+    //监控文件，自动重启系统
+    watch_on: true
 }

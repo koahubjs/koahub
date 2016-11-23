@@ -174,6 +174,9 @@ log_on: true,
 
 //favicon设置
 favicon: 'www/public/favicon.ico'
+
+//监控文件，自动重启系统
+watch_on: true
 ```
 
 ## 开始应用
@@ -186,7 +189,7 @@ npm run start
 启动信息:
 
 ```text
-[Koahubjs] Koahubjs version: 0.4.5
+[Koahubjs] Koahubjs version: 0.4.6
 [Koahubjs] Koahubjs website: http://js.koahub.com
 [Koahubjs] Server running at http://127.0.0.1:3000
 ```
