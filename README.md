@@ -67,7 +67,7 @@ npm install koahubjs --save
 ## 创建启动文件
 
 ```sh
-// src/index.js启动文件
+// app/index.js启动文件
 import Koahub from "koahubjs";
 
 //默认app是项目目录
@@ -138,7 +138,7 @@ koa.use(async function (ctx, next) {
 ```sh
 // 推荐目录结构
 node_modules
-src
+app
 --addon
 --config
 --controller
@@ -152,7 +152,7 @@ package.json
 
 ## 配置
 ```sh
-// src/config/index.config.js
+// app/config/index.config.js
 export default {
     port: 3000,
     default_module: 'admin'
@@ -193,7 +193,7 @@ npm run start
 启动信息:
 
 ```text
-[Koahubjs] Koahubjs version: 0.5.1
+[Koahubjs] Koahubjs version: 0.5.2
 [Koahubjs] Koahubjs website: http://js.koahub.com
 [Koahubjs] Server running at http://127.0.0.1:3000
 ```
