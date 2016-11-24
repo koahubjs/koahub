@@ -2,7 +2,7 @@ import colors from "colors/safe";
 
 export function debug(err) {
 
-    if (koahub.configs.index.debug) {
+    if (koahub.config('debug')) {
         console.error(err);
     } else {
         console.log(err.message);
@@ -11,7 +11,7 @@ export function debug(err) {
 
 export function http(err) {
 
-    if (koahub.configs.index.debug) {
+    if (koahub.config('debug')) {
         console.error(err);
     } else {
         console.log(err);

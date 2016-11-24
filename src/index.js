@@ -30,7 +30,14 @@ export default class {
     loadConfigs() {
 
         koahub.configs = new Loader(configDefault.loader.config);
-        koahub.configs.index = Object.assign(config, koahub.configs.index);
+        // 优化config
+        koahub.config = function (name) {
+            if (name == undefined) {
+                return Object.assign(config, koahub.configs.index);
+            } else {
+                return Object.assign(config, koahub.configs.index)[name];
+            }
+        };
     }
 
     loadPaths() {
@@ -53,7 +60,7 @@ export default class {
     loadWatcher(paths) {
 
         // watch依赖config
-        if (koahub.configs.index.watch_on) {
+        if (koahub.config('watch_on')) {
             new Watcher(paths);
         }
     }
@@ -88,12 +95,12 @@ export default class {
     loadMiddlewares() {
 
         // log middleware
-        if (koahub.configs.index.log_on) {
+        if (koahub.config('log_on')) {
             koahub.app.use(logger());
         }
 
         // favicon middleware
-        koahub.app.use(favicon(koahub.configs.index.favicon));
+        koahub.app.use(favicon(koahub.config('favicon')));
     }
 
     init() {
@@ -145,29 +152,15 @@ export default class {
         koahub.app.use(httpMiddleware().skip(function (ctx) {
 
             const path = ctx.path;
-            if (path == '/') {
-                return false;
-            }
 
-            // path验证，无效跳过中间件
-            const paths = path.substr(1, path.length).split('/');
-            if (paths[paths.length - 1].indexOf('.') != -1) {
+            // path验证，资源文件跳过中间件
+            if (/[^\/]+\.+\w+$/.test(path)) {
                 return true;
             }
 
-            // path验证, 无效跳转
-            let module = koahub.configs.index.default_module;
-            let controller = koahub.configs.index.default_controller;
-            let action = koahub.configs.index.default_action;
-
-            let url = '';
-            for (let key in paths) {
-                if (!paths[key]) {
-                    ctx.redirect(url);
-                    return true;
-                } else {
-                    url += '/' + paths[key];
-                }
+            // path验证，无效跳过中间件
+            if (/\/\//.test(path)) {
+                return true;
             }
 
             return false;
@@ -180,7 +173,7 @@ export default class {
         this.handleError();
 
         if (!port) {
-            port = koahub.configs.index.port;
+            port = koahub.config('port');
         }
 
         if (this.server) {

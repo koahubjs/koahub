@@ -57,9 +57,9 @@ export function getModuleControllerAction(path) {
         paths = path.substr(1, path.length).split('/');
     }
 
-    let module = koahub.configs.index.default_module;
-    let controller = koahub.configs.index.default_controller;
-    let action = koahub.configs.index.default_action;
+    let module = koahub.config('default_module');
+    let controller = koahub.config('default_controller');
+    let action = koahub.config('default_action');
 
     switch (paths.length) {
         case 0:
@@ -84,7 +84,7 @@ export function getModuleControllerAction(path) {
 
             module = paths[0];
             controller = '';
-            for (var key in paths) {
+            for (let key in paths) {
                 if (key > 0 && key < paths.length - 1) {
                     if (key == paths.length - 2) {
                         controller += paths[key];

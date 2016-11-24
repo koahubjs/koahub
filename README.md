@@ -158,6 +158,9 @@ export default {
     default_module: 'admin'
 }
 
+// 获取配置参数,比如获取启动端口
+koahub.config('port');
+
 以下为默认配置
 //启动端口
 port: 3000,
@@ -190,7 +193,7 @@ npm run start
 启动信息:
 
 ```text
-[Koahubjs] Koahubjs version: 0.4.9
+[Koahubjs] Koahubjs version: 0.5.0
 [Koahubjs] Koahubjs website: http://js.koahub.com
 [Koahubjs] Server running at http://127.0.0.1:3000
 ```
