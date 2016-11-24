@@ -9,7 +9,7 @@ export default class {
     constructor(paths = {}) {
 
         const that = this;
-        const watcher = this.watcher = chokidar.watch(paths.appPath, {
+        const watcher = chokidar.watch(paths.appPath, {
             ignored: /[\/\\]\./,
             persistent: true
         });
@@ -18,7 +18,7 @@ export default class {
 
         watcher.on('add', function (_path, stats) {
 
-            if (new Date() - that.startTime > 200) {
+            if (new Date() - that.startTime > 2000) {
                 watchDebug(path.relative(paths.rootPath, _path), 'add');
                 that.restart();
             }
@@ -44,8 +44,6 @@ export default class {
     }
 
     restart() {
-
-        this.watcher.close();
 
         setTimeout(function () {
             new Koahub();
