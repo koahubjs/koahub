@@ -4,7 +4,6 @@ import Koa from "koa";
 import logger from "koa-logger";
 import favicon from "koa-favicon";
 import lodash from "lodash";
-import bluebird from "bluebird";
 import colors from "colors/safe";
 import packageFile from "./../package.json";
 import Loader from "./lib/loader.class";
@@ -15,10 +14,6 @@ import config from "./config/index.config";
 import configDefault from "./config/default.config";
 import {httpMiddleware} from "./middleware/http.middleware";
 import {debug as captureDebug} from "./util/log.util";
-
-// 优化promise
-require('babel-runtime/core-js/promise').default = bluebird;
-global.Promise = bluebird;
 
 export default class {
 
@@ -55,7 +50,7 @@ export default class {
         };
     }
 
-    loadWatch(paths) {
+    loadWatcher(paths) {
 
         // watch依赖config
         if (koahub.configs.index.watch_on) {
@@ -197,7 +192,7 @@ export default class {
 
     started(port) {
 
-        this.loadWatch(koahub.paths);
+        this.loadWatcher(koahub.paths);
 
         console.log(colors.green(`[Koahubjs] Koahubjs version: ${koahub.version}`));
         console.log(colors.green(`[Koahubjs] Koahubjs website: http://js.koahub.com`));

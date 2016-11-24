@@ -4,7 +4,6 @@
   },
   "dependencies": {
     "babel-runtime": "^6.18.0",
-    "bluebird": "^3.4.6",
     "chokidar": "^1.6.1",
     "colors": "^1.1.2",
     "koa": "^2.0.0-alpha.7",
@@ -50,5 +49,5 @@
     "compile": "babel src/ --out-dir lib/ --watch --source-maps",
     "test": "mocha test/{,**/}*.test.js --recursive --require babel-polyfill --compilers js:babel-register"
   },
-  "version": "0.4.8"
+  "version": "0.4.9"
 }
