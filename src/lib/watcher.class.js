@@ -18,9 +18,13 @@ export default class {
 
         watcher.on('add', function (_path, stats) {
 
-            if (new Date() - that.startTime > 2000) {
+            const now = new Date();
+            if (now - that.startTime > 200) {
                 watchDebug(path.relative(paths.rootPath, _path), 'add');
+
                 that.restart();
+            } else {
+                that.startTime = now;
             }
         });
 
