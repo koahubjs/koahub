@@ -19,7 +19,7 @@ export default class {
         watcher.on('add', function (_path, stats) {
 
             const now = new Date();
-            if (now - that.startTime > 200) {
+            if (now - that.startTime > 600) {
                 watchDebug(path.relative(paths.rootPath, _path), 'add');
 
                 that.restart();
@@ -51,6 +51,6 @@ export default class {
 
         setTimeout(function () {
             new Koahub();
-        }, 200);
+        }, 600);
     }
 }
