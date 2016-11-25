@@ -1,7 +1,7 @@
 // 允许覆盖
 export default {
 
-    //启动端口
+    //启动端口，重启生效
     port: 3000,
 
     //调试模式
@@ -18,6 +18,9 @@ export default {
     //favicon设置
     favicon: 'www/public/favicon.ico',
 
-    //监控文件，自动重启系统（需开启babel编译监控）
-    watch_on: true
+    //监控文件，自动重启系统（需开启babel编译监控），重启生效
+    watcher_on: true,
+
+    //cluster，重启生效
+    cluster_on: false
 }

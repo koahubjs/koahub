@@ -1,5 +1,7 @@
 import path from "path";
 import http from "http";
+import cluster from "cluster";
+import os from "os";
 import Koa from "koa";
 import logger from "koa-logger";
 import favicon from "koa-favicon";
@@ -14,8 +16,9 @@ import config from "./config/index.config";
 import configDefault from "./config/default.config";
 import {httpMiddleware} from "./middleware/http.middleware";
 import {debug as captureDebug} from "./util/log.util";
+import {dateFormat} from "./util/time.util";
 
-export default class {
+export default class Koahub {
 
     constructor(options = {}) {
 
@@ -60,7 +63,7 @@ export default class {
     loadWatcher(paths) {
 
         // watch依赖config
-        if (koahub.config('watch_on')) {
+        if (koahub.config('watcher_on')) {
             new Watcher(paths);
         }
     }
@@ -80,6 +83,13 @@ export default class {
     loadUtils() {
 
         koahub.utils = new Loader(configDefault.loader.util);
+        koahub.log = function (log, type = 'log') {
+            if (typeof log == 'string') {
+                console[type](`[${dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')}] [Koahubjs] ${log}`);
+            } else {
+                console[type](log);
+            }
+        }
     }
 
     loadModels() {
@@ -143,6 +153,9 @@ export default class {
         // 捕获未知错误
         process.on('uncaughtException', function (err) {
             captureDebug(err);
+            if (err.message.indexOf(' EADDRINUSE ') > -1) {
+                process.exit();
+            }
         });
     }
 
@@ -176,10 +189,47 @@ export default class {
             port = koahub.config('port');
         }
 
-        if (this.server) {
-            this.server.listen(port, this.started(port));
+        if (koahub.config('cluster_on')) {
+            if (cluster.isMaster) {
+
+                const numCPUs = os.cpus().length;
+                for (let i = 0; i < numCPUs; i++) {
+                    cluster.fork();
+                }
+
+                cluster.on('exit', function (worker, code, signal) {
+                    koahub.log(colors.red('worker ' + worker.process.pid + ' died'));
+                    process.nextTick(function () {
+                        cluster.fork();
+                    });
+                });
+
+                koahub.log(colors.red('[Tips] In cluster mode, Multiple processes can\'t be Shared memory, Such as session'));
+
+                this.started(port);
+            } else {
+
+                process.on('message', function (msg) {
+                    if(msg.name == 'file'){
+                        Watcher.workGet(msg);
+                    }
+                });
+
+                this.start(port);
+            }
         } else {
-            this.getServer().listen(port, this.started(port));
+
+            this.start(port);
+            this.started(port);
+        }
+    }
+
+    start(port) {
+
+        if (this.server) {
+            this.server.listen(port);
+        } else {
+            this.getServer().listen(port);
         }
     }
 
@@ -187,8 +237,10 @@ export default class {
 
         this.loadWatcher(koahub.paths);
 
-        console.log(colors.green(`[Koahubjs] Koahubjs version: ${koahub.version}`));
-        console.log(colors.green(`[Koahubjs] Koahubjs website: http://js.koahub.com`));
-        console.log(colors.green(`[Koahubjs] Server running at http://127.0.0.1:${port}`));
+        koahub.log(colors.green(`Koahubjs version: ${koahub.version}`));
+        koahub.log(colors.green(`Koahubjs website: http://js.koahub.com`));
+        koahub.log(colors.green(`Server Cluster Status: ${koahub.config('cluster_on')}`));
+        koahub.log(colors.green(`Server File Watcher: ${koahub.config('watcher_on')}`));
+        koahub.log(colors.green(`Server running at http://127.0.0.1:${port}`));
     }
 }

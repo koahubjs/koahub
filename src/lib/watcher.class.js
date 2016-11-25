@@ -1,6 +1,7 @@
 import chokidar from "chokidar";
 import path from "path";
 import fs from "fs";
+import cluster from "cluster";
 import Koahub from "./../";
 import {watch as watchDebug} from "./../util/log.util";
 
@@ -18,33 +19,75 @@ export default class {
 
         watcher.on('add', function (_path, stats) {
 
+            const relativePath = path.relative(paths.rootPath, _path);
+            const runtimePath = _path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`);
             const now = new Date();
+
             if (now - that.startTime > 600) {
-                watchDebug(path.relative(paths.rootPath, _path), 'add');
+                watchDebug(relativePath, 'add');
 
                 that.restart();
+                that.clusterSend('add');
             } else {
                 that.startTime = now;
             }
         });
 
         watcher.on('change', function (_path, stats) {
-            watchDebug(path.relative(paths.rootPath, _path), 'change');
 
-            delete require.cache[_path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`)];
+            const relativePath = path.relative(paths.rootPath, _path);
+            const runtimePath = _path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`);
+
+            watchDebug(relativePath, 'change');
+
+            delete require.cache[runtimePath];
 
             that.restart();
+            that.clusterSend('change', runtimePath);
         });
 
         watcher.on('unlink', function (_path, stats) {
 
-            delete require.cache[_path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`)];
-            fs.unlink(_path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`), function () {
-                watchDebug(path.relative(paths.rootPath, _path), 'unlink');
+            const relativePath = path.relative(paths.rootPath, _path);
+            const runtimePath = _path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`);
+
+            delete require.cache[runtimePath];
+
+            fs.unlink(runtimePath, function () {
+                watchDebug(relativePath, 'unlink');
 
                 that.restart();
+                that.clusterSend('unlink', runtimePath);
             });
         });
+    }
+
+    // master线程通知子线程
+    clusterSend(type, file) {
+        if (koahub.config('cluster_on')) {
+            for (let id in cluster.workers) {
+                cluster.workers[id].send({name: 'file', type: type, file: file});
+            }
+        }
+    }
+
+    // worker线程收到消息通知
+    static workGet(msg) {
+        if (msg.type == 'change') {
+            delete require.cache[msg.file];
+        }
+
+        if (msg.type == 'add') {
+
+        }
+
+        if (msg.type == 'unlink') {
+            delete require.cache[msg.file];
+        }
+
+        setTimeout(function () {
+            new Koahub();
+        }, 600);
     }
 
     restart() {

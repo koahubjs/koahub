@@ -3,18 +3,18 @@ import colors from "colors/safe";
 export function debug(err) {
 
     if (koahub.config('debug')) {
-        console.error(err);
+        koahub.log(err, 'error');
     } else {
-        console.log(err.message);
+        koahub.log(err.message);
     }
 }
 
 export function http(err) {
 
     if (koahub.config('debug')) {
-        console.error(err);
+        koahub.log(err, 'error');
     } else {
-        console.log(err);
+        koahub.log(err.message);
     }
 }
 
@@ -22,13 +22,13 @@ export function watch(path, type) {
 
     switch (type) {
         case 'add':
-            console.log(colors.green('[File Add Server Restart] %s'), path);
+            koahub.log(colors.red(`[File Add Server Restart] ${path}`));
             break;
         case 'change':
-            console.log(colors.green('[File Changed Server Restart] %s'), path);
+            koahub.log(colors.red(`[File Changed Server Restart] ${path}`));
             break;
         case 'unlink':
-            console.log(colors.green('[File Unlink Server Restart] %s'), path);
+            koahub.log(colors.red(`[File Unlink Server Restart] ${path}`));
             break;
     }
 }

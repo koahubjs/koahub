@@ -56,6 +56,7 @@ export default class extends base{
 * 支持全局ctx，koahub变量
 * 支持快捷方法
 * 支持代码自动更新，立即生效
+* 支持cluster模式
 * ...
 
 ## 安装
@@ -161,8 +162,7 @@ export default {
 // 获取配置参数,比如获取启动端口
 koahub.config('port');
 
-以下为默认配置
-//启动端口
+//启动端口，重启生效
 port: 3000,
 
 //调试模式
@@ -177,10 +177,13 @@ default_action: 'index',
 log_on: true,
 
 //favicon设置
-favicon: 'www/public/favicon.ico'
+favicon: 'www/public/favicon.ico',
 
-//监控文件，自动重启系统（需开启babel编译监控）
-watch_on: true
+//监控文件，自动重启系统（需开启babel编译监控），重启生效
+watcher_on: true,
+
+//cluster，重启生效
+cluster_on: false
 ```
 
 ## 开始应用
@@ -193,7 +196,7 @@ npm run start
 启动信息:
 
 ```text
-[Koahubjs] Koahubjs version: 0.5.3
+[Koahubjs] Koahubjs version: 0.5.4
 [Koahubjs] Koahubjs website: http://js.koahub.com
 [Koahubjs] Server running at http://127.0.0.1:3000
 ```
