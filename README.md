@@ -134,21 +134,6 @@ koa.use(async function (ctx, next) {
 });
 ```
 
-## 文件夹自动加载
-
-```sh
-// usage 自定义loader options
-app.loader('utils', [{
-    root: 'runtime/util',
-    suffix: '.util.js'
-}, {
-    root: 'runtime/addon',
-    suffix: '.util.js',
-    prefix: '/',
-    filter: [/\w*\/util\//]
-}]);
-```
-
 ## 目录结构
 
 ```sh
@@ -198,7 +183,20 @@ favicon: 'www/public/favicon.ico',
 watcher_on: true,
 
 //cluster，重启生效
-cluster_on: false
+cluster_on: false,
+
+//自动加载配置 such as koahub.utils
+loader: {
+    "utils": [{
+        root: 'runtime/util',
+        suffix: '.util.js'
+    }, {
+        root: 'runtime/addon',
+        suffix: '.util.js',
+        prefix: '/',
+        filter: [/\w*\/util\//]
+    }]
+}
 ```
 
 ## 开始应用
@@ -214,7 +212,7 @@ npm run start
 启动信息:
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.5.8
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.5.9
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Cluster Status: false
 [2016-11-28 09:56:03] [Koahubjs] Server Debug Status: true

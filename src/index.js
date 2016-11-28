@@ -77,6 +77,12 @@ export default class Koahub {
 
     loadUtils() {
 
+        // 自定义loader
+        if (koahub.config('loader')) {
+            for (let key in koahub.config('loader')) {
+                koahub[key] = new Loader(koahub.config('loader')[key]);
+            }
+        }
         koahub.log = function (log, type = 'log') {
             if (typeof log == 'string') {
                 console[type](`[${dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')}] [Koahubjs] ${log}`);
@@ -178,20 +184,6 @@ export default class Koahub {
 
             return false;
         }));
-    }
-
-    loader(name, options) {
-
-        /**
-         * usage 自定义loader options
-         {
-            root: 'runtime/addon',
-            suffix: '.controller.js',
-            prefix: '/addon/',
-            filter: [/\w*\/controller\//]
-         }
-         */
-        koahub[name] = new Loader(options);
     }
 
     run(port) {
