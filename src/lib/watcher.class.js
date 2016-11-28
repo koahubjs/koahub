@@ -9,7 +9,6 @@ export default class {
 
     constructor(paths = {}) {
 
-        const that = this;
         const watcher = chokidar.watch(paths.appPath, {
             ignored: /[\/\\]\./,
             persistent: true
@@ -17,23 +16,23 @@ export default class {
 
         this.startTime = new Date();
 
-        watcher.on('add', function (_path, stats) {
+        watcher.on('add', (_path, stats) => {
 
             const relativePath = path.relative(paths.rootPath, _path);
             const runtimePath = _path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`);
             const now = new Date();
 
-            if (now - that.startTime > 600) {
+            if (now - this.startTime > 600) {
                 debug(relativePath, 'add');
 
-                that.restart();
-                that.masterSend('add');
+                this.restart();
+                this.masterSend('add');
             } else {
-                that.startTime = now;
+                this.startTime = now;
             }
         });
 
-        watcher.on('change', function (_path, stats) {
+        watcher.on('change', (_path, stats) => {
 
             const relativePath = path.relative(paths.rootPath, _path);
             const runtimePath = _path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`);
@@ -42,22 +41,22 @@ export default class {
 
             delete require.cache[runtimePath];
 
-            that.restart();
-            that.masterSend('change', runtimePath);
+            this.restart();
+            this.masterSend('change', runtimePath);
         });
 
-        watcher.on('unlink', function (_path, stats) {
+        watcher.on('unlink', (_path, stats) => {
 
             const relativePath = path.relative(paths.rootPath, _path);
             const runtimePath = _path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`);
 
             delete require.cache[runtimePath];
 
-            fs.unlink(runtimePath, function () {
+            fs.unlink(runtimePath, () => {
                 debug(relativePath, 'unlink');
 
-                that.restart();
-                that.masterSend('unlink', runtimePath);
+                this.restart();
+                this.masterSend('unlink', runtimePath);
             });
         });
     }
