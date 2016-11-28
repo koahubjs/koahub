@@ -50,7 +50,7 @@ export default class extends base{
 * 支持多种项目结构和多种项目环境
 * 支持多级 Controller
 * 支持自动加载
-* 支持钩子机制
+* 支持钩子机制(移除)
 * 支持Socket.io
 * 支持错误处理
 * 支持全局ctx，koahub变量
@@ -189,6 +189,9 @@ cluster_on: false
 ## 开始应用
 
 ```sh
+git clone https://github.com/einsqing/koahubjs-demo.git
+cd koahubjs-demo
+npm install
 npm run compile
 npm run start
 ```
@@ -196,9 +199,12 @@ npm run start
 启动信息:
 
 ```text
-[Koahubjs] Koahubjs version: 0.5.4
-[Koahubjs] Koahubjs website: http://js.koahub.com
-[Koahubjs] Server running at http://127.0.0.1:3000
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.5.5
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
+[2016-11-28 09:56:03] [Koahubjs] Server Cluster Status: true
+[2016-11-28 09:56:03] [Koahubjs] Server Debug Status: true
+[2016-11-28 09:56:03] [Koahubjs] Server File Watcher: true
+[2016-11-28 09:56:03] [Koahubjs] Server running at http://127.0.0.1:3000
 ```
 
 

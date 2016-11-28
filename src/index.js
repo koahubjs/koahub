@@ -9,7 +9,6 @@ import lodash from "lodash";
 import colors from "colors/safe";
 import packageFile from "./../package.json";
 import Loader from "./lib/loader.class";
-import Hook from "./lib/hook.class";
 import Http from "./data/http.class";
 import Watcher from "./lib/watcher.class";
 import config from "./config/index.config";
@@ -75,11 +74,6 @@ export default class Koahub {
         koahub.controllers = new Loader(configDefault.loader.controller);
     }
 
-    loadHooks() {
-
-        koahub.hook = new Hook();
-    }
-
     loadUtils() {
 
         koahub.utils = new Loader(configDefault.loader.util);
@@ -121,7 +115,6 @@ export default class Koahub {
         this.loadModels();
         this.loadServices();
         this.loadUtils();
-        this.loadHooks();
         this.loadMiddlewares();
     }
 
@@ -210,8 +203,8 @@ export default class Koahub {
             } else {
 
                 process.on('message', function (msg) {
-                    if(msg.name == 'file'){
-                        Watcher.workGet(msg);
+                    if (msg.name == 'file') {
+                        Watcher.workerGet(msg);
                     }
                 });
 
@@ -240,6 +233,7 @@ export default class Koahub {
         koahub.log(colors.green(`Koahubjs version: ${koahub.version}`));
         koahub.log(colors.green(`Koahubjs website: http://js.koahub.com`));
         koahub.log(colors.green(`Server Cluster Status: ${koahub.config('cluster_on')}`));
+        koahub.log(colors.green(`Server Debug Status: ${koahub.config('debug')}`));
         koahub.log(colors.green(`Server File Watcher: ${koahub.config('watcher_on')}`));
         koahub.log(colors.green(`Server running at http://127.0.0.1:${port}`));
     }

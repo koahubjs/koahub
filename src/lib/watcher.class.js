@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 import cluster from "cluster";
 import Koahub from "./../";
-import {watch as watchDebug} from "./../util/log.util";
+import {watch as debug} from "./../util/log.util";
 
 export default class {
 
@@ -24,10 +24,10 @@ export default class {
             const now = new Date();
 
             if (now - that.startTime > 600) {
-                watchDebug(relativePath, 'add');
+                debug(relativePath, 'add');
 
                 that.restart();
-                that.clusterSend('add');
+                that.masterSend('add');
             } else {
                 that.startTime = now;
             }
@@ -38,12 +38,12 @@ export default class {
             const relativePath = path.relative(paths.rootPath, _path);
             const runtimePath = _path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`);
 
-            watchDebug(relativePath, 'change');
+            debug(relativePath, 'change');
 
             delete require.cache[runtimePath];
 
             that.restart();
-            that.clusterSend('change', runtimePath);
+            that.masterSend('change', runtimePath);
         });
 
         watcher.on('unlink', function (_path, stats) {
@@ -54,16 +54,16 @@ export default class {
             delete require.cache[runtimePath];
 
             fs.unlink(runtimePath, function () {
-                watchDebug(relativePath, 'unlink');
+                debug(relativePath, 'unlink');
 
                 that.restart();
-                that.clusterSend('unlink', runtimePath);
+                that.masterSend('unlink', runtimePath);
             });
         });
     }
 
     // master线程通知子线程
-    clusterSend(type, file) {
+    masterSend(type, file) {
         if (koahub.config('cluster_on')) {
             for (let id in cluster.workers) {
                 cluster.workers[id].send({name: 'file', type: type, file: file});
@@ -72,7 +72,7 @@ export default class {
     }
 
     // worker线程收到消息通知
-    static workGet(msg) {
+    static workerGet(msg) {
         if (msg.type == 'change') {
             delete require.cache[msg.file];
         }
