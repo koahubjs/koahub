@@ -50,7 +50,7 @@ export default class extends base{
 * 支持多种项目结构和多种项目环境
 * 支持多级 Controller
 * 支持自动加载
-* 支持钩子机制(移除)
+* 支持钩子机制
 * 支持Socket.io
 * 支持错误处理
 * 支持全局ctx，koahub变量
@@ -134,6 +134,21 @@ koa.use(async function (ctx, next) {
 });
 ```
 
+## 文件夹自动加载
+
+```sh
+// usage 自定义loader options
+app.loader('utils', [{
+    root: 'runtime/util',
+    suffix: '.util.js'
+}, {
+    root: 'runtime/addon',
+    suffix: '.util.js',
+    prefix: '/',
+    filter: [/\w*\/util\//]
+}]);
+```
+
 ## 目录结构
 
 ```sh
@@ -199,9 +214,9 @@ npm run start
 启动信息:
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.5.6
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.5.8
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
-[2016-11-28 09:56:03] [Koahubjs] Server Cluster Status: true
+[2016-11-28 09:56:03] [Koahubjs] Server Cluster Status: false
 [2016-11-28 09:56:03] [Koahubjs] Server Debug Status: true
 [2016-11-28 09:56:03] [Koahubjs] Server File Watcher: true
 [2016-11-28 09:56:03] [Koahubjs] Server running at http://127.0.0.1:3000

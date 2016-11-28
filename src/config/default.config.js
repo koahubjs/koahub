@@ -19,14 +19,6 @@ export default {
             prefix: '/addon/',
             filter: [/\w*\/controller\//]
         }],
-        "util": [{
-            root: 'runtime/util',
-            suffix: '.util.js'
-        }, {
-            root: 'runtime/addon',
-            suffix: '.util.js',
-            filter: [/\w*\/util\//]
-        }],
         "model": [{
             root: 'runtime/model',
             suffix: '.model.js'
