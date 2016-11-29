@@ -1,10 +1,10 @@
 import chokidar from "chokidar";
+import decache from "decache";
 import path from "path";
 import fs from "fs";
 import cluster from "cluster";
 import Koahub from "./../";
 import {watch as debug} from "./../util/log.util";
-import {cleanCache} from "./../util/cache.util";
 
 export default class {
 
@@ -40,7 +40,7 @@ export default class {
 
             debug(relativePath, 'change');
 
-            cleanCache(runtimePath);
+            decache(runtimePath);
 
             this.restart();
             this.masterSend('change', runtimePath);
@@ -51,7 +51,7 @@ export default class {
             const relativePath = path.relative(paths.rootPath, _path);
             const runtimePath = _path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`);
 
-            cleanCache(runtimePath);
+            decache(runtimePath);
 
             fs.unlink(runtimePath, () => {
                 debug(relativePath, 'unlink');
@@ -74,7 +74,7 @@ export default class {
     // worker线程收到消息通知
     static workerGet(msg) {
         if (msg.type == 'change') {
-            cleanCache(msg.file);
+            decache(msg.file);
         }
 
         if (msg.type == 'add') {
@@ -82,7 +82,7 @@ export default class {
         }
 
         if (msg.type == 'unlink') {
-            cleanCache(msg.file);
+            decache(msg.file);
         }
 
         setTimeout(function () {
