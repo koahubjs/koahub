@@ -63,7 +63,7 @@ export default class Koahub {
     loadWatcher(paths) {
 
         // watch依赖config
-        if (koahub.config('watcher_on')) {
+        if (koahub.config('watcher')) {
             new Watcher(paths);
         }
     }
@@ -105,7 +105,7 @@ export default class Koahub {
     loadMiddlewares() {
 
         // log middleware
-        if (koahub.config('log_on')) {
+        if (koahub.config('logger')) {
             koahub.app.use(logger());
         }
 
@@ -161,11 +161,12 @@ export default class Koahub {
     loadHttpMiddlewares() {
 
         // 加载hook中间件
-        koahub.app.use(async function (ctx, next) {
-
-            koahub.hook = new Hook(ctx, next);
-            await next();
-        });
+        if (koahub.config('hook')) {
+            koahub.app.use(async function (ctx, next) {
+                koahub.hook = new Hook(ctx, next);
+                await next();
+            });
+        }
 
         // 加载http中间件
         koahub.app.use(httpMiddleware().skip(function (ctx) {
@@ -195,7 +196,7 @@ export default class Koahub {
             port = koahub.config('port');
         }
 
-        if (koahub.config('cluster_on')) {
+        if (koahub.config('cluster')) {
             if (cluster.isMaster) {
 
                 const numCPUs = os.cpus().length;
@@ -245,9 +246,9 @@ export default class Koahub {
 
         koahub.log(colors.green(`Koahubjs version: ${koahub.version}`));
         koahub.log(colors.green(`Koahubjs website: http://js.koahub.com`));
-        koahub.log(colors.green(`Server Cluster Status: ${koahub.config('cluster_on')}`));
+        koahub.log(colors.green(`Server Cluster Status: ${koahub.config('cluster')}`));
         koahub.log(colors.green(`Server Debug Status: ${koahub.config('debug')}`));
-        koahub.log(colors.green(`Server File Watcher: ${koahub.config('watcher_on')}`));
+        koahub.log(colors.green(`Server File Watcher: ${koahub.config('watcher')}`));
         koahub.log(colors.green(`Server running at http://127.0.0.1:${port}`));
     }
 }

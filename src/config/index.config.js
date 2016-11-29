@@ -12,15 +12,18 @@ export default {
     default_controller: 'index',
     default_action: 'index',
 
-    //http日志
-    log_on: true,
-
     //favicon设置
     favicon: 'www/public/favicon.ico',
 
+    //hook中间件
+    hook: true,
+
+    //http日志
+    logger: true,
+
     //监控文件，自动重启系统（需开启babel编译监控），重启生效
-    watcher_on: true,
+    watcher: true,
 
     //cluster，重启生效
-    cluster_on: false
+    cluster: false
 }

@@ -173,17 +173,20 @@ default_module: 'home',
 default_controller: 'index',
 default_action: 'index',
 
-//http日志
-log_on: true,
-
 //favicon设置
 favicon: 'www/public/favicon.ico',
 
+//hook中间件
+hook: true,
+
+//http日志
+logger: true,
+
 //监控文件，自动重启系统（需开启babel编译监控），重启生效
-watcher_on: true,
+watcher: true,
 
 //cluster，重启生效
-cluster_on: false,
+cluster: false,
 
 //自动加载配置 such as koahub.utils
 loader: {
@@ -212,7 +215,7 @@ npm run start
 启动信息:
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.6.0
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.6.1
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Cluster Status: false
 [2016-11-28 09:56:03] [Koahubjs] Server Debug Status: true

@@ -4,6 +4,7 @@ import fs from "fs";
 import cluster from "cluster";
 import Koahub from "./../";
 import {watch as debug} from "./../util/log.util";
+import {cleanCache} from "./../util/cache.util";
 
 export default class {
 
@@ -39,7 +40,7 @@ export default class {
 
             debug(relativePath, 'change');
 
-            delete require.cache[runtimePath];
+            cleanCache(runtimePath);
 
             this.restart();
             this.masterSend('change', runtimePath);
@@ -50,7 +51,7 @@ export default class {
             const relativePath = path.relative(paths.rootPath, _path);
             const runtimePath = _path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`);
 
-            delete require.cache[runtimePath];
+            cleanCache(runtimePath);
 
             fs.unlink(runtimePath, () => {
                 debug(relativePath, 'unlink');
@@ -63,7 +64,7 @@ export default class {
 
     // master线程通知子线程
     masterSend(type, file) {
-        if (koahub.config('cluster_on')) {
+        if (koahub.config('cluster')) {
             for (let id in cluster.workers) {
                 cluster.workers[id].send({name: 'file', type: type, file: file});
             }
@@ -73,7 +74,7 @@ export default class {
     // worker线程收到消息通知
     static workerGet(msg) {
         if (msg.type == 'change') {
-            delete require.cache[msg.file];
+            cleanCache(msg.file);
         }
 
         if (msg.type == 'add') {
@@ -81,7 +82,7 @@ export default class {
         }
 
         if (msg.type == 'unlink') {
-            delete require.cache[msg.file];
+            cleanCache(msg.file);
         }
 
         setTimeout(function () {
