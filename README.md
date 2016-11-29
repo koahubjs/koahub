@@ -34,7 +34,7 @@ export default class extends base{
         super.json(1,2);
     }
     
-    async index3(){
+    async index3() {
         await super.render('index');
     }
 }
@@ -53,7 +53,7 @@ export default class extends base{
 * 支持钩子机制
 * 支持Socket.io
 * 支持错误处理
-* 支持全局ctx，koahub变量
+* 支持全局koahub变量
 * 支持快捷方法
 * 支持代码自动更新，立即生效
 * 支持cluster模式
@@ -212,7 +212,7 @@ npm run start
 启动信息:
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.5.9
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.6.0
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Cluster Status: false
 [2016-11-28 09:56:03] [Koahubjs] Server Debug Status: true
