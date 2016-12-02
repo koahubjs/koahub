@@ -13,7 +13,7 @@ export default class {
         const watcher = chokidar.watch(paths.runtimePath, {
             ignored: /[\/\\]\./,
             persistent: true
-        }).unwatch(paths.mainFile);
+        }).unwatch(paths.runtimeFile);
 
         this.startTime = new Date();
 

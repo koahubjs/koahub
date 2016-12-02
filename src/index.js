@@ -49,19 +49,19 @@ export default class Koahub {
     loadPaths() {
 
         const rootPath = process.cwd();
-        const mainFile = process.argv[1];
         const appName = configDefault.app;
         const appPath = path.resolve(rootPath, appName);
         const runtime = configDefault.runtime;
         const runtimePath = path.resolve(rootPath, runtime);
+        const runtimeFile = process.argv[1];
 
         koahub.paths = {
             rootPath: rootPath,
-            mainFile: mainFile,
             appName: appName,
             appPath: appPath,
             runtimeName: runtime,
-            runtimePath: runtimePath
+            runtimePath: runtimePath,
+            runtimeFile: runtimeFile
         };
     }
 
