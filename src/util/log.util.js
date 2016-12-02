@@ -22,13 +22,13 @@ export function watch(path, type) {
 
     switch (type) {
         case 'add':
-            koahub.log(colors.red(`[File Add Server Restart] ${path}`));
+            koahub.log(colors.red(`[File Add] ${path}`));
             break;
         case 'change':
-            koahub.log(colors.red(`[File Changed Server Restart] ${path}`));
+            koahub.log(colors.red(`[File Changed] ${path}`));
             break;
         case 'unlink':
-            koahub.log(colors.red(`[File Unlink Server Restart] ${path}`));
+            koahub.log(colors.red(`[File Unlink] ${path}`));
             break;
     }
 }

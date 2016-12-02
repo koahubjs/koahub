@@ -10,7 +10,7 @@ export default class {
 
     constructor(paths = {}) {
 
-        const watcher = chokidar.watch(paths.runtimePath, {
+        const watcher = chokidar.watch(paths.appPath, {
             ignored: /[\/\\]\./,
             persistent: true
         }).unwatch(paths.runtimeFile);// 移除启动主文件监控
@@ -24,21 +24,17 @@ export default class {
             }
         }
 
-        this.startTime = new Date();
-
         watcher.on('add', (_path, stats) => {
 
             const relativePath = path.relative(paths.rootPath, _path);
             const runtimePath = _path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`);
-            const now = new Date();
 
-            if (now - this.startTime > 600) {
+            // 新增文件stats undefined
+            if (stats == undefined) {
                 debug(relativePath, 'add');
 
                 this.restart();
                 this.masterSend('add');
-            } else {
-                this.startTime = now;
             }
         });
 
