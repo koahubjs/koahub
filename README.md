@@ -55,7 +55,7 @@ export default class extends base{
 * 支持错误处理
 * 支持全局koahub变量
 * 支持快捷方法
-* 支持代码自动更新，立即生效
+* 支持代码自动更新，立即生效 (启动文件需重启)
 * 支持cluster模式
 * ...
 
@@ -215,7 +215,7 @@ npm run start
 启动信息:
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.6.2
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.6.3
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Cluster Status: false
 [2016-11-28 09:56:03] [Koahubjs] Server Debug Status: true
@@ -223,6 +223,8 @@ npm run start
 [2016-11-28 09:56:03] [Koahubjs] Server running at http://127.0.0.1:3000
 ```
 
+## 使用手册
+[KoaHub.js手册](https://github.com/einsqing/koahubjs/wiki)
 
 ## 官网
 [KoaHub.js官网](http://js.koahub.com)

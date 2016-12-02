@@ -5,7 +5,6 @@ import os from "os";
 import Koa from "koa";
 import logger from "koa-logger";
 import favicon from "koa-favicon";
-import lodash from "lodash";
 import colors from "colors/safe";
 import packageFile from "./../package.json";
 import Loader from "./lib/loader.class";
@@ -22,12 +21,16 @@ export default class Koahub {
 
     constructor(options = {}) {
 
-        // 加载全局变量
-        global.koahub = lodash.merge({}, packageFile);
-        // new Koa()
-        koahub.app = new Koa();
+        if (!global.koahub) {
+            // 加载全局变量
+            global.koahub = packageFile;
+            // new Koa()
+            koahub.app = new Koa();
 
-        this.init();
+            this.init();
+        } else {
+            this.init(false);
+        }
     }
 
     loadConfigs() {
@@ -46,13 +49,15 @@ export default class Koahub {
     loadPaths() {
 
         const rootPath = process.cwd();
+        const mainFile = process.argv[1];
         const appName = configDefault.app;
-        const runtime = configDefault.runtime;
         const appPath = path.resolve(rootPath, appName);
+        const runtime = configDefault.runtime;
         const runtimePath = path.resolve(rootPath, runtime);
 
         koahub.paths = {
             rootPath: rootPath,
+            mainFile: mainFile,
             appName: appName,
             appPath: appPath,
             runtimeName: runtime,
@@ -113,7 +118,7 @@ export default class Koahub {
         koahub.app.use(favicon(koahub.config('favicon')));
     }
 
-    init() {
+    init(loadMiddlewares = true) {
 
         this.loadConfigs();
         this.loadPaths();
@@ -121,7 +126,10 @@ export default class Koahub {
         this.loadModels();
         this.loadServices();
         this.loadUtils();
-        this.loadMiddlewares();
+
+        if (loadMiddlewares) {
+            this.loadMiddlewares();
+        }
     }
 
     // 支持soket.io

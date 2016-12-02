@@ -10,10 +10,10 @@ export default class {
 
     constructor(paths = {}) {
 
-        const watcher = chokidar.watch(paths.appPath, {
+        const watcher = chokidar.watch(paths.runtimePath, {
             ignored: /[\/\\]\./,
             persistent: true
-        });
+        }).unwatch(paths.mainFile);
 
         this.startTime = new Date();
 
