@@ -13,7 +13,16 @@ export default class {
         const watcher = chokidar.watch(paths.runtimePath, {
             ignored: /[\/\\]\./,
             persistent: true
-        }).unwatch(paths.runtimeFile);
+        }).unwatch(paths.runtimeFile);// 移除启动主文件监控
+
+        // 移除启动文件依赖监控
+        const children = require.cache[paths.runtimeFile].children;
+        const regExp = new RegExp(`/${paths.runtimeName}/`);
+        for (let key in children) {
+            if (regExp.test(children[key].id)) {
+                watcher.unwatch(children[key].id);
+            }
+        }
 
         this.startTime = new Date();
 
