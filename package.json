@@ -6,7 +6,6 @@
     "babel-runtime": "^6.18.0",
     "chokidar": "^1.6.1",
     "colors": "^1.1.2",
-    "decache": "^4.1.0",
     "koa": "^2.0.0-alpha.7",
     "koa-favicon": "^2.0.0",
     "koa-logger": "^2.0.0",
@@ -50,5 +49,5 @@
     "compile": "babel src/ --out-dir lib/ --watch --source-maps",
     "test": "mocha test/{,**/}*.test.js --recursive --require babel-polyfill --compilers js:babel-register"
   },
-  "version": "0.6.6"
+  "version": "0.6.7"
 }

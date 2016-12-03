@@ -55,7 +55,7 @@ export default class extends base{
 * 支持错误处理
 * 支持全局koahub变量
 * 支持快捷方法
-* 支持代码自动更新，立即生效 (需要开启Babel-Cli Compile Watcher, 启动文件需重启生效)
+* 支持代码自动更新，立即生效
 * 支持cluster模式
 * ...
 
@@ -162,7 +162,7 @@ export default {
 // 获取配置参数,比如获取启动端口
 koahub.config('port');
 
-//启动端口，重启生效
+//启动端口
 port: 3000,
 
 //调试模式
@@ -215,7 +215,7 @@ npm run start
 启动信息:
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.6.6
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.6.7
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Cluster Status: false
 [2016-11-28 09:56:03] [Koahubjs] Server Debug Status: true

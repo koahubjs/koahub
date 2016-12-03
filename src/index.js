@@ -21,16 +21,12 @@ export default class Koahub {
 
     constructor(options = {}) {
 
-        if (!global.koahub) {
-            // 加载全局变量
-            global.koahub = packageFile;
-            // new Koa()
-            koahub.app = new Koa();
+        // 加载全局变量
+        global.koahub = packageFile;
+        // new Koa()
+        koahub.app = new Koa();
 
-            this.init();
-        } else {
-            this.init(false);
-        }
+        this.init();
     }
 
     loadConfigs() {
@@ -63,14 +59,6 @@ export default class Koahub {
             runtimePath: runtimePath,
             runtimeFile: runtimeFile
         };
-    }
-
-    loadWatcher(paths) {
-
-        // watch依赖config
-        if (koahub.config('watcher')) {
-            new Watcher(paths);
-        }
     }
 
     loadControllers() {
@@ -118,7 +106,7 @@ export default class Koahub {
         koahub.app.use(favicon(koahub.config('favicon')));
     }
 
-    init(loadMiddlewares = true) {
+    init() {
 
         this.loadConfigs();
         this.loadPaths();
@@ -126,10 +114,7 @@ export default class Koahub {
         this.loadModels();
         this.loadServices();
         this.loadUtils();
-
-        if (loadMiddlewares) {
-            this.loadMiddlewares();
-        }
+        this.loadMiddlewares();
     }
 
     // 支持soket.io
@@ -204,38 +189,45 @@ export default class Koahub {
             port = koahub.config('port');
         }
 
-        if (koahub.config('cluster')) {
-            if (cluster.isMaster) {
+        if (cluster.isMaster) {
+
+            // 主进程监控
+            if (koahub.config('watcher')) {
+                new Watcher(koahub.paths);
+            }
+
+            // 主进程多进程fork
+            if (koahub.config('cluster')) {
 
                 const numCPUs = os.cpus().length;
                 for (let i = 0; i < numCPUs; i++) {
                     cluster.fork();
                 }
 
-                cluster.on('exit', function (worker, code, signal) {
-                    koahub.log(colors.red('worker ' + worker.process.pid + ' died'));
-                    process.nextTick(function () {
-                        cluster.fork();
-                    });
-                });
-
                 koahub.log(colors.red('[Tips] In cluster mode, Multiple processes can\'t be Shared memory, Such as session'));
-
-                this.started(port);
             } else {
-
-                process.on('message', function (msg) {
-                    if (msg.name == 'file') {
-                        Watcher.workerGet(msg);
-                    }
-                });
-
-                this.start(port);
+                cluster.fork();
             }
+
+            cluster.on('exit', function (worker, code, signal) {
+
+                if (koahub.config('debug')) {
+                    koahub.log(colors.red('worker ' + worker.process.pid + ' died'));
+                }
+
+                process.nextTick(function () {
+                    cluster.fork();
+                });
+            });
+
+            this.started(port);
         } else {
 
+            if (koahub.config('debug')) {
+                koahub.log(colors.red('worker ' + process.pid + ' started'));
+            }
+
             this.start(port);
-            this.started(port);
         }
     }
 
@@ -249,8 +241,6 @@ export default class Koahub {
     }
 
     started(port) {
-
-        this.loadWatcher(koahub.paths);
 
         koahub.log(colors.green(`Koahubjs version: ${koahub.version}`));
         koahub.log(colors.green(`Koahubjs website: http://js.koahub.com`));
