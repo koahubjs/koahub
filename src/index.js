@@ -191,41 +191,35 @@ export default class Koahub {
 
         if (cluster.isMaster) {
 
-            // 主进程监控
             if (koahub.config('watcher')) {
+                // 主进程监控
                 new Watcher(koahub.paths);
-            }
 
-            // 主进程多进程fork
-            if (koahub.config('cluster')) {
+                // 主进程多进程fork
+                if (koahub.config('cluster')) {
 
-                const numCPUs = os.cpus().length;
-                for (let i = 0; i < numCPUs; i++) {
+                    const numCPUs = os.cpus().length;
+                    for (let i = 0; i < numCPUs; i++) {
+                        cluster.fork();
+                    }
+
+                    koahub.log(colors.red('[Tips] In cluster mode, Multiple processes can\'t be Shared memory, Such as session'));
+                } else {
                     cluster.fork();
                 }
 
-                koahub.log(colors.red('[Tips] In cluster mode, Multiple processes can\'t be Shared memory, Such as session'));
-            } else {
-                cluster.fork();
-            }
-
-            cluster.on('exit', function (worker, code, signal) {
-
-                if (koahub.config('debug')) {
-                    koahub.log(colors.red('worker ' + worker.process.pid + ' died'));
-                }
-
-                process.nextTick(function () {
-                    cluster.fork();
+                cluster.on('exit', function (worker, code, signal) {
+                    process.nextTick(function () {
+                        cluster.fork();
+                    });
                 });
-            });
+            } else {
+
+                this.start(port);
+            }
 
             this.started(port);
         } else {
-
-            if (koahub.config('debug')) {
-                koahub.log(colors.red('worker ' + process.pid + ' started'));
-            }
 
             this.start(port);
         }

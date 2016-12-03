@@ -4,24 +4,22 @@ import Loader from "./../../src/lib/loader.class";
 
 describe('http controller', function () {
 
-    let app, configDefault;
+    let app;
 
     before(function () {
         app = new Koahub();
 
-        configDefault = {
+        koahub.controllers = new Loader([{
+            root: __dirname + '/app/controller',
+            suffix: '.controller.js',
+            prefix: '/',
+        }]);
 
-            //自动加载配置
-            loader: {
-                "controller": [{
-                    root: __dirname + '/app/controller',
-                    suffix: '.controller.js',
-                    prefix: '/',
-                }]
+        koahub.configs = {
+            index: {
+                watcher: false
             }
-        }
-
-        koahub.controllers = new Loader(configDefault.loader.controller);
+        };
 
         app.run(3000);
     });
