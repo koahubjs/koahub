@@ -145,8 +145,9 @@ export default class Koahub {
         // 捕获未知错误
         process.on('uncaughtException', function (err) {
             captureDebug(err);
+
             if (err.message.indexOf(' EADDRINUSE ') > -1) {
-                process.exit();
+                process.exit(0);
             }
         });
     }
@@ -156,6 +157,7 @@ export default class Koahub {
         // 加载hook中间件
         if (koahub.config('hook')) {
             koahub.app.use(async function (ctx, next) {
+
                 koahub.hook = new Hook(ctx, next);
                 await next();
             });
@@ -180,6 +182,41 @@ export default class Koahub {
         }));
     }
 
+    runWatcher() {
+
+        // 主进程监控
+        new Watcher(koahub.paths);
+    }
+
+    runCluster(clusterCpus = true) {
+
+        if (clusterCpus) {
+            // 主进程多进程fork
+            const numCPUs = os.cpus().length;
+            for (let i = 0; i < numCPUs; i++) {
+                cluster.fork();
+            }
+
+            koahub.log(colors.red('[Tips] In cluster mode, Multiple processes can\'t be Shared memory, Such as session'));
+        } else {
+
+            cluster.fork();
+        }
+
+        cluster.on('exit', function (worker, code, signal) {
+
+            // 正常退出，不重启
+            if (code == 0) {
+                process.exit();
+                return;
+            }
+
+            process.nextTick(function () {
+                cluster.fork();
+            });
+        });
+    }
+
     run(port) {
 
         this.loadHttpMiddlewares();
@@ -192,30 +229,20 @@ export default class Koahub {
         if (cluster.isMaster) {
 
             if (koahub.config('watcher')) {
-                // 主进程监控
-                new Watcher(koahub.paths);
+                this.runWatcher();
 
-                // 主进程多进程fork
                 if (koahub.config('cluster')) {
-
-                    const numCPUs = os.cpus().length;
-                    for (let i = 0; i < numCPUs; i++) {
-                        cluster.fork();
-                    }
-
-                    koahub.log(colors.red('[Tips] In cluster mode, Multiple processes can\'t be Shared memory, Such as session'));
+                    this.runCluster();
                 } else {
-                    cluster.fork();
+                    this.runCluster(false);
                 }
-
-                cluster.on('exit', function (worker, code, signal) {
-                    process.nextTick(function () {
-                        cluster.fork();
-                    });
-                });
             } else {
 
-                this.start(port);
+                if (koahub.config('cluster')) {
+                    this.runCluster();
+                } else {
+                    this.start(port);
+                }
             }
 
             this.started(port);
