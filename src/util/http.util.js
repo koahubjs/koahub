@@ -21,6 +21,11 @@ export async function runAction(ctx, next) {
             return value !== 'constructor';
         });
 
+        // constructor响应3xx，中断执行
+        if (/^[3][0-9]{2}/.test(ctx.status)) {
+            return;
+        }
+
         if (lodash.includes(methods, action)) {
 
             try {
