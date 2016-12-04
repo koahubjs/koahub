@@ -188,9 +188,10 @@ export default class Koahub {
         new Watcher(koahub.paths);
     }
 
-    runCluster(clusterCpus = true) {
+    runCluster(clusterOnCPUs = true) {
 
-        if (clusterCpus) {
+        if (clusterOnCPUs) {
+
             // 主进程多进程fork
             const numCPUs = os.cpus().length;
             for (let i = 0; i < numCPUs; i++) {
@@ -209,6 +210,10 @@ export default class Koahub {
             if (code == 0) {
                 process.exit();
                 return;
+            }
+
+            if (koahub.config('debug')) {
+                koahub.log(colors.red('worker ' + worker.process.pid + ' died'));
             }
 
             process.nextTick(function () {
@@ -253,6 +258,10 @@ export default class Koahub {
     }
 
     start(port) {
+
+        if (koahub.config('debug')) {
+            koahub.log(colors.red('worker ' + process.pid + ' started'));
+        }
 
         if (this.server) {
             this.server.listen(port);
