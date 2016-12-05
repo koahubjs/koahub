@@ -32,12 +32,19 @@ export default class Koahub {
     loadConfigs() {
 
         koahub.configs = new Loader(configDefault.loader.config);
-        // 优化config
-        koahub.config = function (name) {
+        // config函数
+        koahub.config = function (name, value) {
+
             if (name == undefined) {
+
                 return Object.assign(config, koahub.configs.index);
             } else {
-                return Object.assign(config, koahub.configs.index)[name];
+
+                if (value == undefined) {
+                    return Object.assign(config, koahub.configs.index)[name];
+                } else {
+                    koahub.configs.index[name] = value;
+                }
             }
         };
     }

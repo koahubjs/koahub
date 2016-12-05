@@ -64,7 +64,9 @@ export default class {
         paths.forEach(function (value, index) {
 
             let name = path.relative(options.root, value);
-            if (name.lastIndexOf(options.suffix) != -1) {
+            let regExp = new RegExp(`${options.suffix}$`);
+
+            if (regExp.test(name)) {
                 name = name.slice(0, name.lastIndexOf(options.suffix));
 
                 options.filter.forEach(function (v, i) {
