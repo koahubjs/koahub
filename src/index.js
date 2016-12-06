@@ -1,6 +1,7 @@
 import path from "path";
 import http from "http";
 import Koa from "koa";
+import lodash from "lodash";
 import logger from "koa-logger";
 import favicon from "koa-favicon";
 import colors from "colors/safe";
@@ -10,7 +11,6 @@ import Hook from "./lib/hook.class";
 import Http from "./data/http.class";
 import Watcher from "./lib/watcher.class";
 import config from "./config/index.config";
-import configDefault from "./config/default.config";
 import {httpMiddleware} from "./middleware/http.middleware";
 import {debug as captureDebug} from "./util/log.util";
 import {dateFormat} from "./util/time.util";
@@ -29,63 +29,39 @@ export default class Koahub {
 
             this.init();
         } else {
-            this.init(false);
+            this.init(true);
         }
     }
 
     loadConfigs() {
 
-        koahub.configs = new Loader(configDefault.loader.config);
+        // Object.assign({}, config) 创建新对象，不允许覆盖config
+        koahub.configs = new Loader(config.loader.configs);
+        koahub.configs.index = lodash.merge(Object.assign({}, config), koahub.configs.index);
+
+        // app, runtime不允许覆盖
+        koahub.configs.index.app = config.app;
+        koahub.configs.index.runtime = config.runtime;
+    }
+
+    loadUtils() {
+
         // config函数
         koahub.config = function (name, value) {
-
             if (name == undefined) {
-                return Object.assign(config, koahub.configs.index);
+                return koahub.configs.index;
             } else {
                 if (value == undefined) {
-                    return Object.assign(config, koahub.configs.index)[name];
+                    return koahub.configs.index[name];
                 } else {
                     koahub.configs.index[name] = value;
                 }
             }
         };
-    }
-
-    loadPaths() {
-
-        const rootPath = process.cwd();
-        const appName = configDefault.app;
-        const appPath = path.resolve(rootPath, appName);
-        const runtime = configDefault.runtime;
-        const runtimePath = path.resolve(rootPath, runtime);
-        const runtimeFile = process.argv[1];
-
-        koahub.paths = {
-            rootPath: rootPath,
-            appName: appName,
-            appPath: appPath,
-            runtimeName: runtime,
-            runtimePath: runtimePath,
-            runtimeFile: runtimeFile
-        };
-    }
-
-    loadControllers() {
 
         // controller依赖http
         koahub.http = Http;
-        koahub.controllers = new Loader(configDefault.loader.controller);
-    }
-
-    loadUtils() {
-
-        // 自定义loader
-        if (koahub.config('loader')) {
-            for (let key in koahub.config('loader')) {
-                koahub[key] = new Loader(koahub.config('loader')[key]);
-            }
-        }
-
+        // log 日志
         koahub.log = function (log, type = 'log') {
             if (typeof log == 'string') {
                 console[type](`[${dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')}] [Koahubjs] ${log}`);
@@ -95,14 +71,37 @@ export default class Koahub {
         }
     }
 
-    loadModels() {
+    loadPaths() {
 
-        koahub.models = new Loader(configDefault.loader.model);
+        const rootPath = process.cwd();
+        const runtime = koahub.config('runtime');
+        const runtimePath = path.resolve(rootPath, runtime);
+        const runtimeFile = process.argv[1];
+        const appName = koahub.config('app');
+        const appPath = path.resolve(rootPath, appName);
+        const appFile = path.resolve(appPath, path.relative(runtimePath, runtimeFile));
+
+        koahub.paths = {
+            rootPath: rootPath,
+            appName: appName,
+            appPath: appPath,
+            appFile: appFile,
+            runtimeName: runtime,
+            runtimePath: runtimePath,
+            runtimeFile: runtimeFile
+        };
     }
 
-    loadServices() {
+    loadLoaders() {
 
-        koahub.services = new Loader(configDefault.loader.service);
+        for (let key in koahub.config('loader')) {
+
+            // 移除configs重复加载
+            if (key == 'configs') {
+                continue;
+            }
+            koahub[key] = new Loader(koahub.config('loader')[key]);
+        }
     }
 
     loadMiddlewares() {
@@ -116,16 +115,18 @@ export default class Koahub {
         koahub.app.use(favicon(koahub.config('favicon')));
     }
 
-    init(loadMiddleware = true) {
+    init(restart = false) {
 
-        this.loadConfigs();
-        this.loadPaths();
-        this.loadControllers();
-        this.loadModels();
-        this.loadServices();
-        this.loadUtils();
+        // 自动加载重启
+        if (restart) {
 
-        if (loadMiddleware) {
+            this.loadLoaders();
+        } else {
+
+            this.loadConfigs();
+            this.loadUtils();
+            this.loadPaths();
+            this.loadLoaders();
             this.loadMiddlewares();
         }
     }

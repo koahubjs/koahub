@@ -1,4 +1,5 @@
 import chokidar from "chokidar";
+import lodash from "lodash";
 import path from "path";
 import fs from "fs";
 import Koahub from "./../";
@@ -6,47 +7,64 @@ import {watch as debug} from "./../util/log.util";
 
 export default class {
 
-    constructor(paths = {}) {
+    // 监控 loader自动加载的文件
+    constructor(paths) {
 
-        const watcher = chokidar.watch(paths.appPath, {
+        let watcherPaths = [];
+        for (let key in koahub.config('loader')) {
+            const loader = koahub.config('loader')[key];
+            if (lodash.isArray(loader)) {
+                for (let _key in loader) {
+                    const root = loader[_key].root;
+                    watcherPaths.push(root.replace(`${paths.runtimeName}/`, `${paths.appName}/`));
+                }
+            } else {
+                const root = loader.root;
+                watcherPaths.push(root.replace(`${paths.runtimeName}/`, `${paths.appName}/`));
+            }
+        }
+        watcherPaths = lodash.union(watcherPaths);
+
+        const watcher = chokidar.watch(watcherPaths, {
             ignored: /[\/\\]\./,
             persistent: true
         });
 
         watcher.on('add', (_path, stats) => {
 
-            const relativePath = path.relative(paths.rootPath, _path);
-            const runtimePath = _path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`);
+            const runtimePath = _path.replace(`${paths.appName}/`, `${paths.runtimeName}/`);
 
             // 新增文件stats undefined
             if (stats == undefined) {
-                debug(relativePath, 'add');
+                debug(_path, 'add');
                 this.restart();
             }
         });
 
         watcher.on('change', (_path, stats) => {
 
-            const relativePath = path.relative(paths.rootPath, _path);
-            const runtimePath = _path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`);
+            const runtimePath = _path.replace(`${paths.appName}/`, `${paths.runtimeName}/`);
 
-            debug(relativePath, 'change');
+            debug(_path, 'change');
             this.clear(runtimePath);
         });
 
         watcher.on('unlink', (_path, stats) => {
 
-            const relativePath = path.relative(paths.rootPath, _path);
-            const runtimePath = _path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`);
+            const runtimePath = _path.replace(`${paths.appName}/`, `${paths.runtimeName}/`);
 
             fs.unlink(runtimePath, () => {
-                debug(relativePath, 'unlink');
+                debug(_path, 'unlink');
                 this.clear(runtimePath);
             });
         });
     }
 
     clear(file) {
+
+        if (!path.isAbsolute(file)) {
+            file = path.resolve(koahub.paths.rootPath, file);
+        }
 
         if (typeof file !== 'string') {
             throw new TypeError('Expected a string');
