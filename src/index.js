@@ -1,7 +1,5 @@
 import path from "path";
 import http from "http";
-import cluster from "cluster";
-import os from "os";
 import Koa from "koa";
 import logger from "koa-logger";
 import favicon from "koa-favicon";
@@ -19,14 +17,20 @@ import {dateFormat} from "./util/time.util";
 
 export default class Koahub {
 
-    constructor(options = {}) {
+    constructor() {
 
-        // 加载全局变量
-        global.koahub = packageFile;
-        // new Koa()
-        koahub.app = new Koa();
+        // 防止多次初始化丢失中间件
+        if (global.koahub == undefined) {
 
-        this.init();
+            // 加载全局变量
+            global.koahub = packageFile;
+            // new Koa()
+            koahub.app = new Koa();
+
+            this.init();
+        } else {
+            this.init(false);
+        }
     }
 
     loadConfigs() {
@@ -36,10 +40,8 @@ export default class Koahub {
         koahub.config = function (name, value) {
 
             if (name == undefined) {
-
                 return Object.assign(config, koahub.configs.index);
             } else {
-
                 if (value == undefined) {
                     return Object.assign(config, koahub.configs.index)[name];
                 } else {
@@ -83,6 +85,7 @@ export default class Koahub {
                 koahub[key] = new Loader(koahub.config('loader')[key]);
             }
         }
+
         koahub.log = function (log, type = 'log') {
             if (typeof log == 'string') {
                 console[type](`[${dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')}] [Koahubjs] ${log}`);
@@ -113,7 +116,7 @@ export default class Koahub {
         koahub.app.use(favicon(koahub.config('favicon')));
     }
 
-    init() {
+    init(loadMiddleware = true) {
 
         this.loadConfigs();
         this.loadPaths();
@@ -121,7 +124,10 @@ export default class Koahub {
         this.loadModels();
         this.loadServices();
         this.loadUtils();
-        this.loadMiddlewares();
+
+        if (loadMiddleware) {
+            this.loadMiddlewares();
+        }
     }
 
     // 支持soket.io
@@ -164,7 +170,6 @@ export default class Koahub {
         // 加载hook中间件
         if (koahub.config('hook')) {
             koahub.app.use(async function (ctx, next) {
-
                 koahub.hook = new Hook(ctx, next);
                 await next();
             });
@@ -189,46 +194,6 @@ export default class Koahub {
         }));
     }
 
-    runWatcher() {
-
-        // 主进程监控
-        new Watcher(koahub.paths);
-    }
-
-    runCluster(clusterOnCPUs = true) {
-
-        if (clusterOnCPUs) {
-
-            // 主进程多进程fork
-            const numCPUs = os.cpus().length;
-            for (let i = 0; i < numCPUs; i++) {
-                cluster.fork();
-            }
-
-            koahub.log(colors.red('[Tips] In cluster mode, Multiple processes can\'t be Shared memory, Such as session'));
-        } else {
-
-            cluster.fork();
-        }
-
-        cluster.on('exit', function (worker, code, signal) {
-
-            // 正常退出，不重启
-            if (code == 0) {
-                process.exit();
-                return;
-            }
-
-            if (koahub.config('debug')) {
-                koahub.log(colors.red('worker ' + worker.process.pid + ' died'));
-            }
-
-            process.nextTick(function () {
-                cluster.fork();
-            });
-        });
-    }
-
     run(port) {
 
         this.loadHttpMiddlewares();
@@ -238,42 +203,27 @@ export default class Koahub {
             port = koahub.config('port');
         }
 
-        if (cluster.isMaster) {
-
-            if (koahub.config('watcher')) {
-                this.runWatcher();
-
-                if (koahub.config('cluster')) {
-                    this.runCluster();
-                } else {
-                    this.runCluster(false);
-                }
-            } else {
-
-                if (koahub.config('cluster')) {
-                    this.runCluster();
-                } else {
-                    this.start(port);
-                }
-            }
-
-            this.started(port);
-        } else {
-
-            this.start(port);
-        }
+        this.start(port);
     }
 
     start(port) {
 
-        if (koahub.config('debug')) {
-            koahub.log(colors.red('worker ' + process.pid + ' started'));
-        }
+        // 文件监控
+        this.startWatcher();
 
         if (this.server) {
             this.server.listen(port);
         } else {
             this.getServer().listen(port);
+        }
+
+        this.started(port);
+    }
+
+    startWatcher() {
+
+        if (koahub.config('watcher')) {
+            new Watcher(koahub.paths);
         }
     }
 
@@ -281,7 +231,6 @@ export default class Koahub {
 
         koahub.log(colors.green(`Koahubjs version: ${koahub.version}`));
         koahub.log(colors.green(`Koahubjs website: http://js.koahub.com`));
-        koahub.log(colors.green(`Server Cluster Status: ${koahub.config('cluster')}`));
         koahub.log(colors.green(`Server Debug Status: ${koahub.config('debug')}`));
         koahub.log(colors.green(`Server File Watcher: ${koahub.config('watcher')}`));
         koahub.log(colors.green(`Server running at http://127.0.0.1:${port}`));

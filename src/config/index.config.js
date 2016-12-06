@@ -1,7 +1,7 @@
 // 允许覆盖
 export default {
 
-    //启动端口
+    //启动端口，重启生效
     port: 3000,
 
     //调试模式
@@ -12,18 +12,15 @@ export default {
     default_controller: 'index',
     default_action: 'index',
 
-    //favicon设置
+    //favicon设置，重启生效
     favicon: 'www/public/favicon.ico',
 
-    //hook中间件
+    //hook中间件，重启生效
     hook: true,
 
-    //http日志
+    //http日志，重启生效
     logger: true,
 
     //监控文件，自动重启系统（需开启babel编译监控），重启生效
-    watcher: true,
-
-    //cluster，重启生效
-    cluster: false
+    watcher: true
 }

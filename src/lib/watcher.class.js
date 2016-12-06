@@ -1,7 +1,7 @@
 import chokidar from "chokidar";
 import path from "path";
 import fs from "fs";
-import cluster from "cluster";
+import Koahub from "./../";
 import {watch as debug} from "./../util/log.util";
 
 export default class {
@@ -21,7 +21,6 @@ export default class {
             // 新增文件stats undefined
             if (stats == undefined) {
                 debug(relativePath, 'add');
-
                 this.restart();
             }
         });
@@ -32,7 +31,7 @@ export default class {
             const runtimePath = _path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`);
 
             debug(relativePath, 'change');
-            this.restart();
+            this.clear(runtimePath);
         });
 
         watcher.on('unlink', (_path, stats) => {
@@ -41,17 +40,40 @@ export default class {
             const runtimePath = _path.replace(`/${paths.appName}/`, `/${paths.runtimeName}/`);
 
             fs.unlink(runtimePath, () => {
-
                 debug(relativePath, 'unlink');
-                this.restart();
+                this.clear(runtimePath);
             });
         });
     }
 
+    clear(file) {
+
+        if (typeof file !== 'string') {
+            throw new TypeError('Expected a string');
+        }
+
+        // delete itself from module parent
+        if (require.cache[file] && require.cache[file].parent) {
+            var i = require.cache[file].parent.children.length;
+
+            while (i--) {
+                if (require.cache[file].parent.children[i].id === file) {
+                    require.cache[file].parent.children.splice(i, 1);
+                }
+            }
+        }
+
+        // delete module from cache
+        delete require.cache[file];
+
+        this.restart();
+    }
+
     restart() {
 
-        for (let id in cluster.workers) {
-            cluster.workers[id].kill();
-        }
+        // babel compile延时
+        setTimeout(function () {
+            new Koahub();
+        }, 200);
     }
 }
