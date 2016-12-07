@@ -55,7 +55,7 @@ export default class extends base{
 * 支持错误处理
 * 支持全局koahub变量
 * 支持快捷方法
-* 支持修改代码，立即生效（仅loader加载的）
+* 支持修改代码，立即生效（仅loader加载, 不含configs）
 * ...
 
 ## 安装
@@ -205,14 +205,20 @@ npm run compile
 npm run start
 ```
 
-启动信息:
+## 启动信息:
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.7.5
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.7.6
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Debug Status: true
 [2016-11-28 09:56:03] [Koahubjs] Server File Watcher: true
 [2016-11-28 09:56:03] [Koahubjs] Server running at http://127.0.0.1:3000
+```
+
+## 重启信息:
+
+```text
+[2016-11-28 09:56:03] [Koahubjs] [File Changed] app/controller/home/index.controller.js
 ```
 
 ## 使用手册

@@ -12,6 +12,10 @@ export default class {
 
         let watcherPaths = [];
         for (let key in koahub.config('loader')) {
+            // 移除configs文件监控
+            if (key == 'configs') {
+                continue;
+            }
             const loader = koahub.config('loader')[key];
             if (lodash.isArray(loader)) {
                 for (let _key in loader) {
@@ -72,11 +76,10 @@ export default class {
 
         // delete itself from module parent
         if (require.cache[file] && require.cache[file].parent) {
-            var i = require.cache[file].parent.children.length;
-
-            while (i--) {
-                if (require.cache[file].parent.children[i].id === file) {
-                    require.cache[file].parent.children.splice(i, 1);
+            let mods = require.cache[file].parent.children;
+            for (var key in mods) {
+                if (mods[key].id === file) {
+                    delete mods[key];
                 }
             }
         }

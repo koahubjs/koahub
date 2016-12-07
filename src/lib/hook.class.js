@@ -62,7 +62,6 @@ export default class Hook {
 
     async runAction(path) {
 
-        this.ctx.path = path;
-        await runAction(this.ctx, this.next);
+        await runAction(Object.assign(this.ctx, {path: path}), this.next);
     }
 }
