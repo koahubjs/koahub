@@ -106,12 +106,10 @@ program
     .description('koahub create controller')
     .action(function (name) {
 
-        const templatePath = './node_modules/koahubjs/template';
-        try {
-            fileCopy(path.resolve(templatePath, 'controller/index.controller.js'), path.resolve(config.app, `controller/${name}.controller.js`));
-        } catch (err) {
-            throw new Error('No such file or directory, Please create the directory first.');
-        }
+        const destFile = path.resolve(config.app, `controller/${name}.controller.js`);
+        const srcFile = path.resolve(process.mainModule.filename, '../../', 'template/controller/index.controller.js');
+
+        fileCopy(srcFile, destFile);
     });
 
 program
