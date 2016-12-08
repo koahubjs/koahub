@@ -61,7 +61,6 @@ program
             let runtimeProcess;
 
             function startRuntimeProcess(runtimeFile) {
-                runtimeProcess.send('exit');
                 runtimeProcess = child_process.fork(runtimeFile);
                 runtimeProcess.on('message', (msg) => {
                     if (msg == 'restart') {
@@ -81,6 +80,8 @@ program
 
             // 开启文件监控
             watcher(function (file) {
+                // 进程退出
+                runtimeProcess.send('exit');
                 // 编译并且监控启动
                 if (options.compile == true) {
                     const fileRuntimePath = file.replace(`${appName}/`, `${runtimeName}/`);
