@@ -1,7 +1,8 @@
 export default class {
 
     constructor(ctx, next) {
-        if (ctx == undefined) {
+
+        if (arguments.length === 0) {
             throw new Error('SyntaxError: missing super(ctx) call in constructor');
             return;
         }
@@ -13,6 +14,7 @@ export default class {
     }
 
     isGet() {
+
         if (this.ctx.method == 'GET') {
             return true;
         }
@@ -20,6 +22,7 @@ export default class {
     }
 
     isPost() {
+
         if (this.ctx.method == 'POST') {
             return true;
         }
@@ -43,58 +46,75 @@ export default class {
     }
 
     header(name, value) {
-        if (value != undefined) {
-            this.ctx.set(name, value);
-        } else {
-            return this.ctx.get(name);
+
+        switch (arguments.length) {
+            case 1:
+                return this.ctx.get(name);
+            case 2:
+                this.ctx.set(name, value);
         }
     }
 
     status(code) {
-        if (code != undefined) {
-            this.ctx.status = code;
-        } else {
-            return this.ctx.status;
+
+        switch (arguments.length) {
+            case 0:
+                return this.ctx.status;
+            case 1:
+                this.ctx.status = code;
         }
     }
 
-    get(name) {
-        if (name != undefined) {
-            return this.ctx.query[name];
-        } else {
-            return this.ctx.query;
+    get(name, value) {
+
+        switch (arguments.length) {
+            case 0:
+                return this.ctx.query;
+            case 1:
+                return this.ctx.query[name];
+            case 2:
+                this.ctx.query[name] = value;
         }
     }
 
-    post(name) {
-        if (name != undefined) {
-            return this.ctx.post[name];
-        } else {
-            return this.ctx.post;
+    post(name, value) {
+
+        switch (arguments.length) {
+            case 0:
+                return this.ctx.post;
+            case 1:
+                return this.ctx.post[name];
+            case 2:
+                this.ctx.post[name] = value;
         }
     }
 
-    file(name) {
-        if (name != undefined) {
-            return this.ctx.file[name];
-        } else {
-            return this.ctx.file;
+    file(name, value) {
+
+        switch (arguments.length) {
+            case 0:
+                return this.ctx.file;
+            case 1:
+                return this.ctx.file[name];
+            case 2:
+                this.ctx.file[name] = value;
         }
     }
 
     session(name, value) {
-        if (name != undefined) {
-            if (value != undefined) {
-                this.ctx.session[name] = value;
-            } else {
+
+        switch (arguments.length) {
+            case 0:
+                return this.ctx.session;
+            case 1:
                 return this.ctx.session[name];
-            }
-        } else {
-            return this.ctx.session;
+            case 2:
+                this.ctx.session[name] = value;
         }
     }
 
     cookie() {
+
         return {
             get: function (name, options) {
                 return this.ctx.cookies.get(name, options);
@@ -106,14 +126,14 @@ export default class {
     }
 
     state(name, value) {
-        if (name != undefined) {
-            if (value != undefined) {
-                this.ctx.state[name] = value;
-            } else {
+
+        switch (arguments.length) {
+            case 0:
+                return this.ctx.state;
+            case 1:
                 return this.ctx.state[name];
-            }
-        } else {
-            return this.ctx.state;
+            case 2:
+                this.ctx.state[name] = value;
         }
     }
 
@@ -133,14 +153,25 @@ export default class {
 
         let body = {};
 
-        if (data != undefined) {
-            body.data = data;
-        }
-        if (msg != undefined) {
-            body.msg = msg;
-        }
-        if (code != undefined) {
-            body.code = code;
+        switch (arguments.length) {
+            case 1:
+                body = {
+                    data: data,
+                }
+                break;
+            case 2:
+                body = {
+                    data: data,
+                    msg: msg,
+                }
+                break;
+            case 3:
+                body = {
+                    data: data,
+                    msg: msg,
+                    code: code
+                }
+                break;
         }
 
         this.ctx.body = body;

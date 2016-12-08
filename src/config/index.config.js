@@ -9,9 +9,6 @@ export default {
     //启动端口
     port: 3000,
 
-    //调试模式
-    debug: true,
-
     //默认模块，控制器，操作
     default_module: 'home',
     default_controller: 'index',
@@ -25,9 +22,6 @@ export default {
 
     //http日志
     logger: true,
-
-    //监控文件，自动重启系统（需开启babel编译监控）
-    watcher: true,
 
     //自动加载配置
     loader: {

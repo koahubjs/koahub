@@ -9,11 +9,9 @@ import packageFile from "./../package.json";
 import Loader from "./lib/loader.class";
 import Hook from "./lib/hook.class";
 import Http from "./data/http.class";
-import Watcher from "./lib/watcher.class";
 import config from "./config/index.config";
 import {httpMiddleware} from "./middleware/http.middleware";
-import {debug as captureDebug} from "./util/log.util";
-import {dateFormat} from "./util/time.util";
+import log, {debug as captureDebug} from "./util/log.util";
 
 export default class Koahub {
 
@@ -61,21 +59,13 @@ export default class Koahub {
 
         // controller依赖http
         koahub.http = Http;
-        // log 日志
-        koahub.log = function (log, type = 'log') {
-            if (typeof log == 'string') {
-                console[type](`[${dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')}] [Koahubjs] ${log}`);
-            } else {
-                console[type](log);
-            }
-        }
     }
 
     loadPaths() {
 
         const rootPath = process.cwd();
-        const runtime = koahub.config('runtime');
-        const runtimePath = path.resolve(rootPath, runtime);
+        const runtimeName = koahub.config('runtime');
+        const runtimePath = path.resolve(rootPath, runtimeName);
         const runtimeFile = process.argv[1];
         const appName = koahub.config('app');
         const appPath = path.resolve(rootPath, appName);
@@ -86,7 +76,7 @@ export default class Koahub {
             appName: appName,
             appPath: appPath,
             appFile: appFile,
-            runtimeName: runtime,
+            runtimeName: runtimeName,
             runtimePath: runtimePath,
             runtimeFile: runtimeFile
         };
@@ -209,8 +199,7 @@ export default class Koahub {
 
     start(port) {
 
-        // 文件监控
-        this.startWatcher();
+        this.startProcess();
 
         if (this.server) {
             this.server.listen(port);
@@ -221,19 +210,21 @@ export default class Koahub {
         this.started(port);
     }
 
-    startWatcher() {
+    startProcess() {
 
-        if (koahub.config('watcher')) {
-            new Watcher(koahub.paths);
-        }
+        // 进程消息
+        process.on('message', function (msg) {
+            if (msg == 'exit') {
+                process.exit(0);
+            }
+        });
     }
 
     started(port) {
 
-        koahub.log(colors.green(`Koahubjs version: ${koahub.version}`));
-        koahub.log(colors.green(`Koahubjs website: http://js.koahub.com`));
-        koahub.log(colors.green(`Server Debug Status: ${koahub.config('debug')}`));
-        koahub.log(colors.green(`Server File Watcher: ${koahub.config('watcher')}`));
-        koahub.log(colors.green(`Server running at http://127.0.0.1:${port}`));
+        log(colors.green(`Koahubjs Version: ${koahub.version}`));
+        log(colors.green(`Koahubjs Website: http://js.koahub.com`));
+        log(colors.green(`Server Enviroment: ${process.env.NODE_ENV || 'development'}`));
+        log(colors.green(`Server running at: http://127.0.0.1:${port}`));
     }
 }

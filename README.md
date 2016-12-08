@@ -55,7 +55,7 @@ export default class extends base{
 * 支持错误处理
 * 支持全局koahub变量
 * 支持快捷方法
-* 支持修改代码，立即生效（仅loader加载, 不含configs）
+* 支持修改代码，立即生效
 * ...
 
 ## 安装
@@ -91,9 +91,9 @@ super.isMethod(method);
 super.ip();
 super.header(name, value);
 super.status(code);
-super.get(name);
-super.post(name);//需中间件，且快捷方法
-super.file(name);//需中间件，且快捷方法
+super.get(name, value);
+super.post(name, value);//需中间件，且快捷方法
+super.file(name, value);//需中间件，且快捷方法
 super.session(name, value);//需session中间件
 super.cookie().get(name, options);
 super.cookie().set(name, value, options);
@@ -150,6 +150,28 @@ app
 package.json
 ```
 
+## 命令行工具
+```sh
+koahub
+
+Usage: koahub [options] [command]
+
+Commands:
+
+start [options] [script]  koahub start script --watch --compile
+controller [name]         koahub create controller template
+
+Options:
+
+-h, --help     output usage information
+-V, --version  output the version number
+
+Examples:
+
+koahub start app/index.js --watch --compile (文件修改自动编译并且重启）
+koahub controller home/article (自动创建控制器模版）
+```
+
 ## 配置
 ```sh
 // app/config/index.config.js
@@ -178,9 +200,6 @@ hook: true,
 //http日志
 logger: true,
 
-//监控文件，自动重启系统（需开启babel编译监控）
-watcher: true
-
 //自动加载配置 such as koahub.utils
 loader: {
     "utils": [{
@@ -201,24 +220,16 @@ loader: {
 git clone https://github.com/einsqing/koahubjs-demo.git
 cd koahubjs-demo
 npm install
-npm run compile
-npm run start
+npm start
 ```
 
 ## 启动信息:
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.7.6
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.8.0
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
-[2016-11-28 09:56:03] [Koahubjs] Server Debug Status: true
-[2016-11-28 09:56:03] [Koahubjs] Server File Watcher: true
-[2016-11-28 09:56:03] [Koahubjs] Server running at http://127.0.0.1:3000
-```
-
-## 重启信息:
-
-```text
-[2016-11-28 09:56:03] [Koahubjs] [File Changed] app/controller/home/index.controller.js
+[2016-11-28 09:56:03] [Koahubjs] Server Enviroment: development
+[2016-11-28 09:56:03] [Koahubjs] Server running at: http://127.0.0.1:3000
 ```
 
 ## 使用手册

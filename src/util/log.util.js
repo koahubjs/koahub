@@ -1,20 +1,11 @@
 import colors from "colors/safe";
+import {dateFormat} from "./time.util";
 
-export function debug(err) {
-
-    if (koahub.config('debug')) {
-        koahub.log(err, 'error');
+export default function log(log, type = 'log') {
+    if (typeof log == 'string') {
+        console[type](`[${dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')}] [Koahubjs] ${log}`);
     } else {
-        koahub.log(err.message);
-    }
-}
-
-export function http(err) {
-
-    if (koahub.config('debug')) {
-        koahub.log(err, 'error');
-    } else {
-        koahub.log(err.message);
+        console[type](log);
     }
 }
 
@@ -22,13 +13,31 @@ export function watch(path, type) {
 
     switch (type) {
         case 'add':
-            koahub.log(colors.red(`[File Add] ${path}`));
+            log(colors.red(`[File Add] ${path}`));
             break;
         case 'change':
-            koahub.log(colors.red(`[File Changed] ${path}`));
+            log(colors.red(`[File Changed] ${path}`));
             break;
         case 'unlink':
-            koahub.log(colors.red(`[File Unlink] ${path}`));
+            log(colors.red(`[File Unlink] ${path}`));
             break;
+    }
+}
+
+export function debug(err) {
+
+    if (process.env.NODE_ENV !== 'production') {
+        log(err, 'error');
+    } else {
+        log(err.message);
+    }
+}
+
+export function http(err) {
+
+    if (process.env.NODE_ENV !== 'production') {
+        log(err, 'error');
+    } else {
+        log(err.message);
     }
 }
