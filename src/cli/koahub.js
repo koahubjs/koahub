@@ -108,7 +108,7 @@ program
 
         const templatePath = './node_modules/koahubjs/template';
         try {
-            fileCopy(path.resolve(templatePath, 'controller/index.controller.js'), path.resolve(config.app, `controllers/${name}.controller.js`));
+            fileCopy(path.resolve(templatePath, 'controller/index.controller.js'), path.resolve(config.app, `controller/${name}.controller.js`));
         } catch (err) {
             throw new Error('No such file or directory, Please create the directory first.');
         }
