@@ -159,7 +159,8 @@ Usage: koahub [options] [command]
 Commands:
 
 start [options] [script]  koahub start script --watch --compile
-controller [name]         koahub create controller template
+controller [name]         koahub create controller
+create [project]          koahub create project
 
 Options:
 
@@ -170,6 +171,7 @@ Examples:
 
 koahub start app/index.js --watch --compile (文件修改自动编译并且重启）
 koahub controller home/article (自动创建控制器模版）
+koahub create koahub-demo (自动初始化项目)
 ```
 
 ## 配置
@@ -226,7 +228,7 @@ npm start
 ## 启动信息:
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.8.0
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.8.1
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahubjs] Server running at: http://127.0.0.1:3000

@@ -15,7 +15,7 @@ function fileCopy(src, dest) {
 }
 
 program
-    .version('0.0.1')
+    .version('1.0.0')
 
 program
     .command('start [script]')
@@ -61,6 +61,7 @@ program
             let runtimeProcess;
 
             function startRuntimeProcess(runtimeFile) {
+                runtimeProcess.send('exit');
                 runtimeProcess = child_process.fork(runtimeFile);
                 runtimeProcess.on('message', (msg) => {
                     if (msg == 'restart') {
@@ -80,15 +81,11 @@ program
 
             // 开启文件监控
             watcher(function (file) {
-
-                runtimeProcess.send('exit');
-
                 // 编译并且监控启动
                 if (options.compile == true) {
                     const fileRuntimePath = file.replace(`${appName}/`, `${runtimeName}/`);
                     shell.exec(`./node_modules/.bin/babel ${file} --out-file ${fileRuntimePath}`);
                 }
-
                 startRuntimeProcess(runtimeFile);
             });
 
@@ -106,16 +103,24 @@ program
 
 program
     .command('controller [name]')
-    .description('koahub create controller template')
+    .description('koahub create controller')
     .action(function (name) {
 
         const templatePath = './node_modules/koahubjs/template';
-
         try {
             fileCopy(path.resolve(templatePath, 'controller/index.controller.js'), path.resolve(config.app, `controllers/${name}.controller.js`));
         } catch (err) {
             throw new Error('No such file or directory, Please create the directory first.');
         }
+    });
+
+program
+    .command('create [project]')
+    .description('koahub create project')
+    .action(function (project) {
+
+        shell.exec('git clone https://github.com/einsqing/koahubjs-demo.git');
+        fs.renameSync(path.resolve('koahubjs-demo'), path.resolve(project));
     });
 
 program.parse(process.argv);
