@@ -3,7 +3,7 @@
 KoaHub.js -- 基于 Koa.js 平台的 Node.js web 快速开发框架。可以直接在项目里使用 ES6/7（Generator Function, Class, Async & Await）等特性，借助 Babel 编译，可稳定运行在 Node.js 环境上。
 
 
-```js
+```javascript
 //base controller, admin/controller/base.controller.js
 export default class extends koahub.http{
 
@@ -66,22 +66,22 @@ npm install koahubjs --save
 
 ## 创建启动文件
 
-```sh
+```javascript
 // app/index.js启动文件
 import Koahub from "koahubjs";
 
 //默认app是项目目录
 const app = new Koahub();
 
-app.getKoa();获取koa实例化，支持自定义koa中间件
-app.getServer();获取server实例化，支持socket.io
+app.getKoa(); //获取koa实例化，支持自定义koa中间件
+app.getServer(); //获取server实例化，支持socket.io
 
 app.run();
 ```
 
 ## 方法
 
-```sh
+```javascript
 super.method();
 super.isGet();
 super.isPost();
@@ -107,7 +107,7 @@ await super.render(tpl, locals);//需中间件
 
 ## 快捷中间件
 
-```sh
+```javascript
 // use koa-better-body 自定义post／file中间件
 koa.use(async function (ctx, next) {
 
@@ -135,7 +135,7 @@ koa.use(async function (ctx, next) {
 
 ## 目录结构
 
-```sh
+```text
 // 推荐目录结构
 node_modules
 app
@@ -175,7 +175,7 @@ koahub create koahub-demo (自动初始化项目)
 ```
 
 ## 配置
-```sh
+```javascript
 // app/config/index.config.js
 export default {
     port: 3000,
@@ -228,7 +228,7 @@ npm start
 ## 启动信息:
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.8.3
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.8.4
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahubjs] Server running at: http://127.0.0.1:3000

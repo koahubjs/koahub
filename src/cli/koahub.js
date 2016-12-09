@@ -4,13 +4,14 @@ import fs from "fs";
 import child_process from "child_process";
 import shell from "shelljs";
 import watcher from "./../util/watcher.util";
+import {EXITCODE} from "./../util/exit.util";
 import config from "./../config/index.config";
 
-function isFile(path) {
+function isFileSync(path) {
     return fs.existsSync(path) && fs.statSync(path).isFile();
 }
 
-function fileCopy(src, dest) {
+function fileCopySync(src, dest) {
     fs.writeFileSync(dest, fs.readFileSync(src));
 }
 
@@ -38,7 +39,7 @@ program
             throw new Error('Project directory and the runtime directory can\'t be modified');
         }
 
-        if (!isFile(script)) {
+        if (!isFileSync(script)) {
             throw new Error('The `script` is not found.');
         }
 
@@ -51,10 +52,10 @@ program
         const runtimeFile = path.resolve(rootPath, script.replace(`${appName}/`, `${runtimeName}/`));
 
         // 监控启动
-        if (options.watch == true) {
+        if (options.watch === true) {
 
             // 编译并且监控启动
-            if (options.compile == true) {
+            if (options.compile === true) {
                 shell.exec(`./node_modules/.bin/babel ${appName}/ --out-dir ${runtimeName}/`);
             }
 
@@ -62,8 +63,11 @@ program
 
             function startRuntimeProcess(runtimeFile) {
                 runtimeProcess = child_process.fork(runtimeFile);
-                runtimeProcess.on('message', (msg) => {
-                    if (msg == 'restart') {
+                runtimeProcess.on('exit', function (code) {
+                    if (code == EXITCODE.EADDRINUSE) {
+                        process.exit(EXITCODE.NORMAL);
+                    }
+                    if (code == EXITCODE.NORMAL) {
                         startRuntimeProcess(runtimeFile);
                     }
                 });
@@ -75,26 +79,32 @@ program
             // 监听进程退出，通知运行时进程退出
             process.on('SIGINT', function () {
                 runtimeProcess.send('exit');
-                process.exit(0);
+                process.exit(EXITCODE.SIGINT);
+            });
+
+            // 捕获未知错误
+            process.on('uncaughtException', function (err) {
+                if (err) throw err;
+                runtimeProcess.send('exit');
+                startRuntimeProcess(runtimeFile);
             });
 
             // 开启文件监控
-            watcher(function (file) {
+            watcher(function (file, compile = true) {
                 // 进程退出
                 runtimeProcess.send('exit');
                 // 编译并且监控启动
-                if (options.compile == true) {
+                if (options.compile === true && compile === true) {
                     const fileRuntimePath = file.replace(`${appName}/`, `${runtimeName}/`);
                     shell.exec(`./node_modules/.bin/babel ${file} --out-file ${fileRuntimePath}`);
                 }
-                startRuntimeProcess(runtimeFile);
             });
 
             return;
         }
 
         // 直接编译启动
-        if (options.compile == true) {
+        if (options.compile === true) {
             shell.exec(`./node_modules/.bin/babel ${appName}/ --out-dir ${runtimeName}/`);
         }
 
@@ -110,7 +120,7 @@ program
         const destFile = path.resolve(config.app, `controller/${name}.controller.js`);
         const srcFile = path.resolve(process.mainModule.filename, '../../', 'template/controller/index.controller.js');
 
-        fileCopy(srcFile, destFile);
+        fileCopySync(srcFile, destFile);
     });
 
 program

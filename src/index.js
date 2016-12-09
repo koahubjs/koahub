@@ -12,6 +12,7 @@ import Http from "./data/http.class";
 import config from "./config/index.config";
 import {httpMiddleware} from "./middleware/http.middleware";
 import log, {debug as captureDebug} from "./util/log.util";
+import {EXITCODE} from "./util/exit.util";
 
 export default class Koahub {
 
@@ -151,7 +152,7 @@ export default class Koahub {
             captureDebug(err);
 
             if (err.message.indexOf(' EADDRINUSE ') > -1) {
-                process.exit(0);
+                process.exit(EXITCODE.EADDRINUSE);
             }
         });
     }
@@ -215,7 +216,7 @@ export default class Koahub {
         // 进程消息
         process.on('message', function (msg) {
             if (msg == 'exit') {
-                process.exit(0);
+                process.exit(EXITCODE.NORMAL);
             }
         });
     }
