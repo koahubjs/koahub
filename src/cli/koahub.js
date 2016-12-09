@@ -5,6 +5,7 @@ import child_process from "child_process";
 import shell from "shelljs";
 import watcher from "./../util/watcher.util";
 import {EXITCODE} from "./../util/exit.util";
+import {debug} from "./../util/log.util";
 import config from "./../config/index.config";
 
 function isFileSync(path) {
@@ -52,10 +53,10 @@ program
         const runtimeFile = path.resolve(rootPath, script.replace(`${appName}/`, `${runtimeName}/`));
 
         // 监控启动
-        if (options.watch === true) {
+        if (options.watch == true) {
 
             // 编译并且监控启动
-            if (options.compile === true) {
+            if (options.compile == true) {
                 shell.exec(`./node_modules/.bin/babel ${appName}/ --out-dir ${runtimeName}/`);
             }
 
@@ -67,6 +68,7 @@ program
                     if (code == EXITCODE.EADDRINUSE) {
                         process.exit(EXITCODE.NORMAL);
                     }
+
                     if (code == EXITCODE.NORMAL) {
                         startRuntimeProcess(runtimeFile);
                     }
@@ -84,27 +86,45 @@ program
 
             // 捕获未知错误
             process.on('uncaughtException', function (err) {
-                if (err) throw err;
+                debug(err);
                 runtimeProcess.send('exit');
-                startRuntimeProcess(runtimeFile);
             });
 
+            let time = new Date();
+            let files = [];
             // 开启文件监控
-            watcher(function (file, compile = true) {
-                // 进程退出
-                runtimeProcess.send('exit');
-                // 编译并且监控启动
-                if (options.compile === true && compile === true) {
-                    const fileRuntimePath = file.replace(`${appName}/`, `${runtimeName}/`);
-                    shell.exec(`./node_modules/.bin/babel ${file} --out-file ${fileRuntimePath}`);
+            watcher(function (filePath, compile = true) {
+
+                if (options.compile == true && compile == true) {
+                    let fileRuntimePath = filePath.replace(`${appName}/`, `${runtimeName}/`);
+                    files.push({filePath: filePath, fileRuntimePath: fileRuntimePath});
                 }
+
+                let newTime = new Date();
+                let timeOut = setTimeout(function () {
+                    if (files.length) {
+                        for (let key in files) {
+                            shell.exec(`./node_modules/.bin/babel ${files[key].filePath} --out-file ${files[key].fileRuntimePath}`);
+                        }
+                        // 未编译文件清空
+                        files = [];
+                    }
+                    // 进程退出
+                    runtimeProcess.send('exit');
+                }, 100);
+
+                if (newTime - time <= 100) {
+                    clearTimeout(timeOut);
+                }
+
+                time = newTime;
             });
 
             return;
         }
 
         // 直接编译启动
-        if (options.compile === true) {
+        if (options.compile == true) {
             shell.exec(`./node_modules/.bin/babel ${appName}/ --out-dir ${runtimeName}/`);
         }
 

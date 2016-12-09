@@ -20,7 +20,7 @@ function delDirs(path) {
     if (fs.existsSync(path)) {
         files = fs.readdirSync(path);
         files.forEach(function (file, index) {
-            var curPath = path + "/" + file;
+            let curPath = path + "/" + file;
             if (fs.statSync(curPath).isDirectory()) { // recurse
                 delDirs(curPath);
             } else { // delete file
@@ -34,12 +34,15 @@ function delDirs(path) {
 export default function watcher(callback) {
 
     const watcher = chokidar.watch(config.app, {
-        ignored: [/[\/\\]\./, /.html$/, /.txt$/, /.htm/],
+        ignored: [/[\/\\]\./, /.*[^js]$/],
         persistent: true,
         ignoreInitial: true
     });
 
     watcher.on('add', function (filePath, stats) {
+
+        const fileRuntimePath = filePath.replace(`${config.app}/`, `${config.runtime}/`);
+        mkdirsSync(path.dirname(fileRuntimePath));
 
         debug(filePath, 'add');
         callback(filePath);
@@ -54,23 +57,14 @@ export default function watcher(callback) {
     watcher.on('unlink', function (filePath, stats) {
 
         const runtimePath = filePath.replace(`${config.app}/`, `${config.runtime}/`);
-
-        try {
-            fs.unlinkSync(runtimePath);
-        } catch (err) {
-            throw err;
-        }
+        fs.unlinkSync(runtimePath);
 
         debug(filePath, 'unlink');
         callback(filePath, false);
     });
 
-    watcher.on('addDir', function (dirPath) {
-        const dirRuntimePath = dirPath.replace(`${config.app}/`, `${config.runtime}/`);
-        mkdirsSync(dirRuntimePath);
-    });
-
     watcher.on('unlinkDir', function (dirPath) {
+
         const dirRuntimePath = dirPath.replace(`${config.app}/`, `${config.runtime}/`);
         delDirs(dirRuntimePath);
     });
