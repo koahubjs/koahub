@@ -31,10 +31,10 @@ function delDirs(path) {
     }
 };
 
-export default function watcher(callback) {
+export default function watch(callback) {
 
     const watcher = chokidar.watch(config.app, {
-        ignored: [/[\/\\]\./, /.*[^js]$/],
+        ignored: /[\/\\]\./,
         persistent: true,
         ignoreInitial: true
     });

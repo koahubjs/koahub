@@ -3,8 +3,7 @@ import path from "path";
 import fs from "fs";
 import child_process from "child_process";
 import shell from "shelljs";
-import watcher from "./../util/watcher.util";
-import {EXITCODE} from "./../util/exit.util";
+import watch from "./../util/watch.util";
 import {debug} from "./../util/log.util";
 import config from "./../config/index.config";
 
@@ -64,36 +63,35 @@ program
 
             function startRuntimeProcess(runtimeFile) {
                 runtimeProcess = child_process.fork(runtimeFile);
-                runtimeProcess.on('exit', function (code) {
-                    if (code == EXITCODE.EADDRINUSE) {
-                        process.exit(EXITCODE.NORMAL);
-                    }
-
-                    if (code == EXITCODE.NORMAL) {
-                        startRuntimeProcess(runtimeFile);
+                runtimeProcess.on('exit', function (code, signal) {
+                    if (runtimeProcess.connected == false) {
+                        process.exit();
                     }
                 });
+            }
+
+            function stopRuntimeProcess() {
+                if (runtimeProcess) runtimeProcess.kill();
             }
 
             // 启动运行时进程
             startRuntimeProcess(runtimeFile);
 
-            // 监听进程退出，通知运行时进程退出
-            process.on('SIGINT', function () {
-                runtimeProcess.send('exit');
-                process.exit(EXITCODE.SIGINT);
+            // 捕获SIGTERM退出信号
+            process.on('SIGTERM', function () {
+                stopRuntimeProcess();
+                process.exit();
             });
 
             // 捕获未知错误
             process.on('uncaughtException', function (err) {
                 debug(err);
-                runtimeProcess.send('exit');
             });
 
             let time = new Date();
             let files = [];
             // 开启文件监控
-            watcher(function (filePath, compile = true) {
+            watch(function (filePath, compile = true) {
 
                 if (options.compile == true && compile == true) {
                     let fileRuntimePath = filePath.replace(`${appName}/`, `${runtimeName}/`);
@@ -110,7 +108,9 @@ program
                         files = [];
                     }
                     // 进程退出
-                    runtimeProcess.send('exit');
+                    stopRuntimeProcess();
+                    // 进程启动
+                    startRuntimeProcess(runtimeFile);
                 }, 100);
 
                 if (newTime - time <= 100) {

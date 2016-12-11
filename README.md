@@ -228,7 +228,7 @@ npm start
 ## 启动信息:
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.8.5
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.8.6
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahubjs] Server running at: http://127.0.0.1:3000

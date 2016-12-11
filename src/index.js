@@ -200,8 +200,6 @@ export default class Koahub {
 
     start(port) {
 
-        this.startProcess();
-
         if (this.server) {
             this.server.listen(port);
         } else {
@@ -209,16 +207,6 @@ export default class Koahub {
         }
 
         this.started(port);
-    }
-
-    startProcess() {
-
-        // 进程消息
-        process.on('message', function (msg) {
-            if (msg == 'exit') {
-                process.exit(EXITCODE.NORMAL);
-            }
-        });
     }
 
     started(port) {
