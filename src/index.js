@@ -11,7 +11,7 @@ import Hook from "./lib/hook.class";
 import Http from "./data/http.class";
 import config from "./config/index.config";
 import {httpMiddleware} from "./middleware/http.middleware";
-import log, {debug as captureDebug} from "./util/log.util";
+import log, {debug} from "./util/log.util";
 import {EXITCODE} from "./util/exit.util";
 
 export default class Koahub {
@@ -30,6 +30,28 @@ export default class Koahub {
         } else {
             this.init(true);
         }
+    }
+
+    loadErrors() {
+
+        // 监控错误日志
+        koahub.app.on("error", function (err, ctx) {
+            debug(err);
+        });
+
+        // 捕获promise reject错误
+        process.on('unhandledRejection', function (reason, promise) {
+            debug(reason);
+        });
+
+        // 捕获未知错误
+        process.on('uncaughtException', function (err) {
+            debug(err);
+
+            if (err.message.indexOf(' EADDRINUSE ') > -1) {
+                process.exit(EXITCODE.EADDRINUSE);
+            }
+        });
     }
 
     loadConfigs() {
@@ -114,6 +136,7 @@ export default class Koahub {
             this.loadLoaders();
         } else {
 
+            this.loadErrors();
             this.loadConfigs();
             this.loadUtils();
             this.loadPaths();
@@ -133,28 +156,6 @@ export default class Koahub {
     getKoa() {
 
         return koahub.app;
-    }
-
-    handleError() {
-
-        // 监控错误日志
-        koahub.app.on("error", function (err, ctx) {
-            captureDebug(err);
-        });
-
-        // 捕获promise reject错误
-        process.on('unhandledRejection', function (reason, promise) {
-            captureDebug(reason);
-        });
-
-        // 捕获未知错误
-        process.on('uncaughtException', function (err) {
-            captureDebug(err);
-
-            if (err.message.indexOf(' EADDRINUSE ') > -1) {
-                process.exit(EXITCODE.EADDRINUSE);
-            }
-        });
     }
 
     loadHttpMiddlewares() {
@@ -189,7 +190,6 @@ export default class Koahub {
     run(port) {
 
         this.loadHttpMiddlewares();
-        this.handleError();
 
         if (!port) {
             port = koahub.config('port');
