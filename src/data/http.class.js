@@ -2,11 +2,16 @@ export default class {
 
     constructor(ctx, next) {
 
-        if (arguments.length === 0) {
+        if (arguments.length == 0) {
             throw new Error('SyntaxError: missing super(ctx) call in constructor');
             return;
         }
+        if (arguments.length == 1) {
+            throw new Error('SyntaxError: missing super(next) call in constructor');
+            return;
+        }
         this.ctx = ctx;
+        this.next = next;
     }
 
     method() {
