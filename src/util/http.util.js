@@ -2,7 +2,7 @@ import lodash from "lodash";
 import {http as httpDebug} from "./log.util";
 
 // run module/controller/action
-export async function runAction(ctx, next) {
+export async function runAction(ctx, next, denyList = true, ...args) {
 
     const {module, controller, action} = getModuleControllerAction(ctx.path);
 
@@ -26,16 +26,53 @@ export async function runAction(ctx, next) {
             return;
         }
 
+        if (denyList) {
+            // denyList禁用控制器方法
+            if (_ctrl.denyList) {
+                if (lodash.isArray(_ctrl.denyList)) {
+                    if (lodash.includes(_ctrl.denyList, action)) {
+                        return;
+                    }
+                }
+            }
+        }
+
         if (lodash.includes(methods, action)) {
 
             try {
-                await _ctrl[action](this);
+
+                // 控制器前置
+                if (lodash.includes(methods, '_before')) {
+                    await _ctrl['_before'](...args);
+                }
+
+                // 方法前置
+                if (lodash.includes(methods, `_before_${action}`)) {
+                    await _ctrl[`_before_${action}`](...args);
+                }
+
+                await _ctrl[action](...args);
+
+                // 控制器后置
+                if (lodash.includes(methods, `_after_${action}`)) {
+                    await _ctrl[`_after_${action}`](...args);
+                }
+
+                // 方法后置
+                if (lodash.includes(methods, '_after')) {
+                    await _ctrl['_after'](...args);
+                }
             } catch (err) {
                 throw err;
             }
         } else {
 
-            httpDebug('Not Found Action');
+            // 控制器空操作
+            if (lodash.includes(methods, '_empty')) {
+                await _ctrl['_empty'](...args);
+            } else {
+                httpDebug('Not Found Action');
+            }
         }
     } else {
 

@@ -1,3 +1,7 @@
+import fs from "fs";
+import path from "path";
+import {runAction} from "./../util/http.util";
+
 export default class {
 
     constructor(ctx, next) {
@@ -198,6 +202,18 @@ export default class {
 
     redirect(url) {
         this.ctx.redirect(url);
+    }
+
+    download(file) {
+
+        const filename = path.relative(path.dirname(file), file);
+
+        this.header('Content-disposition', 'attachment; filename=' + filename);
+        this.view(fs.createReadStream(file));
+    }
+
+    async action(path, ...args) {
+        await runAction(Object.assign(this.ctx, {path: path}), this.next, false, ...args);
     }
 
     view(data) {

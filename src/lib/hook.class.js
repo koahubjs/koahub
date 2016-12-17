@@ -53,7 +53,7 @@ export default class Hook {
                         for (let i = 1; i < arguments.length; i++) {
                             args.push(arguments[i]);
                         }
-                        action.apply(this, args);
+                        action(...args);
                     }
                 }
             }
@@ -61,7 +61,6 @@ export default class Hook {
     }
 
     async runAction(path) {
-
-        await runAction(Object.assign(this.ctx, {path: path}), this.next);
+        await runAction(Object.assign(this.ctx, {path: path}), this.next, false);
     }
 }
