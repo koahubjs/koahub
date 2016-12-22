@@ -115,6 +115,18 @@ export default class Koahub {
             }
             koahub[key] = new Loader(koahub.config('loader')[key]);
         }
+
+        // 加载模块
+        this.loadModules();
+    }
+
+    loadModules() {
+
+        let modules = [];
+        for (let key in koahub.controllers) {
+            modules.push(key.split('/')[1]);
+        }
+        koahub.modules = lodash.union(modules);
     }
 
     loadMiddlewares() {

@@ -6,8 +6,7 @@ export async function runAction(ctx, next, denyList = true, ...args) {
 
     const {module, controller, action} = getModuleControllerAction(ctx.path);
 
-    const modules = getAllModules();
-    if (!lodash.includes(modules, module)) {
+    if (!lodash.includes(koahub.modules, module)) {
 
         httpDebug('Not Found Module');
         return;
