@@ -3,7 +3,10 @@ import fs from "fs";
 
 export default class {
 
-    constructor(options) {
+    constructor(runtimePath, options) {
+
+        // 启动目录
+        this.runtimePath = runtimePath;
 
         let loaders = [];
 
@@ -20,7 +23,7 @@ export default class {
 
     walk(dir) {
 
-        dir = path.resolve(process.cwd(), dir);
+        dir = path.resolve(this.runtimePath, dir);
 
         const exist = fs.existsSync(dir);
         if (!exist) {
@@ -61,9 +64,9 @@ export default class {
             return;
         }
 
-        paths.forEach(function (value, index) {
+        for (let key in paths) {
 
-            let name = path.relative(options.root, value);
+            let name = path.relative(path.resolve(this.runtimePath, options.root), paths[key]);
             let regExp = new RegExp(`${options.suffix}$`);
 
             if (regExp.test(name)) {
@@ -76,14 +79,14 @@ export default class {
                 name = options.prefix + name;
                 name = name.replace(/\\/g, '/');
 
-                let lib = require(value);
+                let lib = require(paths[key]);
                 if (lib.hasOwnProperty('default') && Object.keys(lib).length == 1) {
                     loaders[name] = lib.default;
                 } else {
                     loaders[name] = lib;
                 }
             }
-        });
+        }
 
         return loaders;
     }

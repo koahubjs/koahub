@@ -1,3 +1,4 @@
+import path from "path";
 import Koahub from "./../../src";
 import request from "supertest";
 import Loader from "./../../src/lib/loader.class";
@@ -9,17 +10,13 @@ describe('http controller', function () {
     before(function () {
         app = new Koahub();
 
-        koahub.controllers = new Loader([{
-            root: __dirname + '/app/controller',
+        koahub.controllers = new Loader(path.resolve(__dirname, 'app'), [{
+            root: 'controller',
             suffix: '.controller.js',
             prefix: '/',
         }]);
 
-        koahub.configs = {
-            index: {
-                watcher: false
-            }
-        };
+        app.loadModules();
 
         app.run(3000);
     });
@@ -36,6 +33,9 @@ describe('http controller', function () {
             request(app.getServer())
                 .get('/home/index/index')
                 .expect(200, function (err, res) {
+
+                    console.log(koahub);
+
                     if (err) throw err;
 
                     if (res.body != '1') {

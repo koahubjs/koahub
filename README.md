@@ -55,7 +55,7 @@ export default class extends base{
 * 支持错误处理
 * 支持全局koahub变量
 * 支持快捷方法
-* 支持修改代码，立即生效
+* 支持修改代码，立即生效 //需安装kaohub-cli
 * 支持前置，后置，空操作
 * 支持禁用控制器方法
 * ...
@@ -158,31 +158,7 @@ package.json
 ```
 
 ## 命令行工具
-```sh
-
-//安装：npm install koahubjs -g
-//使用：
-koahub
-
-Usage: koahub [options] [command]
-
-Commands:
-
-start [options] [script]  koahub start script --watch --compile
-controller [name]         koahub create controller
-create [project]          koahub create project
-
-Options:
-
--h, --help     output usage information
--V, --version  output the version number
-
-Examples:
-
-koahub start app/index.js --watch --compile (文件修改自动编译并且重启）
-koahub controller home/article (自动创建控制器模版）
-koahub create koahub-demo (自动初始化项目)
-```
+[KoaHub CLI](https://github.com/einsqing/koahub-cli)
 
 ## 配置
 ```javascript
@@ -215,10 +191,10 @@ logger: true,
 //自动加载配置 such as koahub.utils
 loader: {
     "utils": [{
-        root: 'runtime/util',
+        root: 'util',
         suffix: '.util.js'
     }, {
-        root: 'runtime/addon',
+        root: 'addon',
         suffix: '.util.js',
         prefix: '/',
         filter: [/\w*\/util\//]
@@ -247,16 +223,20 @@ constructor(ctx, next) {
 ## 开始应用
 
 ```sh
+// 安装命令行工具
+npm i koahub-cli -g
+// 下载demo
 git clone https://github.com/einsqing/koahubjs-demo.git
 cd koahubjs-demo
 npm install
-npm start
+// 启动
+koahub start app/index --watch --compile
 ```
 
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.9.1
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.9.2
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahubjs] Server running at: http://127.0.0.1:3000

@@ -1,11 +1,5 @@
 export default {
 
-    //项目目录, 不允许覆盖
-    app: 'app',
-
-    //缓存目录, 不允许覆盖
-    runtime: 'runtime',
-
     //启动端口
     port: 3000,
 
@@ -26,36 +20,36 @@ export default {
     //自动加载配置
     loader: {
         "controllers": [{
-            root: 'runtime/controller',
+            root: 'controller',
             suffix: '.controller.js',
             prefix: '/',
         }, {
-            root: 'runtime/addon',
+            root: 'addon',
             suffix: '.controller.js',
             prefix: '/addon/',
             filter: [/\w*\/controller\//]
         }],
         "models": [{
-            root: 'runtime/model',
+            root: 'model',
             suffix: '.model.js'
         }, {
-            root: 'runtime/addon',
+            root: 'addon',
             suffix: '.model.js',
             filter: [/\w*\/model\//]
         }],
         "services": [{
-            root: 'runtime/service',
+            root: 'service',
             suffix: '.service.js'
         }, {
-            root: 'runtime/addon',
+            root: 'addon',
             suffix: '.service.js',
             filter: [/\w*\/service\//]
         }],
         "configs": [{
-            root: 'runtime/config',
+            root: 'config',
             suffix: '.config.js'
         }, {
-            root: 'runtime/addon',
+            root: 'addon',
             suffix: '.config.js',
             filter: [/\w*\/config\//]
         }]

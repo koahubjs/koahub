@@ -4,7 +4,6 @@ import Koa from "koa";
 import lodash from "lodash";
 import logger from "koa-logger";
 import favicon from "koa-favicon";
-import colors from "colors/safe";
 import packageFile from "./../package.json";
 import Loader from "./lib/loader.class";
 import Hook from "./lib/hook.class";
@@ -54,15 +53,26 @@ export default class Koahub {
         });
     }
 
+    loadPaths() {
+
+        const rootPath = process.cwd();
+        const runtimeFile = process.argv[1];
+        const runtimePath = path.dirname(runtimeFile);
+        const runtimeName = path.relative(rootPath, runtimePath);
+
+        koahub.paths = {
+            rootPath: rootPath,
+            runtimeFile: runtimeFile,
+            runtimePath: runtimePath,
+            runtimeName: runtimeName
+        };
+    }
+
     loadConfigs() {
 
         // Object.assign({}, config) 创建新对象，不允许覆盖config
-        koahub.configs = new Loader(config.loader.configs);
+        koahub.configs = new Loader(koahub.paths.runtimePath, config.loader.configs);
         koahub.configs.index = lodash.merge(Object.assign({}, config), koahub.configs.index);
-
-        // app, runtime不允许覆盖
-        koahub.configs.index.app = config.app;
-        koahub.configs.index.runtime = config.runtime;
     }
 
     loadUtils() {
@@ -84,27 +94,6 @@ export default class Koahub {
         koahub.http = Http;
     }
 
-    loadPaths() {
-
-        const rootPath = process.cwd();
-        const runtimeName = koahub.config('runtime');
-        const runtimePath = path.resolve(rootPath, runtimeName);
-        const runtimeFile = process.argv[1];
-        const appName = koahub.config('app');
-        const appPath = path.resolve(rootPath, appName);
-        const appFile = path.resolve(appPath, path.relative(runtimePath, runtimeFile));
-
-        koahub.paths = {
-            rootPath: rootPath,
-            appName: appName,
-            appPath: appPath,
-            appFile: appFile,
-            runtimeName: runtimeName,
-            runtimePath: runtimePath,
-            runtimeFile: runtimeFile
-        };
-    }
-
     loadLoaders() {
 
         for (let key in koahub.config('loader')) {
@@ -113,7 +102,7 @@ export default class Koahub {
             if (key == 'configs') {
                 continue;
             }
-            koahub[key] = new Loader(koahub.config('loader')[key]);
+            koahub[key] = new Loader(koahub.paths.runtimePath, koahub.config('loader')[key]);
         }
 
         // 加载模块
@@ -124,7 +113,11 @@ export default class Koahub {
 
         let modules = [];
         for (let key in koahub.controllers) {
-            modules.push(key.split('/')[1]);
+            let paths = key.split('/');
+            if (paths.length < 3) {
+                continue;
+            }
+            modules.push(paths[1]);
         }
         koahub.modules = lodash.union(modules);
     }
@@ -149,9 +142,9 @@ export default class Koahub {
         } else {
 
             this.loadErrors();
+            this.loadPaths();
             this.loadConfigs();
             this.loadUtils();
-            this.loadPaths();
             this.loadLoaders();
             this.loadMiddlewares();
         }
@@ -223,9 +216,9 @@ export default class Koahub {
 
     started(port) {
 
-        log(colors.green(`Koahubjs Version: ${koahub.version}`));
-        log(colors.green(`Koahubjs Website: http://js.koahub.com`));
-        log(colors.green(`Server Enviroment: ${process.env.NODE_ENV || 'development'}`));
-        log(colors.green(`Server running at: http://127.0.0.1:${port}`));
+        log(`Koahubjs Version: ${koahub.version}`);
+        log(`Koahubjs Website: http://js.koahub.com`);
+        log(`Server Enviroment: ${process.env.NODE_ENV || 'development'}`);
+        log(`Server running at: http://127.0.0.1:${port}`);
     }
 }
