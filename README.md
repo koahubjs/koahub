@@ -256,18 +256,12 @@ npm start
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.9.0
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.9.1
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahubjs] Server running at: http://127.0.0.1:3000
 ```
 
-## 温馨提示
-
-```text
-目前koahubjs cli仅支持mac，linux。预计0.9.1版本支持windows。
-12.31之前发布1.0正式版。
-```
 
 ## 使用手册
 [KoaHub.js手册](https://github.com/einsqing/koahubjs/wiki)

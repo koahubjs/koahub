@@ -41,7 +41,7 @@ export default function watch(callback) {
 
     watcher.on('add', function (filePath, stats) {
 
-        const fileRuntimePath = filePath.replace(`${config.app}/`, `${config.runtime}/`);
+        const fileRuntimePath = filePath.replace(`${config.app}`, `${config.runtime}`);
         mkdirsSync(path.dirname(fileRuntimePath));
 
         debug(filePath, 'add');
@@ -56,7 +56,7 @@ export default function watch(callback) {
 
     watcher.on('unlink', function (filePath, stats) {
 
-        const runtimePath = filePath.replace(`${config.app}/`, `${config.runtime}/`);
+        const runtimePath = filePath.replace(`${config.app}`, `${config.runtime}`);
         fs.unlinkSync(runtimePath);
 
         debug(filePath, 'unlink');
@@ -65,7 +65,7 @@ export default function watch(callback) {
 
     watcher.on('unlinkDir', function (dirPath) {
 
-        const dirRuntimePath = dirPath.replace(`${config.app}/`, `${config.runtime}/`);
+        const dirRuntimePath = dirPath.replace(`${config.app}`, `${config.runtime}`);
         delDirs(dirRuntimePath);
     });
 }

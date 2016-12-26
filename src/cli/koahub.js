@@ -34,8 +34,10 @@ program
             script = path.join(script, 'index.js');
         }
 
-        const regExp = new RegExp(`^${config.app}/?`);
-        if (!regExp.test(script)) {
+        script = path.normalize(script);
+
+        const regExp = new RegExp(`^${config.app}(\\\\|/)`);
+        if (!(regExp).test(script)) {
             throw new Error('Project directory and the runtime directory can\'t be modified');
         }
 
@@ -49,14 +51,14 @@ program
         const appFile = path.resolve(rootPath, script);
         const runtimeName = config.runtime;
         const runtimePath = path.resolve(rootPath, runtimeName);
-        const runtimeFile = path.resolve(rootPath, script.replace(`${appName}/`, `${runtimeName}/`));
+        const runtimeFile = path.resolve(rootPath, script.replace(`${appName}`, `${runtimeName}`));
 
         // 监控启动
         if (options.watch == true) {
 
             // 编译并且监控启动
             if (options.compile == true) {
-                shell.exec(`./node_modules/.bin/babel ${appName}/ --out-dir ${runtimeName}/`);
+                shell.exec(path.normalize(`./node_modules/.bin/babel ${appName} --out-dir ${runtimeName}`));
             }
 
             let runtimeProcess;
@@ -94,7 +96,7 @@ program
             watch(function (filePath, compile = true) {
 
                 if (options.compile == true && compile == true) {
-                    let fileRuntimePath = filePath.replace(`${appName}/`, `${runtimeName}/`);
+                    let fileRuntimePath = filePath.replace(`${appName}`, `${runtimeName}`);
                     files.push({filePath: filePath, fileRuntimePath: fileRuntimePath});
                 }
 
@@ -102,7 +104,7 @@ program
                 let timeOut = setTimeout(function () {
                     if (files.length) {
                         for (let key in files) {
-                            shell.exec(`./node_modules/.bin/babel ${files[key].filePath} --out-file ${files[key].fileRuntimePath}`);
+                            shell.exec(path.normalize(`./node_modules/.bin/babel ${files[key].filePath} --out-file ${files[key].fileRuntimePath}`));
                         }
                         // 未编译文件清空
                         files = [];
@@ -125,7 +127,7 @@ program
 
         // 直接编译启动
         if (options.compile == true) {
-            shell.exec(`./node_modules/.bin/babel ${appName}/ --out-dir ${runtimeName}/`);
+            shell.exec(path.normalize(`./node_modules/.bin/babel ${appName} --out-dir ${runtimeName}`));
         }
 
         // 直接启动
