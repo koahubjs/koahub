@@ -1,10 +1,10 @@
 import lodash from "lodash";
-import {http as httpDebug} from "./log.util";
+import { http as httpDebug } from "./log.util";
 
 // run module/controller/action
 export async function runAction(ctx, next, denyList = true, ...args) {
 
-    const {module, controller, action} = getModuleControllerAction(ctx.path);
+    const { module, controller, action } = getModuleControllerAction(ctx.path);
 
     if (!lodash.includes(koahub.modules, module)) {
 
@@ -16,7 +16,7 @@ export async function runAction(ctx, next, denyList = true, ...args) {
     if (ctrl) {
 
         const _ctrl = new ctrl(ctx, next);
-        const methods = Object.getOwnPropertyNames(ctrl.prototype).filter(function (value) {
+        const methods = Object.getOwnPropertyNames(ctrl.prototype).filter(function(value) {
             return value !== 'constructor';
         });
 
@@ -79,15 +79,19 @@ export async function runAction(ctx, next, denyList = true, ...args) {
     }
 }
 
-// get all modules
-export function getAllModules() {
+// url obj to param
+export function urlObjToParam(query, obj) {
 
-    let modules = [];
-    for (let key in koahub.controllers) {
-        modules.push(key.split('/')[1]);
+    let param = '';
+    for (let key in obj) {
+        param += '&' + key + '=' + obj[key];
     }
-    modules = lodash.union(modules);
-    return modules;
+
+    param = '?' + param.substr(1, param.length);
+    if (query) {
+        param += '&' + query;
+    }
+    return param;
 }
 
 // get module controller action

@@ -58,6 +58,7 @@ export default class extends base{
 * 支持修改代码，立即生效 //需安装kaohub-cli
 * 支持前置，后置，空操作
 * 支持禁用控制器方法
+* 支持restful
 * ...
 
 ## 安装
@@ -217,6 +218,16 @@ constructor(ctx, next) {
     super(ctx, next);
     this.denyList = ['index2'];
 }
+
+// 支持restful路由设置
+// app/config/router.config.js
+export default [
+    ['/api/product/:id/page/:page', {
+        get: "/home/index/index",
+        delete: "/home/index/index",
+        post: "/home/index/index"
+    }]
+]
 ```
 
 
@@ -236,7 +247,7 @@ koahub start app/index --watch --compile
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.9.2
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.9.3
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahubjs] Server running at: http://127.0.0.1:3000
