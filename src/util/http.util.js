@@ -40,27 +40,34 @@ export async function runAction(ctx, next, denyList = true, ...args) {
 
             try {
 
+                let result;
+                let parseResult = function(data) {
+                    if (data) {
+                        body = data;
+                    }
+                };
                 // 控制器前置
                 if (lodash.includes(methods, '_before')) {
-                    await _ctrl['_before'](...args);
+                    parseResult(await _ctrl['_before'](...args));
                 }
 
                 // 方法前置
                 if (lodash.includes(methods, `_before_${action}`)) {
-                    await _ctrl[`_before_${action}`](...args);
+                    parseResult(await _ctrl[`_before_${action}`](...args));
                 }
 
-                await _ctrl[action](...args);
+                parseResult(await _ctrl[action](...args));
 
                 // 控制器后置
                 if (lodash.includes(methods, `_after_${action}`)) {
-                    await _ctrl[`_after_${action}`](...args);
+                    parseResult(await _ctrl[`_after_${action}`](...args));
                 }
 
                 // 方法后置
                 if (lodash.includes(methods, '_after')) {
-                    await _ctrl['_after'](...args);
+                    parseResult(await _ctrl['_after'](...args));
                 }
+                return result;
             } catch (err) {
                 throw err;
             }
