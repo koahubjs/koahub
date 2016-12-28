@@ -53,7 +53,7 @@ export default class Hook {
                         for (let i = 1; i < arguments.length; i++) {
                             args.push(arguments[i]);
                         }
-                        action(...args);
+                        await action(...args);
                     }
                 }
             }
