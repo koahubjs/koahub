@@ -17,18 +17,12 @@ export default class Koahub {
 
     constructor() {
 
-        // 防止多次初始化丢失中间件
-        if (global.koahub == undefined) {
+        // 加载全局变量
+        global.koahub = packageFile;
+        // new Koa()
+        koahub.app = new Koa();
 
-            // 加载全局变量
-            global.koahub = packageFile;
-            // new Koa()
-            koahub.app = new Koa();
-
-            this.init();
-        } else {
-            this.init(true);
-        }
+        this.init();
     }
 
     loadErrors() {
@@ -133,21 +127,14 @@ export default class Koahub {
         koahub.app.use(favicon(koahub.config('favicon')));
     }
 
-    init(restart = false) {
+    init() {
 
-        // 自动加载重启
-        if (restart) {
-
-            this.loadLoaders();
-        } else {
-
-            this.loadErrors();
-            this.loadPaths();
-            this.loadConfigs();
-            this.loadUtils();
-            this.loadLoaders();
-            this.loadMiddlewares();
-        }
+        this.loadErrors();
+        this.loadPaths();
+        this.loadConfigs();
+        this.loadUtils();
+        this.loadLoaders();
+        this.loadMiddlewares();
     }
 
     // 支持soket.io
