@@ -7,11 +7,10 @@ import favicon from "koa-favicon";
 import packageFile from "./../package.json";
 import Loader from "./lib/loader.class";
 import Hook from "./lib/hook.class";
-import Http from "./data/http.class";
+import Http from "./lib/http.class";
 import config from "./config/index.config";
 import {httpMiddleware} from "./middleware/http.middleware";
 import log, {debug} from "./util/log.util";
-import {EXITCODE} from "./util/exit.util";
 
 export default class Koahub {
 
@@ -42,7 +41,7 @@ export default class Koahub {
             debug(err);
 
             if (err.message.indexOf(' EADDRINUSE ') > -1) {
-                process.exit(EXITCODE.EADDRINUSE);
+                process.exit();
             }
         });
     }

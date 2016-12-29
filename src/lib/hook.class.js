@@ -11,7 +11,7 @@ export default class Hook {
 
     get(name) {
 
-        if (name == undefined) {
+        if (arguments.length == 0) {
             return this.hooks;
         } else {
             for (let key in this.hooks) {
@@ -20,7 +20,6 @@ export default class Hook {
                 }
             }
         }
-
     }
 
     add(name, action) {

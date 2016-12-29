@@ -33,9 +33,6 @@ describe('http controller', function () {
             request(app.getServer())
                 .get('/home/index/index')
                 .expect(200, function (err, res) {
-
-                    console.log(koahub);
-
                     if (err) throw err;
 
                     if (res.body != '1') {
