@@ -108,6 +108,8 @@ super.redirect(url);
 super.download(file);
 super.view(data);
 super.json(data, msg, code);
+super.success(data, msg);
+super.error(data, msg);
 super.state(name, value);
 await super.render(tpl, locals);//需中间件
 await super.action(path, ...args);
@@ -249,7 +251,7 @@ koahub start app/index --watch --compile
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.9.7
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.9.8
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahubjs] Server running at: http://127.0.0.1:3000

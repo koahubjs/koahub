@@ -1,10 +1,10 @@
 import lodash from "lodash";
-import { http as httpDebug } from "./log.util";
+import {http as httpDebug} from "./log.util";
 
 // run module/controller/action
 export async function runAction(ctx, next, denyList = true, ...args) {
 
-    const { module, controller, action } = getModuleControllerAction(ctx.path);
+    const {module, controller, action} = getModuleControllerAction(ctx.path);
 
     if (!lodash.includes(koahub.modules, module)) {
 
@@ -16,7 +16,7 @@ export async function runAction(ctx, next, denyList = true, ...args) {
     if (ctrl) {
 
         const _ctrl = new ctrl(ctx, next);
-        const methods = Object.getOwnPropertyNames(ctrl.prototype).filter(function(value) {
+        const methods = Object.getOwnPropertyNames(ctrl.prototype).filter(function (value) {
             return value !== 'constructor';
         });
 
@@ -41,9 +41,9 @@ export async function runAction(ctx, next, denyList = true, ...args) {
             try {
 
                 let result;
-                let parseResult = function(data) {
+                let parseResult = function (data) {
                     if (data) {
-                        body = data;
+                        result = data;
                     }
                 };
                 // 控制器前置

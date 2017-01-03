@@ -248,6 +248,14 @@ export default class {
         this.ctx.body = body;
     }
 
+    success(data, msg) {
+        this.json(data, msg, 1);
+    }
+
+    error(data, msg) {
+        this.json(data, msg, 0);
+    }
+
     async render(tpl, locals) {
         await this.ctx.render(tpl, locals);
     }

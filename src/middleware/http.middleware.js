@@ -1,14 +1,14 @@
-import { parse as urlParse } from "url";
+import {parse as urlParse} from "url";
 import pathToRegexp from "path-to-regexp";
 import lodash from "lodash";
 import skip from "./skip.middleware";
-import { http as httpDebug } from "./../util/log.util";
-import { runAction, urlObjToParam } from "./../util/http.util";
+import {http as httpDebug} from "./../util/log.util";
+import {runAction, urlObjToParam} from "./../util/http.util";
 
 // run http
 export function httpMiddleware() {
 
-    const http = async function(ctx, next) {
+    const http = async function (ctx, next) {
 
         const routers = koahub.configs.router;
 
@@ -44,7 +44,7 @@ export function httpMiddleware() {
                 }
             }
 
-            await runAction(Object.assign(ctx, { path: path, url: url }), next);
+            await runAction(Object.assign(ctx, {path: path, url: url}), next);
         } else {
             await runAction(ctx, next);
         }
