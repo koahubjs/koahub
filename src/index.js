@@ -12,6 +12,10 @@ import config from "./config/index.config";
 import {httpMiddleware} from "./middleware/http.middleware";
 import log, {debug} from "./util/log.util";
 
+//rewite promise, bluebird is more faster
+global.Promise = require('bluebird');
+require('babel-runtime/core-js/promise').default = Promise;
+
 export default class Koahub {
 
     constructor() {
