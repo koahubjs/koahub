@@ -29,13 +29,13 @@ describe('http controller', function () {
                 .expect(200, done());
         });
 
-        it('call http should response 200 body 1', function (done) {
+        it('call http should response 200 body Hello World!', function (done) {
             request(app.getServer())
                 .get('/home/index/index')
                 .expect(200, function (err, res) {
                     if (err) throw err;
 
-                    if (res.body != '1') {
+                    if (res.text != 'Hello World!') {
                         throw new Error('body response is error');
                     }
                     done();

@@ -224,10 +224,14 @@ constructor(ctx, next) {
 // 支持restful路由设置
 // app/config/router.config.js
 export default [
-    ['/api/product/:id/page/:page', {
-        get: "/home/index/index",
-        delete: "/home/index/index",
-        post: "/home/index/index"
+    ['/tickets', {
+        get: "/home/tickets/index"
+    }],
+    ['/tickets/:id', {
+        get: "/home/tickets/detail",
+        post: "/home/tickets/add",
+        put: "/home/tickets/update",
+        delete: "/home/tickets/delete",
     }]
 ]
 ```
@@ -251,7 +255,7 @@ koahub start app/index --watch --compile
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 0.9.8
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 1.0.0
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahubjs] Server running at: http://127.0.0.1:3000

@@ -5,10 +5,6 @@ export default class extends koahub.http {
     }
 
     index() {
-        super.view(1);
-    }
-
-    index2() {
-        super.json(1, 2, 3);
+        super.view('Hello World!');
     }
 }

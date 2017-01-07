@@ -30,21 +30,25 @@ export function httpMiddleware() {
                 }
             }
 
-            const router = routers[key][1];
-            if (lodash.isString(router)) {
-                path = router;
-                url = router + urlObjToParam(urlParse(ctx.url).query, params);
-            } else {
-                const routerMethod = router[method.toLowerCase()];
-                if (routerMethod) {
-                    path = routerMethod;
-                    url = routerMethod + urlObjToParam(urlParse(ctx.url).query, params);
+            if (key) {
+                const router = routers[key][1];
+                if (lodash.isString(router)) {
+                    path = router;
+                    url = router + urlObjToParam(urlParse(ctx.url).query, params);
                 } else {
-                    httpDebug('Not Found Router');
+                    const routerMethod = router[method.toLowerCase()];
+                    if (routerMethod) {
+                        path = routerMethod;
+                        url = routerMethod + urlObjToParam(urlParse(ctx.url).query, params);
+                    } else {
+                        httpDebug('Not Found Router');
+                    }
                 }
-            }
 
-            await runAction(Object.assign(ctx, {path: path, url: url}), next);
+                await runAction(Object.assign(ctx, {path: path, url: url}), next);
+            } else {
+                await runAction(ctx, next);
+            }
         } else {
             await runAction(ctx, next);
         }

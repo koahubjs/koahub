@@ -53,7 +53,7 @@ export default class Koahub {
     loadPaths() {
 
         const rootPath = process.cwd();
-        const runtimeFile = process.argv[1];
+        const runtimeFile = process.mainModule.filename;
         const runtimePath = path.dirname(runtimeFile);
         const runtimeName = path.relative(rootPath, runtimePath);
 
