@@ -46,27 +46,49 @@ export async function runAction(ctx, next, denyList = true, ...args) {
                         result = data;
                     }
                 };
+
                 // 控制器前置
                 if (lodash.includes(methods, '_before')) {
                     parseResult(await _ctrl['_before'](...args));
+                }
+                // 控制器前置不响应404，中断执行
+                if (ctx.status != 404) {
+                    return;
                 }
 
                 // 方法前置
                 if (lodash.includes(methods, `_before_${action}`)) {
                     parseResult(await _ctrl[`_before_${action}`](...args));
                 }
+                // 方法前置不响应404，中断执行
+                if (ctx.status != 404) {
+                    return;
+                }
 
                 parseResult(await _ctrl[action](...args));
-
-                // 控制器后置
-                if (lodash.includes(methods, `_after_${action}`)) {
-                    parseResult(await _ctrl[`_after_${action}`](...args));
+                // 不响应404，中断执行
+                if (ctx.status != 404) {
+                    return;
                 }
 
                 // 方法后置
+                if (lodash.includes(methods, `_after_${action}`)) {
+                    parseResult(await _ctrl[`_after_${action}`](...args));
+                }
+                // 方法后置不响应404，中断执行
+                if (ctx.status != 404) {
+                    return;
+                }
+
+                // 控制器后置
                 if (lodash.includes(methods, '_after')) {
                     parseResult(await _ctrl['_after'](...args));
                 }
+                // 控制器后置不响应404，中断执行
+                if (ctx.status != 404) {
+                    return;
+                }
+
                 return result;
             } catch (err) {
                 throw err;

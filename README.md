@@ -240,8 +240,6 @@ export default [
 ## 开始应用
 
 ```sh
-// 安装命令行工具
-npm i koahub-cli -g
 // 下载demo
 git clone https://github.com/einsqing/koahubjs-demo.git
 // 进入项目
@@ -249,13 +247,13 @@ cd koahubjs-demo
 // 安装依赖
 npm install
 // 启动项目
-koahub start app/index --watch --compile
+npm start
 ```
 
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 1.0.0
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 1.0.1
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahubjs] Server running at: http://127.0.0.1:3000
