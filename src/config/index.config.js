@@ -27,7 +27,7 @@ export default {
             root: 'addon',
             suffix: '.controller.js',
             prefix: '/addon/',
-            filter: [/\w*\/controller\//]
+            filter: [/\/controller/]
         }],
         "models": [{
             root: 'model',
@@ -35,7 +35,7 @@ export default {
         }, {
             root: 'addon',
             suffix: '.model.js',
-            filter: [/\w*\/model\//]
+            filter: [/\/model/]
         }],
         "services": [{
             root: 'service',
@@ -43,7 +43,7 @@ export default {
         }, {
             root: 'addon',
             suffix: '.service.js',
-            filter: [/\w*\/service\//]
+            filter: [/\/service/]
         }],
         "configs": [{
             root: 'config',
@@ -51,7 +51,7 @@ export default {
         }, {
             root: 'addon',
             suffix: '.config.js',
-            filter: [/\w*\/config\//]
+            filter: [/\/config/]
         }]
     }
 }
