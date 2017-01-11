@@ -183,7 +183,7 @@ default_controller: 'index',
 default_action: 'index',
 
 //favicon设置
-favicon: 'www/public/favicon.ico',
+favicon: 'www/favicon.ico',
 
 //hook中间件
 hook: true,
@@ -200,7 +200,7 @@ loader: {
         root: 'addon',
         suffix: '.util.js',
         prefix: '/',
-        filter: [/\w*\/util\//]
+        filter: [/\/util/]
     }]
 }
 ```
@@ -253,7 +253,7 @@ npm start
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 1.0.4
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 1.0.5
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahubjs] Server running at: http://127.0.0.1:3000
