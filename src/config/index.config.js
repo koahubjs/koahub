@@ -9,7 +9,7 @@ export default {
     default_action: 'index',
 
     //favicon设置
-    favicon: 'www/public/favicon.ico',
+    favicon: 'www/favicon.ico',
 
     //hook中间件
     hook: true,
