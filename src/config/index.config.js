@@ -29,29 +29,9 @@ export default {
             prefix: '/addon/',
             filter: [/\/controller/]
         }],
-        "models": [{
-            root: 'model',
-            suffix: '.model.js'
-        }, {
-            root: 'addon',
-            suffix: '.model.js',
-            filter: [/\/model/]
-        }],
-        "services": [{
-            root: 'service',
-            suffix: '.service.js'
-        }, {
-            root: 'addon',
-            suffix: '.service.js',
-            filter: [/\/service/]
-        }],
-        "configs": [{
+        "configs": {
             root: 'config',
             suffix: '.config.js'
-        }, {
-            root: 'addon',
-            suffix: '.config.js',
-            filter: [/\/config/]
-        }]
+        }
     }
 }

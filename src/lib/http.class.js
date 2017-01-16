@@ -213,7 +213,7 @@ export default class {
     }
 
     async action(path, ...args) {
-        return await runAction(Object.assign(this.ctx, {path: path}), this.next, false, ...args);
+        return await runAction(Object.assign(this.ctx, {path: path}), this.next, ...args);
     }
 
     view(data) {

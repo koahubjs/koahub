@@ -2,7 +2,7 @@ import lodash from "lodash";
 import {http as httpDebug} from "./log.util";
 
 // run module/controller/action
-export async function runAction(ctx, next, denyList = true, ...args) {
+export async function runAction(ctx, next, ...args) {
 
     const {module, controller, action} = getModuleControllerAction(ctx.path);
 
@@ -13,39 +13,37 @@ export async function runAction(ctx, next, denyList = true, ...args) {
     }
 
     const ctrl = koahub.controllers[`/${module}/${controller}`];
-    if (ctrl) {
+    const filters = ['constructor', '_initialize', '_before', `_before_${action}`, `_after_${action}`, '_after', '_empty'];
+
+    // 方法首字符是`_`表示私有方法
+    if (ctrl && action.substr(0, 1) != '_' && !lodash.includes(filters, action)) {
 
         const _ctrl = new ctrl(ctx, next);
-        const methods = Object.getOwnPropertyNames(ctrl.prototype).filter(function (value) {
-            return value !== 'constructor';
-        });
+        const methods = Object.getOwnPropertyNames(ctrl.prototype);
 
         // constructor不响应404，中断执行
         if (ctx.status != 404) {
             return;
         }
 
-        if (denyList) {
-            // denyList禁用控制器方法
-            if (_ctrl.denyList) {
-                if (lodash.isArray(_ctrl.denyList)) {
-                    if (lodash.includes(_ctrl.denyList, action)) {
-                        return;
-                    }
-                }
-            }
-        }
-
         if (lodash.includes(methods, action)) {
 
             try {
-
                 let result;
                 let parseResult = function (data) {
                     if (data) {
                         result = data;
                     }
                 };
+
+                // 控制器初始化
+                if (lodash.includes(methods, '_initialize')) {
+                    parseResult(await _ctrl['_initialize'](...args));
+                }
+                // 控制器初始化不响应404，中断执行
+                if (ctx.status != 404) {
+                    return;
+                }
 
                 // 控制器前置
                 if (lodash.includes(methods, '_before')) {

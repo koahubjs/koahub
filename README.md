@@ -5,37 +5,35 @@ KoaHub.js -- 基于 Koa.js 平台的 Node.js web 快速开发框架。可以直�
 
 ```javascript
 //base controller, admin/controller/base.controller.js
-export default class extends koahub.http{
+export default class extends koahub.http {
 
-    constructor(ctx, next) {
-        super(ctx, next);
-        console.log('base constructor');
+    async _initialize() {
+        console.log('base _initialize');
     }
 
-    isLogin() {
+    async isLogin() {
         console.log('base isLogin');
     }
 }
 
 //index controller, admin/controller/index.controller.js
 import base from "./base.controller";
-export default class extends base{
+export default class extends base {
 
-    constructor(ctx, next) {
-        super(ctx, next);
-        console.log('index constructor');
+    async _initialize() {
+        await super._initialize();
     }
 
-    index() {
-        super.view(1);
+    async index() {
+        this.view(1);
     }
-    
-    index2() {
-        super.json(1,2);
+
+    async index2() {
+        this.json(1, 2);
     }
-    
+
     async index3() {
-        await super.render('index');
+        await this.render('index');
     }
 }
 ```
@@ -55,7 +53,7 @@ export default class extends base{
 * 支持错误处理
 * 支持全局koahub变量
 * 支持快捷方法
-* 支持修改代码，立即生效 //需安装kaohub-cli
+* 支持修改代码，立即生效
 * 支持前置，后置，空操作
 * 支持禁用控制器方法
 * 支持restful
@@ -87,32 +85,31 @@ app.run();
 ```javascript
 this.ctx;
 this.next;
-// 以下super可以改成this，推荐super
-super.method();
-super.isGet();
-super.isPost();
-super.isAjax();
-super.isPjax();
-super.isMethod(method);
-super.ip();
-super.header(name, value);
-super.status(code);
-super.get(name, value);
-super.post(name, value);//需中间件，且快捷方法
-super.file(name, value);//需中间件，且快捷方法
-super.session(name, value);//需session中间件
-super.cookie().get(name, options);
-super.cookie().set(name, value, options);
-super.host();
-super.redirect(url);
-super.download(file);
-super.view(data);
-super.json(data, msg, code);
-super.success(data, msg);
-super.error(data, msg);
-super.state(name, value);
-await super.render(tpl, locals);//需中间件
-await super.action(path, ...args);
+this.method();
+this.isGet();
+this.isPost();
+this.isAjax();
+this.isPjax();
+this.isMethod(method);
+this.ip();
+this.header(name, value);
+this.status(code);
+this.get(name, value);
+this.post(name, value);//需中间件，且快捷方法
+this.file(name, value);//需中间件，且快捷方法
+this.session(name, value);//需session中间件
+this.cookie().get(name, options);
+this.cookie().set(name, value, options);
+this.host();
+this.redirect(url);
+this.download(file);
+this.view(data);
+this.json(data, msg, code);
+this.success(data, msg);
+this.error(data, msg);
+this.state(name, value);
+await this.render(tpl, locals);//需中间件
+await this.action(path, ...args);
 ```
 
 ## 快捷中间件
@@ -131,33 +128,6 @@ koa.use(async function (ctx, next) {
 
     await next();
 });
-
-// 自定义utils.model快捷中间件
-koa.use(async function (ctx, next) {
-
-    if (!global.model && koahub.utils.model) {
-        global.model = koahub.utils.model;
-    }
-
-    await next();
-});
-```
-
-## 目录结构
-
-```text
-// 推荐目录结构
-node_modules
-app
---addon
---config
---controller
---data
---model
---service
---util
---index.js
-package.json
 ```
 
 ## 命令行工具
@@ -207,7 +177,8 @@ loader: {
 
 ## 其他
 ```javascript
-// 控制器前置，后置，空操作
+// 控制器初始化，前置，后置，空操作
+async _initialize()
 async _before()
 async _before_index()
 async index()
@@ -215,11 +186,8 @@ async _after_index()
 async _after()
 async _empty()
 
-// 禁用当前控制器方法
-constructor(ctx, next) {
-    super(ctx, next);
-    this.denyList = ['index2'];
-}
+// 控制器私有方法
+// 方法首页字符是`_`为私有方法
 
 // 支持restful路由设置
 // app/config/router.config.js
@@ -253,7 +221,7 @@ npm start
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 1.0.5
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 1.0.6
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahubjs] Server running at: http://127.0.0.1:3000
@@ -261,7 +229,7 @@ npm start
 
 
 ## 使用手册
-[KoaHub.js手册](https://github.com/einsqing/koahubjs/wiki)
+[KoaHub.js手册](http://js.koahub.com/public/docs/index.html)
 
 ## 官网
 [KoaHub.js官网](http://js.koahub.com)
