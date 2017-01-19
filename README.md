@@ -163,15 +163,10 @@ logger: true,
 
 //自动加载配置 such as koahub.utils
 loader: {
-    "utils": [{
+    "utils": {
         root: 'util',
         suffix: '.util.js'
-    }, {
-        root: 'addon',
-        suffix: '.util.js',
-        prefix: '/',
-        filter: [/\/util/]
-    }]
+    }
 }
 ```
 
@@ -221,7 +216,7 @@ npm start
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 1.0.6
+[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 1.0.7
 [2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahubjs] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahubjs] Server running at: http://127.0.0.1:3000

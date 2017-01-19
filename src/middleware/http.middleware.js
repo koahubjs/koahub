@@ -12,26 +12,26 @@ export function httpMiddleware() {
 
         const routers = koahub.configs.router;
 
-        let regexp, regres, key, url, path, method = ctx.method,
+        let regexp, regres, index, url, path, method = ctx.method,
             params = [],
             keys = [];
 
         if (routers && routers.length) {
-            for (let kk in routers) {
+            for (let router in routers) {
                 regexp = pathToRegexp(routers[0], keys);
                 regres = regexp.exec(ctx.path);
 
                 if (regres) {
-                    for (var k in keys) {
-                        params[keys[k].name] = regres[parseInt(k) + 1];
+                    for (var key in keys) {
+                        params[keys[key].name] = regres[parseInt(key) + 1];
                     }
-                    key = kk;
+                    index = router;
                     break;
                 }
             }
 
-            if (key) {
-                const router = routers[key][1];
+            if (index) {
+                const router = routers[index][1];
                 if (lodash.isString(router)) {
                     path = router;
                     url = router + urlObjToParam(urlParse(ctx.url).query, params);
@@ -45,7 +45,7 @@ export function httpMiddleware() {
                     }
                 }
 
-                await runAction(Object.assign(ctx, {path: path, url: url}), next);
+                await runAction(Object.assign(ctx, {originalPath: ctx.path, path: path, url: url}), next);
             } else {
                 await runAction(ctx, next);
             }
