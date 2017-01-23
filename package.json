@@ -43,11 +43,11 @@
       "email": "786699892@qq.com"
     }
   ],
-  "name": "koahubjs",
+  "name": "koahub",
   "optionalDependencies": {},
   "scripts": {
     "compile": "babel src/ --out-dir lib/ --watch --source-maps",
     "test": "mocha test/{,**/}*.test.js --recursive --require babel-polyfill --compilers js:babel-register"
   },
-  "version": "1.0.7"
+  "version": "2.1.0"
 }

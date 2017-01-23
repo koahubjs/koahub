@@ -1,10 +1,10 @@
 export default class extends koahub.http {
 
-    constructor(ctx, next) { //构造函数
-        super(ctx, next);
+    async _initialize() {
+        // 控制器初始化
     }
 
-    index() {
+    async index() {
         super.view('Hello World!');
     }
 }

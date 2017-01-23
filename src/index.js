@@ -206,8 +206,8 @@ export default class Koahub {
 
     started(port) {
 
-        log(`Koahubjs Version: ${koahub.version}`);
-        log(`Koahubjs Website: http://js.koahub.com`);
+        log(`Koahub Version: ${koahub.version}`);
+        log(`Koahub Website: http://js.koahub.com`);
         log(`Server Enviroment: ${process.env.NODE_ENV || 'development'}`);
         log(`Server running at: http://127.0.0.1:${port}`);
     }

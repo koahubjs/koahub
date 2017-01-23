@@ -62,14 +62,14 @@ export default class extends base {
 ## 安装
 
 ```sh
-npm install koahubjs --save
+npm install koahub --save
 ```
 
 ## 创建启动文件
 
 ```javascript
 // app/index.js启动文件
-import Koahub from "koahubjs";
+import Koahub from "koahub";
 
 //默认app是项目目录
 const app = new Koahub();
@@ -204,9 +204,9 @@ export default [
 
 ```sh
 // 下载demo
-git clone https://github.com/einsqing/koahubjs-demo.git
+git clone https://github.com/einsqing/koahub-demo.git
 // 进入项目
-cd koahubjs-demo
+cd koahub-demo
 // 安装依赖
 npm install
 // 启动项目
@@ -216,10 +216,10 @@ npm start
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs version: 1.0.7
-[2016-11-28 09:56:03] [Koahubjs] Koahubjs website: http://js.koahub.com
-[2016-11-28 09:56:03] [Koahubjs] Server Enviroment: development
-[2016-11-28 09:56:03] [Koahubjs] Server running at: http://127.0.0.1:3000
+[2016-11-28 09:56:03] [Koahub] Koahub version: 2.1.0
+[2016-11-28 09:56:03] [Koahub] Koahub website: http://js.koahub.com
+[2016-11-28 09:56:03] [Koahub] Server Enviroment: development
+[2016-11-28 09:56:03] [Koahub] Server running at: http://127.0.0.1:3000
 ```
 
 
