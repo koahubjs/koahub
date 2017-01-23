@@ -49,5 +49,5 @@
     "compile": "babel src/ --out-dir lib/ --watch --source-maps",
     "test": "mocha test/{,**/}*.test.js --recursive --require babel-polyfill --compilers js:babel-register"
   },
-  "version": "2.1.0"
+  "version": "2.1.1"
 }
