@@ -1,6 +1,7 @@
 import {runAction} from "./../util/http.util";
 
 export default class Hook {
+
     constructor(ctx, next) {
 
         this.ctx = ctx;

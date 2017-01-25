@@ -167,6 +167,16 @@ export default class Koahub {
         koahub.app.use(httpMiddleware().skip(function (ctx) {
 
             const path = ctx.path;
+            const urlSuffix = koahub.config('url_suffix');
+
+            if (urlSuffix) {
+                const regexp = new RegExp(`${urlSuffix}$`);
+                if (regexp.test(path)) {
+                    ctx.path = path.substr(0, path.lastIndexOf(urlSuffix));
+                    return false;
+                }
+                return true;
+            }
 
             // path验证，资源文件跳过中间件
             if (/[^\/]+\.+\w+$/.test(path)) {

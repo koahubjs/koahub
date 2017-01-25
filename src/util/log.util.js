@@ -12,7 +12,7 @@ export default function log(log, type = 'log') {
 export function debug(err) {
 
     if (process.env.NODE_ENV !== 'production') {
-        log(err, 'error');
+        log(err);
     } else {
         log(err.message);
     }
@@ -21,7 +21,7 @@ export function debug(err) {
 export function http(err) {
 
     if (process.env.NODE_ENV !== 'production') {
-        log(err, 'error');
+        log(err);
     } else {
         log(err.message);
     }

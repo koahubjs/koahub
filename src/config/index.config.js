@@ -17,6 +17,9 @@ export default {
     //http日志
     logger: true,
 
+    //url后缀
+    url_suffix: '',
+
     //自动加载配置
     loader: {
         "controllers": [{
