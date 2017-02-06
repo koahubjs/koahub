@@ -98,8 +98,10 @@ this.get(name, value);
 this.post(name, value);//需中间件，且快捷方法
 this.file(name, value);//需中间件，且快捷方法
 this.session(name, value);//需session中间件
-this.cookie().get(name, options);
-this.cookie().set(name, value, options);
+this.cookie.get(name, options);
+this.cookie.set(name, value, options);
+this.hook.add(name, action);
+await this.hook.run(name, ...args);
 this.host();
 this.redirect(url);
 this.download(file);
@@ -131,7 +133,7 @@ koa.use(async function (ctx, next) {
 ```
 
 ## 命令行工具
-[KoaHub CLI](https://github.com/einsqing/koahub-cli)
+[KoaHub CLI](https://github.com/koahubjs/koahub-cli)
 
 ## 配置
 ```javascript
@@ -160,6 +162,9 @@ hook: true,
 
 //http日志
 logger: true,
+
+//url后缀
+url_suffix: '',
 
 //自动加载配置 such as koahub.utils
 loader: {
@@ -204,7 +209,7 @@ export default [
 
 ```sh
 // 下载demo
-git clone https://github.com/einsqing/koahub-demo.git
+git clone https://github.com/koahubjs/koahub-demo.git
 // 进入项目
 cd koahub-demo
 // 安装依赖
@@ -216,7 +221,7 @@ npm start
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahub] Koahub version: 2.1.2
+[2016-11-28 09:56:03] [Koahub] Koahub version: 1.1.0
 [2016-11-28 09:56:03] [Koahub] Koahub website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahub] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahub] Server running at: http://127.0.0.1:3000

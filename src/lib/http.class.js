@@ -16,6 +16,12 @@ export default class {
         }
         this.ctx = ctx;
         this.next = next;
+
+        if (koahub.config('hook')) {
+            this.hook = koahub.hook;
+        }
+
+        this.cookie = this.ctx.cookies;
     }
 
     method() {
@@ -159,18 +165,6 @@ export default class {
                     break;
                 }
                 this.ctx.session[name] = value;
-        }
-    }
-
-    cookie() {
-
-        return {
-            get: function (name, options) {
-                return this.ctx.cookies.get(name, options);
-            },
-            set: function (name, value, options) {
-                return this.ctx.cookies.set(name, value, options);
-            }
         }
     }
 
