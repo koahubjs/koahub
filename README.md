@@ -62,7 +62,7 @@ export default class extends base {
 ## 安装
 
 ```sh
-npm install koahubjs/koahub --save
+npm install github:koahubjs/koahub --save
 ```
 
 ## 创建启动文件
