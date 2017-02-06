@@ -18,7 +18,7 @@ export function httpMiddleware() {
 
         if (routers && routers.length) {
             for (let router in routers) {
-                regexp = pathToRegexp(routers[0], keys);
+                regexp = pathToRegexp(routers[router], keys);
                 regres = regexp.exec(ctx.path);
 
                 if (regres) {
