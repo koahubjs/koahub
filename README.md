@@ -181,14 +181,14 @@ async _empty()
 // 支持restful路由设置
 // app/config/router.config.js
 export default [
-    ['/tickets', {
-        get: "/home/tickets/index"
+    ['/product', {
+        get: "/home/product/index"
     }],
-    ['/tickets/:id', {
-        get: "/home/tickets/detail",
-        post: "/home/tickets/add",
-        put: "/home/tickets/update",
-        delete: "/home/tickets/delete",
+    ['/product/:id', {
+        get: "/home/product/detail",
+        post: "/home/product/add",
+        put: "/home/product/update",
+        delete: "/home/product/delete",
     }]
 ]
 ```
