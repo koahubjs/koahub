@@ -113,9 +113,8 @@ koa.use(async function (ctx, next) {
         ctx.post = ctx.request.body;
     } else {
         ctx.post = ctx.request.body.fields;
+        ctx.file = ctx.request.body.files;
     }
-
-    ctx.file = ctx.request.body.files;
 
     await next();
 });
