@@ -38,7 +38,7 @@ export default class extends base {
 }
 ```
 
-项目中可以使用 ES6/7 里的所有特性，借助 Babel 编译，可以稳定运行在 >=0.12.0 的 Node.js 环境中。
+项目中可以使用 ES6/7 里的所有特性，借助 Babel 编译，可以稳定运行在 >= 4 的 Node.js 环境中。
 
 ## 特性
 
