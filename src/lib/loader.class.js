@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 
-export default class {
+export default class Loader {
 
     constructor(runtimePath, options) {
 

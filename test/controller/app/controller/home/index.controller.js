@@ -1,10 +1,10 @@
-export default class extends koahub.http {
+export default class extends koahub.controller {
 
     async _initialize() {
         // 控制器初始化
     }
 
     async index() {
-        super.view('Hello World!');
+        this.view('Hello World!');
     }
 }

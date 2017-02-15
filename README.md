@@ -5,7 +5,7 @@ KoaHub.js -- 基于 Koa.js 平台的 Node.js web 快速开发框架。可以直�
 
 ```javascript
 //base controller, admin/controller/base.controller.js
-export default class extends koahub.http {
+export default class extends koahub.controller {
 
     async _initialize() {
         console.log('base _initialize');
@@ -43,9 +43,10 @@ export default class extends base {
 ## 特性
 
 * 支持koa全部中间件
-* 支持使用 ES2015+ 全部特性来开发项目
-* 支持断点调试 ES2015+ 项目
+* 支持使用 ES6+ 全部特性来开发项目
+* 支持断点调试 ES6+ 项目
 * 支持多种项目结构和多种项目环境
+* 支持 Controller 中使用Koa.js的所有API
 * 支持多级 Controller
 * 支持自动加载
 * 支持钩子机制
@@ -82,51 +83,39 @@ app.run();
 
 ## 方法
 
+ctx上的函数或参数将自动加载到Controller，例如支持 `this.body = 'Hello World!'`, ctx中具体的API请参考Koa.js, Controller中的扩展方法如下。
+
 ```javascript
 this.ctx;
 this.next;
-this.method();
 this.isGet();
 this.isPost();
 this.isAjax();
 this.isPjax();
 this.isMethod(method);
-this.ip();
-this.header(name, value);
-this.status(code);
-this.get(name, value);
-this.post(name, value);//需中间件，且快捷方法
-this.file(name, value);//需中间件，且快捷方法
-this.session(name, value);//需session中间件
-this.cookie.get(name, options);
-this.cookie.set(name, value, options);
 this.hook.add(name, action);
 await this.hook.run(name, ...args);
-this.host();
-this.redirect(url);
 this.download(file);
 this.view(data);
 this.json(data, msg, code);
 this.success(data, msg);
 this.error(data, msg);
-this.state(name, value);
-await this.render(tpl, locals);//需中间件
 await this.action(path, ...args);
 ```
 
 ## 快捷中间件
 
 ```javascript
-// use koa-better-body 自定义post／file中间件
+// use koa-body 自定义post／file中间件
 koa.use(async function (ctx, next) {
 
-    if (ctx.request.fields) {
-        ctx.post = ctx.request.fields;
+    if (!ctx.request.body.files) {
+        ctx.post = ctx.request.body;
+    } else {
+        ctx.post = ctx.request.body.fields;
     }
 
-    if (ctx.request.files) {
-        ctx.file = ctx.request.files;
-    }
+    ctx.file = ctx.request.body.files;
 
     await next();
 });
@@ -137,7 +126,7 @@ koa.use(async function (ctx, next) {
 
 ## 配置
 ```javascript
-// app/config/index.config.js
+// app/config/default.config.js
 export default {
     port: 3000,
     default_module: 'admin'
@@ -221,7 +210,7 @@ npm start
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahub] Koahub version: 1.1.1
+[2016-11-28 09:56:03] [Koahub] Koahub version: 1.2.0
 [2016-11-28 09:56:03] [Koahub] Koahub website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahub] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahub] Server running at: http://127.0.0.1:3000

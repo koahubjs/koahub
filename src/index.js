@@ -7,8 +7,8 @@ import favicon from "koa-favicon";
 import packageFile from "./../package.json";
 import Loader from "./lib/loader.class";
 import Hook from "./lib/hook.class";
-import Http from "./lib/http.class";
-import config from "./config/index.config";
+import Controller from "./lib/controller.class";
+import config from "./config/default.config";
 import {httpMiddleware} from "./middleware/http.middleware";
 import log, {debug} from "./util/log.util";
 
@@ -69,7 +69,7 @@ export default class Koahub {
 
         // Object.assign({}, config) 创建新对象，不允许覆盖config
         koahub.configs = new Loader(koahub.paths.runtimePath, config.loader.configs);
-        koahub.configs.index = lodash.merge(Object.assign({}, config), koahub.configs.index);
+        koahub.configs.default = lodash.merge(Object.assign({}, config), koahub.configs.default);
     }
 
     loadUtils() {
@@ -77,18 +77,18 @@ export default class Koahub {
         // config函数
         koahub.config = function (name, value) {
             if (name == undefined) {
-                return koahub.configs.index;
+                return koahub.configs.default;
             } else {
                 if (value == undefined) {
-                    return koahub.configs.index[name];
+                    return koahub.configs.default[name];
                 } else {
-                    koahub.configs.index[name] = value;
+                    koahub.configs.default[name] = value;
                 }
             }
         };
 
-        // controller依赖http
-        koahub.http = Http;
+        // controller继承
+        koahub.controller = Controller;
     }
 
     loadLoaders() {
