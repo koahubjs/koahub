@@ -56,11 +56,11 @@ export default class Controller {
     }
 
     isAjax() {
-        return this.header('X-Requested-With') === 'XMLHttpRequest';
+        return this.ctx.get('X-Requested-With') === 'XMLHttpRequest';
     }
 
     isPjax() {
-        return this.header('X-PJAX') || false;
+        return this.ctx.get('X-PJAX') || false;
     }
 
     isMethod(method) {
