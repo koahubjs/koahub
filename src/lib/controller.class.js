@@ -23,7 +23,7 @@ export default class Controller {
 
         for (let name in ctx) {
             if (typeof ctx[name] !== 'function') {
-                Object.defineProperty(this, name, {
+                Object.defineProperty(Controller.prototype, name, {
                     configurable: true,
                     enumerable: true,
                     get: () => {
@@ -34,7 +34,7 @@ export default class Controller {
                     }
                 });
             } else {
-                this[name] = ctx[name];
+                Controller.prototype[name] = ctx[name];
             }
         }
     }
