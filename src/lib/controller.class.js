@@ -14,18 +14,13 @@ export default class Controller {
             throw new Error('SyntaxError: missing super(next) call in constructor');
             return;
         }
+
         this.ctx = ctx;
         this.next = next;
 
-        if (koahub.config('hook')) {
-            this.hook = koahub.hook;
-        }
-
         for (let name in ctx) {
             if (typeof ctx[name] !== 'function') {
-                Object.defineProperty(Controller.prototype, name, {
-                    configurable: true,
-                    enumerable: true,
+                Object.defineProperty(this, name, {
                     get: () => {
                         return this.ctx[name];
                     },
@@ -34,8 +29,15 @@ export default class Controller {
                     }
                 });
             } else {
-                Controller.prototype[name] = ctx[name];
+                this[name] = ctx[name];
             }
+        }
+    }
+
+    get hook() {
+
+        if (koahub.config('hook')) {
+            return koahub.hook;
         }
     }
 
