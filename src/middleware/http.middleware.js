@@ -13,12 +13,13 @@ export function httpMiddleware() {
         const routers = koahub.configs.router;
 
         let regexp, regres, index, url, path, method = ctx.method,
-            params = [],
-            keys = [];
+            params = [];
 
         if (routers && routers.length) {
             for (let router in routers) {
-                regexp = pathToRegexp(routers[router][0], keys, {strict: true});
+
+                let keys = [];
+                regexp = pathToRegexp(routers[router][0], keys, {strict: true, sensitive: true});
                 regres = regexp.exec(ctx.path);
 
                 if (regres) {
