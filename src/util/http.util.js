@@ -1,5 +1,15 @@
+import co from "co";
 import lodash from "lodash";
+import isGeneratorFunction from "is-generator-function";
 import {http as httpDebug} from "./log.util";
+
+// generator to promise
+function getPromiseFunction(ctx, _ctrl, method) {
+    if (isGeneratorFunction(_ctrl[method])) {
+        return co.wrap(_ctrl[method]).bind(_ctrl);
+    }
+    return _ctrl[method].bind(_ctrl);
+}
 
 // run module/controller/action
 export async function runAction(ctx, next, ...args) {
@@ -38,7 +48,7 @@ export async function runAction(ctx, next, ...args) {
 
                 // 控制器初始化
                 if (lodash.includes(methods, '_initialize')) {
-                    parseResult(await _ctrl['_initialize'](...args));
+                    parseResult(await getPromiseFunction(ctx, _ctrl, '_initialize')(...args));
                 }
                 // 控制器初始化不响应404，中断执行
                 if (ctx.status != 404) {
@@ -47,7 +57,7 @@ export async function runAction(ctx, next, ...args) {
 
                 // 控制器前置
                 if (lodash.includes(methods, '_before')) {
-                    parseResult(await _ctrl['_before'](...args));
+                    parseResult(await getPromiseFunction(ctx, _ctrl, '_before')(...args));
                 }
                 // 控制器前置不响应404，中断执行
                 if (ctx.status != 404) {
@@ -56,14 +66,14 @@ export async function runAction(ctx, next, ...args) {
 
                 // 方法前置
                 if (lodash.includes(methods, `_before_${action}`)) {
-                    parseResult(await _ctrl[`_before_${action}`](...args));
+                    parseResult(await getPromiseFunction(ctx, _ctrl, `_before_${action}`)(...args));
                 }
                 // 方法前置不响应404，中断执行
                 if (ctx.status != 404) {
                     return;
                 }
 
-                parseResult(await _ctrl[action](...args));
+                parseResult(await getPromiseFunction(ctx, _ctrl, action)(...args));
                 // 不响应404，中断执行
                 if (ctx.status != 404) {
                     return;
@@ -71,7 +81,7 @@ export async function runAction(ctx, next, ...args) {
 
                 // 方法后置
                 if (lodash.includes(methods, `_after_${action}`)) {
-                    parseResult(await _ctrl[`_after_${action}`](...args));
+                    parseResult(await getPromiseFunction(ctx, _ctrl, `_after_${action}`)(...args));
                 }
                 // 方法后置不响应404，中断执行
                 if (ctx.status != 404) {
@@ -80,7 +90,7 @@ export async function runAction(ctx, next, ...args) {
 
                 // 控制器后置
                 if (lodash.includes(methods, '_after')) {
-                    parseResult(await _ctrl['_after'](...args));
+                    parseResult(await getPromiseFunction(ctx, _ctrl, '_after')(...args));
                 }
                 // 控制器后置不响应404，中断执行
                 if (ctx.status != 404) {

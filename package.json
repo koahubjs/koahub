@@ -8,6 +8,8 @@
   "dependencies": {
     "babel-runtime": "^6.22.0",
     "bluebird": "^3.4.7",
+    "co": "^4.6.0",
+    "is-generator-function": "^1.0.6",
     "koa": "^2.0.0-alpha.7",
     "koa-favicon": "^2.0.0",
     "koa-logger": "^2.0.1",
@@ -56,5 +58,5 @@
     "compile": "babel src/ --out-dir lib/ --watch --source-maps",
     "test": "mocha test/{,**/}*.test.js --recursive --require babel-polyfill --compilers js:babel-register"
   },
-  "version": "1.2.1"
+  "version": "1.2.2"
 }
