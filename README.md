@@ -1,4 +1,4 @@
-## 介绍
+## KoaHub.js
 
 KoaHub.js -- 基于 Koa.js 平台的 Node.js web 快速开发框架。可以直接在项目里使用 ES6/7（Generator Function, Class, Async & Await）等特性，借助 Babel 编译，可稳定运行在 Node.js 环境上。
 
@@ -131,11 +131,9 @@ export default {
     default_module: 'admin'
 }
 
+//默认配置如下
 //启动端口
 port: 3000,
-
-//调试模式
-debug: true,
 
 //默认模块，控制器，操作
 default_module: 'home',
@@ -145,20 +143,41 @@ default_action: 'index',
 //favicon设置
 favicon: 'www/favicon.ico',
 
-//hook中间件
-hook: true,
-
 //http日志
 logger: true,
 
 //url后缀
 url_suffix: '',
 
-//自动加载配置 such as koahub.utils
+//body配置
+body: {
+    multipart: true
+},
+
+//cors配置
+cors: false,
+
+//session配置
+session: false,
+
+//static配置
+static: false,
+
+//自动加载配置
 loader: {
-    "utils": {
-        root: 'util',
-        suffix: '.util.js'
+    "controllers": [{
+        root: 'controller',
+        suffix: '.controller.js',
+        prefix: '/',
+    }, {
+        root: 'addon',
+        suffix: '.controller.js',
+        prefix: '/addon/',
+        filter: [/\/controller/]
+    }],
+    "configs": {
+        root: 'config',
+        suffix: '.config.js'
     }
 }
 ```
@@ -234,7 +253,7 @@ npm start
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahub] Koahub Version: 1.2.3
+[2016-11-28 09:56:03] [Koahub] Koahub Version: 2.0.0
 [2016-11-28 09:56:03] [Koahub] Koahub Website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahub] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahub] Server running at: http://127.0.0.1:3000

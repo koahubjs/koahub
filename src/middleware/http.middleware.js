@@ -5,8 +5,7 @@ import skip from "./skip.middleware";
 import {http as httpDebug} from "./../util/log.util";
 import {runAction, urlObjToParam} from "./../util/http.util";
 
-// run http
-export function httpMiddleware() {
+export default function httpMiddleware() {
 
     const http = async function (ctx, next) {
 

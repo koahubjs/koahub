@@ -11,14 +11,25 @@ export default {
     //favicon设置
     favicon: 'www/favicon.ico',
 
-    //hook中间件
-    hook: true,
-
     //http日志
     logger: true,
 
     //url后缀
     url_suffix: '',
+
+    //body配置
+    body: {
+        multipart: true
+    },
+
+    //cors配置
+    cors: false,
+
+    //session配置
+    session: false,
+
+    //static配置
+    static: false,
 
     //自动加载配置
     loader: {

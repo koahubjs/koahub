@@ -1,5 +1,7 @@
 import fs from "fs";
 import path from "path";
+import Parameter from "parameter";
+import Hook from "./../lib/hook.class";
 import {runAction} from "./../util/http.util";
 
 export default class Controller {
@@ -17,6 +19,7 @@ export default class Controller {
 
         this.ctx = ctx;
         this.next = next;
+        this.hook = new Hook(ctx, next);
 
         for (let name in ctx) {
             if (typeof ctx[name] !== 'function') {
@@ -34,11 +37,8 @@ export default class Controller {
         }
     }
 
-    get hook() {
-
-        if (koahub.config('hook')) {
-            return koahub.hook;
-        }
+    get validate() {
+        return new Parameter();
     }
 
     isGet() {
