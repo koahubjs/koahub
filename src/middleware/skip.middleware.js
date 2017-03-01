@@ -6,7 +6,7 @@ export default function (options) {
     const opts = typeof options === 'function' ? {custom: options} : options;
     opts.useOriginalUrl = (typeof opts.useOriginalUrl === 'undefined') ? true : opts.useOriginalUrl;
 
-    return function (ctx, next) {
+    return function ship (ctx, next) {
         const requestedUrl = url.parse((opts.useOriginalUrl ? ctx.originalUrl : ctx.url) || '', true);
 
         let skip = false;
