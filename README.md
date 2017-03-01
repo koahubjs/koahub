@@ -100,6 +100,7 @@ this.view(data);
 this.json(data, msg, code);
 this.success(data, msg);
 this.error(data, msg);
+this.validate(rule, data);
 await this.action(path, ...args);
 ```
 
