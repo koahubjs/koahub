@@ -6,20 +6,20 @@ export default function (options) {
     const opts = typeof options === 'function' ? {custom: options} : options;
     opts.useOriginalUrl = (typeof opts.useOriginalUrl === 'undefined') ? true : opts.useOriginalUrl;
 
-    return function ship (ctx, next) {
+    return function skip(ctx, next) {
         const requestedUrl = url.parse((opts.useOriginalUrl ? ctx.originalUrl : ctx.url) || '', true);
 
-        let skip = false;
+        let _skip = false;
 
         if (opts.custom) {
-            skip = skip || opts.custom(ctx);
+            _skip = _skip || opts.custom(ctx);
         }
 
         const paths = !opts.path || Array.isArray(opts.path) ?
             opts.path : [opts.path];
 
         if (paths) {
-            skip = skip || paths.some(function (p) {
+            _skip = _skip || paths.some(function (p) {
                     return (typeof p === 'string' && p === requestedUrl.pathname) ||
                         (p instanceof RegExp && !!p.exec(requestedUrl.pathname));
                 });
@@ -29,7 +29,7 @@ export default function (options) {
             opts.ext : [opts.ext];
 
         if (exts) {
-            skip = skip || exts.some(function (ext) {
+            _skip = _skip || exts.some(function (ext) {
                     return requestedUrl.pathname.substr(ext.length * -1) === ext;
                 });
         }
@@ -38,10 +38,10 @@ export default function (options) {
             opts.method : [opts.method];
 
         if (methods) {
-            skip = skip || !!~methods.indexOf(ctx.method);
+            _skip = _skip || !!~methods.indexOf(ctx.method);
         }
 
-        if (skip) {
+        if (_skip) {
             return next();
         }
 

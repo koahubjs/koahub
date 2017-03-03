@@ -15,6 +15,7 @@ import httpMiddleware from "./middleware/http.middleware";
 import corsMiddleware from "./middleware/cors.middleware";
 import sessionMiddleware from "./middleware/session.middleware";
 import log, {debug} from "./util/log.util";
+import {isGeneratorFunction} from "./util/default.util";
 
 //rewite promise, bluebird is more faster
 global.Promise = require('bluebird');
@@ -127,33 +128,41 @@ export default class Koahub {
 
         // log middleware
         if (koahub.config('logger')) {
-            koahub.app.use(logger());
+            this.use(logger());
         }
 
         // favicon middleware
         if (koahub.config('favicon')) {
             if (lodash.isString(koahub.config('favicon'))) {
-                koahub.app.use(favicon(koahub.config('favicon')));
+                this.use(favicon(koahub.config('favicon')));
             } else {
-                throw new Error('Favicon must be a string');
+                throw new Error('Favicon must be a path');
             }
         }
 
         // cors middleware
         if (koahub.config('cors')) {
             if (lodash.isPlainObject(koahub.config('cors'))) {
-                koahub.app.use(corsMiddleware(koahub.config('cors')));
+                this.use(corsMiddleware(koahub.config('cors')));
             } else {
-                throw new Error('Cors must be a PlainObject');
+                if (lodash.isBoolean(koahub.config('cors'))) {
+                    this.use(corsMiddleware());
+                } else {
+                    throw new Error('Cors must be a PlainObject or Boolean');
+                }
             }
         }
 
         // session middleware
         if (koahub.config('session')) {
             if (lodash.isPlainObject(koahub.config('session'))) {
-                koahub.app.use(sessionMiddleware(koahub.config('session')));
+                this.use(sessionMiddleware(koahub.config('session')));
             } else {
-                throw new Error('Session must be a PlainObject');
+                if (lodash.isBoolean(koahub.config('session'))) {
+                    this.use(sessionMiddleware());
+                } else {
+                    throw new Error('Session must be a PlainObject or Boolean');
+                }
             }
         }
 
@@ -161,7 +170,7 @@ export default class Koahub {
         if (koahub.config('static')) {
             if (lodash.isPlainObject(koahub.config('static'))) {
                 const {dir = '', options = {}} = koahub.config('static');
-                koahub.app.use(convert(staticCache(dir, options)));
+                this.use(staticCache(dir, options));
             } else {
                 throw new Error('Static must be a PlainObject');
             }
@@ -176,6 +185,15 @@ export default class Koahub {
         this.loadUtils();
         this.loadLoaders();
         this.loadMiddlewares();
+    }
+
+    // 支持generator
+    use(fn) {
+
+        if (isGeneratorFunction(fn)) {
+            fn = convert(fn);
+        }
+        koahub.app.use(convert(fn));
     }
 
     // 支持soket.io
@@ -197,8 +215,8 @@ export default class Koahub {
         if (koahub.config('body')) {
             if (lodash.isPlainObject(koahub.config('body'))) {
 
-                koahub.app.use(body(koahub.config('body')));
-                koahub.app.use(async function (ctx, next) {
+                this.use(body(koahub.config('body')));
+                this.use(async function (ctx, next) {
                     if (!ctx.request.body.files) {
                         ctx.post = ctx.request.body;
                     } else {
@@ -213,7 +231,7 @@ export default class Koahub {
         }
 
         // 加载http中间件
-        koahub.app.use(httpMiddleware().skip(function (ctx) {
+        this.use(httpMiddleware().skip(function (ctx) {
 
             const path = ctx.path;
             const urlSuffix = koahub.config('url_suffix');

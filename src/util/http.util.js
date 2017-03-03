@@ -1,6 +1,6 @@
 import co from "co";
 import lodash from "lodash";
-import isGeneratorFunction from "is-generator-function";
+import {isGeneratorFunction} from "./default.util";
 import {http as httpDebug} from "./log.util";
 
 // generator to promise

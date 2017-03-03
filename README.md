@@ -72,12 +72,10 @@ npm install github:koahubjs/koahub --save
 // app/index.js启动文件
 import Koahub from "koahub";
 
-//默认app是项目目录
+// 初始化项目
 const app = new Koahub();
 
-app.getKoa(); //获取koa实例化，支持自定义koa中间件
-app.getServer(); //获取server实例化，支持socket.io
-
+// 启动项目
 app.run();
 ```
 
@@ -107,18 +105,15 @@ await this.action(path, ...args);
 ## 快捷中间件
 
 ```javascript
-// use koa-body 自定义post／file中间件
-koa.use(async function (ctx, next) {
+app.use(async function (ctx, next) {
 
-    if (!ctx.request.body.files) {
-        ctx.post = ctx.request.body;
-    } else {
-        ctx.post = ctx.request.body.fields;
-        ctx.file = ctx.request.body.files;
+    ctx.model = function() {
+        // ....
     }
-
     await next();
 });
+
+// 控制器中可以直接通过this.model调用
 ```
 
 ## 命令行工具
@@ -254,7 +249,7 @@ npm start
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahub] Koahub Version: 2.0.0
+[2016-11-28 09:56:03] [Koahub] Koahub Version: 2.0.1
 [2016-11-28 09:56:03] [Koahub] Koahub Website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahub] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahub] Server running at: http://127.0.0.1:3000

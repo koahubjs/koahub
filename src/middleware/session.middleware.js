@@ -52,7 +52,7 @@ export default function (options = {}) {
     options.key = options.key || "koa:sess";
     options.store = options.store || new Store();
 
-    return async function session (ctx, next) {
+    return async function session(ctx, next) {
         let id = ctx.cookies.get(options.key, options);
 
         if (!id) {
