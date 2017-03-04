@@ -15,7 +15,7 @@ import httpMiddleware from "./middleware/http.middleware";
 import corsMiddleware from "./middleware/cors.middleware";
 import sessionMiddleware from "./middleware/session.middleware";
 import log, {debug} from "./util/log.util";
-import {isGeneratorFunction} from "./util/default.util";
+import {isGeneratorFunction, expressMiddlewareToKoaMiddleware} from "./util/default.util";
 
 //rewite promise, bluebird is more faster
 global.Promise = require('bluebird');
@@ -187,13 +187,29 @@ export default class Koahub {
         this.loadMiddlewares();
     }
 
-    // 支持generator
+    // 默认支持koa middleware
     use(fn) {
 
         if (isGeneratorFunction(fn)) {
             fn = convert(fn);
         }
-        koahub.app.use(convert(fn));
+        koahub.app.use(fn);
+    }
+
+    // 支持koa middleware
+    useKoa(fn) {
+
+        if (isGeneratorFunction(fn)) {
+            fn = convert(fn);
+        }
+        koahub.app.use(fn);
+    }
+
+    // 支持express middleware
+    useExpress(fn) {
+
+        fn = expressMiddlewareToKoaMiddleware(fn);
+        koahub.app.use(fn);
     }
 
     // 支持soket.io

@@ -1,6 +1,6 @@
 ## KoaHub.js
 
-KoaHub.js -- 中文最佳实践Node.js Web快速开发框架。支持Koa.js所有中间件，可以直接在项目里使用 ES6/7（Generator Function, Class, Async & Await）等特性，借助 Babel 编译，可稳定运行在 Node.js 环境上。
+KoaHub.js -- 中文最佳实践Node.js Web快速开发框架。支持Koa.js, Express.js中间件，可以直接在项目里使用 ES6/7（Generator Function, Class, Async & Await）等特性，借助 Babel 编译，可稳定运行在 Node.js 环境上。
 
 
 ```javascript
@@ -98,7 +98,6 @@ this.view(data);
 this.json(data, msg, code);
 this.success(data, msg);
 this.error(data, msg);
-this.validate(rule, data);
 await this.action(path, ...args);
 ```
 

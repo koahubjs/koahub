@@ -16,7 +16,6 @@
     "koa-logger": "^2.0.1",
     "koa-static-cache": "^4.0.0",
     "lodash": "^4.17.4",
-    "parameter": "^2.0.0",
     "path-to-regexp": "^1.7.0",
     "uid-safe": "^2.1.3"
   },

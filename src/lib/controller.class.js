@@ -1,7 +1,6 @@
 import fs from "fs";
 import co from "co";
 import path from "path";
-import Parameter from "parameter";
 import Hook from "./../lib/hook.class";
 import {runAction} from "./../util/http.util";
 import {isGeneratorFunction} from "./../util/default.util";
@@ -41,10 +40,6 @@ export default class Controller {
                 }
             }
         }
-    }
-
-    get validate() {
-        return new Parameter();
     }
 
     isGet() {
