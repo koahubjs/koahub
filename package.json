@@ -59,8 +59,8 @@
   },
   "scripts": {
     "compile": "babel src/ --out-dir lib/ --watch --source-maps",
-    "test": "mocha test/{,**/}*.test.js --recursive --require babel-polyfill --compilers js:babel-register",
-    "cover": "istanbul cover _mocha -- test/{,**/}*.test.js --recursive --require babel-polyfill --compilers js:babel-register"
+    "test": "mocha test/{,**/}*.test.js --recursive --require babel-polyfill --compilers js:babel-core/register",
+    "cover": "istanbul cover _mocha -- test/{,**/}*.test.js --recursive --require babel-polyfill --compilers js:babel-core/register"
   },
   "version": "2.0.2"
 }
