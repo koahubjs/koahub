@@ -10,3 +10,6 @@ script:
 after_script:
     - npm install codecov
     - ./node_modules/.bin/codecov
+env:
+    global:
+    - CODECOV_TOKEN: "36c8d4e5-f8d4-4433-8e7b-482961b85248"
