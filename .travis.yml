@@ -7,3 +7,6 @@ install:
     - "npm install babel-polyfill@6.23.0"
 script:
     - "npm run cover"
+after_script:
+    - npm install codecov
+    - ./node_modules/.bin/codecov
