@@ -1,5 +1,10 @@
 ## KoaHub.js
 
+[![NPM version](https://img.shields.io/npm/v/koahub.svg?style=flat-square)](http://badge.fury.io/js/koahub)
+[![travis-ci](https://img.shields.io/travis/koahubjs/koahub.svg?style=flat-square)](https://travis-ci.org/koahubjs/koahub)
+[![Coverage Status](https://img.shields.io/coveralls/koahubjs/koahub.svg?style=flat-square)](https://coveralls.io/github/koahubjs/koahub)
+[![Dependency Status](https://img.shields.io/david/koahubjs/koahub.svg?style=flat-square)](https://david-dm.org/koahubjs/koahub)
+
 KoaHub.js -- 中文最佳实践Node.js Web快速开发框架。支持Koa.js, Express.js中间件，可以直接在项目里使用 ES6/7（Generator Function, Class, Async & Await）等特性，借助 Babel 编译，可稳定运行在 Node.js 环境上。
 
 
