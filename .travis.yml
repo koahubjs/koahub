@@ -4,5 +4,6 @@ node_js:
 sudo: false
 install: 
     - "npm install"
+    - "npm install babel-polyfill@6.23.0"
 script:
     - "npm run cover"
