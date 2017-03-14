@@ -1,6 +1,6 @@
 ## KoaHub.js
 
-![license](https://img.shields.io/github/license/koahubjs/koahub.svg?style=flat-square)
+[![license](https://img.shields.io/github/license/koahubjs/koahub.svg?style=flat-square)](http://js.koahub.com)
 [![travis-ci](https://img.shields.io/travis/koahubjs/koahub.svg?style=flat-square)](https://travis-ci.org/koahubjs/koahub)
 [![codecov](https://codecov.io/gh/koahubjs/koahub/branch/master/graph/badge.svg)](https://codecov.io/gh/koahubjs/koahub)
 [![Dependency Status](https://img.shields.io/david/koahubjs/koahub.svg?style=flat-square)](https://david-dm.org/koahubjs/koahub)
@@ -43,7 +43,7 @@ export default class extends base {
 }
 ```
 
-项目中可以使用 ES6/7 里的所有特性，借助 Babel 编译，可以稳定运行在 >= 4 的 Node.js 环境中。
+项目中可以使用 ES6/7 里的所有特性，借助 Babel 编译，可以稳定运行在 >= 7.6.0 的 Node.js 环境中。
 
 ## 特性
 
