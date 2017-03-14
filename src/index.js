@@ -58,8 +58,8 @@ export default class Koahub {
 
     loadPaths() {
 
-        const root = this.options.root || process.cwd();
-        const app = path.resolve(root, this.options.app || 'app');
+        const root = this.options.root || process.env.ROOT || process.cwd();
+        const app = path.resolve(root, this.options.app || process.env.APP || 'app');
 
         koahub.paths = {
             app: app,
