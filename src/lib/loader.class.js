@@ -1,12 +1,13 @@
 import path from "path";
 import fs from "fs";
+import assert from "assert";
 
 export default class Loader {
 
-    constructor(runtimePath, options) {
+    constructor(app, options) {
 
         // 启动目录
-        this.runtimePath = runtimePath;
+        this.app = app;
 
         let loaders = [];
 
@@ -23,7 +24,7 @@ export default class Loader {
 
     walk(dir) {
 
-        dir = path.resolve(this.runtimePath, dir);
+        dir = path.resolve(this.app, dir);
 
         const exist = fs.existsSync(dir);
         if (!exist) {
@@ -44,29 +45,23 @@ export default class Loader {
         return list;
     }
 
-    loader(options) {
+    loader(options = {}) {
 
-        if (typeof options == 'undefined') {
-            options = {};
-        }
-
-        let loaders = [];
-        if (typeof options.root !== 'string') {
-            throw Error('root must be specified');
-        }
+        assert(typeof options.root === 'string', 'root must be specified');
 
         options.suffix = options.suffix || '.js';
         options.prefix = options.prefix || '';
         options.filter = options.filter || [];
 
-        const paths = this.walk(options.root);
+        let loaders = [];
+        let paths = this.walk(options.root);
         if (!paths) {
             return;
         }
 
         for (let key in paths) {
 
-            let name = path.relative(path.resolve(this.runtimePath, options.root), paths[key]);
+            let name = path.relative(path.resolve(this.app, options.root), paths[key]);
             let regExp = new RegExp(`${options.suffix}$`);
 
             if (regExp.test(name)) {

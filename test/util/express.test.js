@@ -110,9 +110,14 @@ describe('express middleware', () => {
                     if (ctx.status !== 200) {
                         done(new Error('Never reached connect middleware'))
                     }
-                    // These calls won't end up doing anything
-                    ctx.status = 500
-                    ctx.body = 'A story already written'
+
+                    try {
+                        // These calls won't end up doing anything
+                        ctx.status = 500
+                        ctx.body = 'A story already written'
+                    }catch (err){
+
+                    }
                 })
         })
 

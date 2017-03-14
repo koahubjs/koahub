@@ -8,21 +8,3 @@ export default function log(log, type = 'log') {
         console[type](log);
     }
 }
-
-export function debug(err) {
-
-    if (process.env.NODE_ENV !== 'production') {
-        log(err);
-    } else {
-        log(err.message);
-    }
-}
-
-export function http(err) {
-
-    if (process.env.NODE_ENV !== 'production') {
-        log(err);
-    } else {
-        log(err.message);
-    }
-}

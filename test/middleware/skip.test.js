@@ -1,6 +1,6 @@
 import Koa from "koa";
 import request from "supertest";
-import skip from "../../lib/middleware/skip.middleware";
+import skip from "../../src/middleware/skip.middleware";
 
 describe('skip middleware', function () {
     var middleware;

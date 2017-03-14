@@ -45,7 +45,7 @@ export default class Hook {
                     if (/(\/\w+)+/.test(action)) {
 
                         // run action
-                        await this.runAction(action);
+                        await runAction(Object.assign(this.ctx, {path: action}), this.next);
                     } else {
 
                         // run functions
@@ -58,9 +58,5 @@ export default class Hook {
                 }
             }
         }
-    }
-
-    async runAction(path) {
-        await runAction(Object.assign(this.ctx, {path: path}), this.next);
     }
 }

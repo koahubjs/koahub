@@ -2,7 +2,7 @@ import {parse as urlParse} from "url";
 import pathToRegexp from "path-to-regexp";
 import lodash from "lodash";
 import skip from "./skip.middleware";
-import {http as httpDebug} from "./../util/log.util";
+import log from "./../util/log.util";
 import {runAction, urlObjToParam} from "./../util/http.util";
 
 export default function httpMiddleware() {
@@ -41,7 +41,8 @@ export default function httpMiddleware() {
                         path = routerMethod;
                         url = routerMethod + urlObjToParam(urlParse(ctx.url).query, params);
                     } else {
-                        httpDebug('Not Found Router');
+                        log('Not Found Router');
+                        return;
                     }
                 }
 

@@ -1,6 +1,6 @@
 ## KoaHub.js
 
-[![NPM version](https://img.shields.io/npm/v/koahub.svg?style=flat-square)](http://badge.fury.io/js/koahub)
+![license](https://img.shields.io/github/license/koahubjs/koahub.svg?style=flat-square)
 [![travis-ci](https://img.shields.io/travis/koahubjs/koahub.svg?style=flat-square)](https://travis-ci.org/koahubjs/koahub)
 [![codecov](https://codecov.io/gh/koahubjs/koahub/branch/master/graph/badge.svg)](https://codecov.io/gh/koahubjs/koahub)
 [![Dependency Status](https://img.shields.io/david/koahubjs/koahub.svg?style=flat-square)](https://david-dm.org/koahubjs/koahub)
@@ -253,7 +253,7 @@ npm start
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahub] Koahub Version: 2.0.2
+[2016-11-28 09:56:03] [Koahub] Koahub Version: 2.0.3
 [2016-11-28 09:56:03] [Koahub] Koahub Website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahub] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahub] Server running at: http://127.0.0.1:3000

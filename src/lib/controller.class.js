@@ -1,6 +1,7 @@
 import fs from "fs";
 import co from "co";
 import path from "path";
+import assert from "assert";
 import Hook from "./../lib/hook.class";
 import {runAction} from "./../util/http.util";
 import {isGeneratorFunction} from "./../util/default.util";
@@ -9,14 +10,8 @@ export default class Controller {
 
     constructor(ctx, next) {
 
-        if (arguments.length == 0) {
-            throw new Error('SyntaxError: missing super(ctx) call in constructor');
-            return;
-        }
-        if (arguments.length == 1) {
-            throw new Error('SyntaxError: missing super(next) call in constructor');
-            return;
-        }
+        assert(ctx, 'SyntaxError: missing super(ctx) call in constructor');
+        assert(next, 'SyntaxError: missing super(next) call in constructor');
 
         this.ctx = ctx;
         this.next = next;

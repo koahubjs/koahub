@@ -1,7 +1,7 @@
 import co from "co";
 import lodash from "lodash";
 import {isGeneratorFunction} from "./default.util";
-import {http as httpDebug} from "./log.util";
+import log from "./log.util";
 
 // generator to promise
 function getPromiseFunction(ctx, _ctrl, method) {
@@ -18,7 +18,7 @@ export async function runAction(ctx, next, ...args) {
 
     if (!lodash.includes(koahub.modules, module)) {
 
-        httpDebug('Not Found Module');
+        log('Not Found Module');
         return;
     }
 
@@ -107,12 +107,12 @@ export async function runAction(ctx, next, ...args) {
             if (lodash.includes(methods, '_empty')) {
                 await _ctrl['_empty'](...args);
             } else {
-                httpDebug('Not Found Action');
+                log('Not Found Action');
             }
         }
     } else {
 
-        httpDebug('Not Found Controller');
+        log('Not Found Controller');
     }
 }
 

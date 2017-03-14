@@ -1,20 +1,20 @@
 import Koa from "koa";
-import path from "path";
 import http from "http";
+import path from "path";
 import body from "koa-body";
+import cors from "koa-cors";
 import lodash from "lodash";
-import convert from "koa-convert";
 import logger from "koa-logger";
+import convert from "koa-convert";
 import favicon from "koa-favicon";
+import session from "koa-session2";
 import staticCache from "koa-static-cache";
 import packageFile from "./../package.json";
 import Loader from "./lib/loader.class";
 import Controller from "./lib/controller.class";
 import config from "./config/default.config";
 import httpMiddleware from "./middleware/http.middleware";
-import corsMiddleware from "./middleware/cors.middleware";
-import sessionMiddleware from "./middleware/session.middleware";
-import log, {debug} from "./util/log.util";
+import log from "./util/log.util";
 import {isGeneratorFunction, expressMiddlewareToKoaMiddleware} from "./util/default.util";
 
 //rewite promise, bluebird is more faster
@@ -23,31 +23,32 @@ require('babel-runtime/core-js/promise').default = Promise;
 
 export default class Koahub {
 
-    constructor() {
+    constructor(options = {}) {
 
         // 加载全局变量
         global.koahub = packageFile;
-        // new Koa()
-        koahub.app = new Koa();
 
+        // new Koa()
+        this.koa = new Koa();
+        this.options = options;
         this.init();
     }
 
     loadErrors() {
 
         // 监控错误日志
-        koahub.app.on("error", function (err, ctx) {
-            debug(err);
+        this.koa.on("error", function (err, ctx) {
+            log(err);
         });
 
         // 捕获promise reject错误
         process.on('unhandledRejection', function (reason, promise) {
-            debug(reason);
+            log(reason);
         });
 
         // 捕获未知错误
         process.on('uncaughtException', function (err) {
-            debug(err);
+            log(err);
 
             if (err.message.indexOf(' EADDRINUSE ') > -1) {
                 process.exit();
@@ -57,23 +58,19 @@ export default class Koahub {
 
     loadPaths() {
 
-        const rootPath = process.cwd();
-        const runtimeFile = process.mainModule.filename;
-        const runtimePath = path.dirname(runtimeFile);
-        const runtimeName = path.relative(rootPath, runtimePath);
+        const root = this.options.root || process.cwd();
+        const app = path.resolve(root, this.options.app || 'app');
 
         koahub.paths = {
-            rootPath: rootPath,
-            runtimeFile: runtimeFile,
-            runtimePath: runtimePath,
-            runtimeName: runtimeName
+            app: app,
+            root: root
         };
     }
 
     loadConfigs() {
 
         // Object.assign({}, config) 创建新对象，不允许覆盖config
-        koahub.configs = new Loader(koahub.paths.runtimePath, config.loader.configs);
+        koahub.configs = new Loader(koahub.paths.app, config.loader.configs);
         koahub.configs.default = lodash.merge(Object.assign({}, config), koahub.configs.default);
     }
 
@@ -104,7 +101,7 @@ export default class Koahub {
             if (key == 'configs') {
                 continue;
             }
-            koahub[key] = new Loader(koahub.paths.runtimePath, koahub.config('loader')[key]);
+            koahub[key] = new Loader(koahub.paths.app, koahub.config('loader')[key]);
         }
 
         // 加载模块
@@ -143,10 +140,10 @@ export default class Koahub {
         // cors middleware
         if (koahub.config('cors')) {
             if (lodash.isPlainObject(koahub.config('cors'))) {
-                this.use(corsMiddleware(koahub.config('cors')));
+                this.use(cors(koahub.config('cors')));
             } else {
                 if (lodash.isBoolean(koahub.config('cors'))) {
-                    this.use(corsMiddleware());
+                    this.use(cors());
                 } else {
                     throw new Error('Cors must be a PlainObject or Boolean');
                 }
@@ -156,10 +153,10 @@ export default class Koahub {
         // session middleware
         if (koahub.config('session')) {
             if (lodash.isPlainObject(koahub.config('session'))) {
-                this.use(sessionMiddleware(koahub.config('session')));
+                this.use(session(koahub.config('session')));
             } else {
                 if (lodash.isBoolean(koahub.config('session'))) {
-                    this.use(sessionMiddleware());
+                    this.use(session());
                 } else {
                     throw new Error('Session must be a PlainObject or Boolean');
                 }
@@ -193,36 +190,27 @@ export default class Koahub {
         if (isGeneratorFunction(fn)) {
             fn = convert(fn);
         }
-        koahub.app.use(fn);
-    }
-
-    // 支持koa middleware
-    useKoa(fn) {
-
-        if (isGeneratorFunction(fn)) {
-            fn = convert(fn);
-        }
-        koahub.app.use(fn);
+        this.koa.use(fn);
     }
 
     // 支持express middleware
     useExpress(fn) {
 
         fn = expressMiddlewareToKoaMiddleware(fn);
-        koahub.app.use(fn);
+        this.koa.use(fn);
     }
 
     // 支持soket.io
     getServer() {
 
-        const server = http.Server(koahub.app.callback());
+        const server = http.Server(this.koa.callback());
         return this.server = server;
     }
 
     // 支持自定义中间件
     getKoa() {
 
-        return koahub.app;
+        return this.koa;
     }
 
     loadHttpMiddlewares() {
