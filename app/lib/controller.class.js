@@ -1,12 +1,12 @@
-import fs from "fs";
-import co from "co";
-import path from "path";
-import assert from "assert";
-import Hook from "./../lib/hook.class";
-import {runAction} from "./../util/http.util";
-import {isGeneratorFunction} from "./../util/default.util";
+const fs = require('fs');
+const co = require('co');
+const path = require('path');
+const assert = require('assert');
+const Hook = require('./../lib/hook.class');
+const httpUtil = require('./../util/http.util');
+const defaultUtil = require('./../util/default.util');
 
-export default class Controller {
+module.exports = class Controller {
 
     constructor(ctx, next) {
 
@@ -28,7 +28,7 @@ export default class Controller {
                     }
                 });
             } else {
-                if (isGeneratorFunction(ctx[name])) {
+                if (defaultUtil.isGeneratorFunction(ctx[name])) {
                     this[name] = co.wrap(ctx[name]).bind(ctx);
                 } else {
                     this[name] = ctx[name];
@@ -113,7 +113,7 @@ export default class Controller {
         this.view(fs.createReadStream(file));
     }
 
-    async action(path, ...args) {
-        return await runAction(Object.assign(this.ctx, {path: path}), this.next, ...args);
+    action(path, ...args) {
+        return httpUtil.runAction(Object.assign(this.ctx, {path: path}), this.next, ...args);
     }
 }

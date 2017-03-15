@@ -1,5 +1,4 @@
-import path from "path";
-import Koahub from "./../../src";
+import Koahub from "./../../app";
 import request from "supertest";
 
 let app;

@@ -1,13 +1,14 @@
-import {parse as urlParse} from "url";
-import pathToRegexp from "path-to-regexp";
-import lodash from "lodash";
-import skip from "./skip.middleware";
-import log from "./../util/log.util";
-import {runAction, urlObjToParam} from "./../util/http.util";
+const {parse} = require('url');
+const pathToRegexp = require('path-to-regexp');
+const lodash = require('lodash');
+const skip = require('./skip.middleware');
+const log = require('./../util/log.util');
+const httpUtil = require('./../util/http.util');
+const defaultUtil = require('./../util/default.util');
 
-export default function httpMiddleware() {
+module.exports = function httpMiddleware() {
 
-    const http = async function (ctx, next) {
+    const http = function (ctx, next) {
 
         const routers = koahub.configs.router;
 
@@ -34,24 +35,24 @@ export default function httpMiddleware() {
                 const router = routers[index][1];
                 if (lodash.isString(router)) {
                     path = router;
-                    url = router + urlObjToParam(urlParse(ctx.url).query, params);
+                    url = router + defaultUtil.urlObjToParam(parse(ctx.url).query, params);
                 } else {
                     const routerMethod = router[method.toLowerCase()];
                     if (routerMethod) {
                         path = routerMethod;
-                        url = routerMethod + urlObjToParam(urlParse(ctx.url).query, params);
+                        url = routerMethod + defaultUtil.urlObjToParam(parse(ctx.url).query, params);
                     } else {
                         log('Not Found Router');
                         return;
                     }
                 }
 
-                await runAction(Object.assign(ctx, {originalPath: ctx.path, path: path, url: url}), next);
+                return httpUtil.runAction(Object.assign(ctx, {originalPath: ctx.path, path: path, url: url}), next);
             } else {
-                await runAction(ctx, next);
+                return httpUtil.runAction(ctx, next);
             }
         } else {
-            await runAction(ctx, next);
+            return httpUtil.runAction(ctx, next);
         }
     };
 

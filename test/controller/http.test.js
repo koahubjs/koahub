@@ -1,15 +1,12 @@
-import path from "path";
-import Koahub from "./../../src";
+import Koahub from "./../../app";
 import request from "supertest";
 
-let app, koa, server;
+let app;
 
 describe('http controller', function () {
 
     beforeEach(function () {
         app = new Koahub({root: __dirname});
-        koa = app.getKoa();
-        server = app.getServer();
 
         app.loadHttpMiddlewares();
     });
@@ -54,14 +51,6 @@ describe('http controller', function () {
                 .expect(404)
                 .end(done);
         })
-
-        it('call http should response 200', function (done) {
-            request(app.getServer())
-                .get('/home/public/index')
-                .expect(200)
-                .expect('Hello World!')
-                .end(done);
-        });
 
         it('call /home/index/index2 should response 200', function (done) {
             request(app.getServer())
@@ -144,6 +133,14 @@ describe('http controller', function () {
         it('call post /product/1 should 404', function (done) {
             request(app.getServer())
                 .post('/product/1')
+                .expect(404)
+                .end(done);
+        });
+
+        it('call post /product should 404', function (done) {
+            delete koahub.configs.router;
+            request(app.getServer())
+                .post('/product')
                 .expect(404)
                 .end(done);
         });

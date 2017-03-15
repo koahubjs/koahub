@@ -1,8 +1,8 @@
-import path from "path";
-import fs from "fs";
-import assert from "assert";
+const path = require('path');
+const fs = require('fs');
+const assert = require('assert');
 
-export default class Loader {
+module.exports = class Loader {
 
     constructor(app, options) {
 

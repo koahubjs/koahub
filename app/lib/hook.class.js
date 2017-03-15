@@ -1,6 +1,6 @@
-import {runAction} from "./../util/http.util";
+const httpUtil = require('./../util/http.util');
 
-export default class Hook {
+module.exports = class Hook {
 
     constructor(ctx, next) {
 
@@ -37,7 +37,7 @@ export default class Hook {
         }
     }
 
-    async run(name) {
+    run(name) {
 
         for (let key in this.hooks) {
             if (name == key) {
@@ -45,7 +45,7 @@ export default class Hook {
                     if (/(\/\w+)+/.test(action)) {
 
                         // run action
-                        await runAction(Object.assign(this.ctx, {path: action}), this.next);
+                        return httpUtil.runAction(Object.assign(this.ctx, {path: action}), this.next);
                     } else {
 
                         // run functions
@@ -53,7 +53,7 @@ export default class Hook {
                         for (let i = 1; i < arguments.length; i++) {
                             args.push(arguments[i]);
                         }
-                        await action(...args);
+                        return action(...args);
                     }
                 }
             }

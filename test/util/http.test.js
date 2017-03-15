@@ -1,12 +1,13 @@
-import {getModuleControllerAction, urlObjToParam} from "./../../src/util/http.util";
+import {getModuleControllerAction} from "./../../app/util/http.util";
+import {urlObjToParam} from "./../../app/util/default.util";
 import assert from "assert";
-import Koahub from "./../../src";
+import Koahub from "./../../app";
 
 describe('http util', () => {
 
     let app;
 
-    before(function () {
+    beforeEach(function () {
         app = new Koahub();
     });
 

@@ -1,7 +1,5 @@
-import path from "path";
-import Koahub from "./../../src";
+import Koahub from "./../../app";
 import request from "supertest";
-import Loader from "./../../src/lib/loader.class";
 
 let app;
 
@@ -9,7 +7,6 @@ describe('hook controller', function () {
 
     beforeEach(function () {
         app = new Koahub({root: __dirname});
-
         app.loadHttpMiddlewares();
     });
 

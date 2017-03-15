@@ -1,14 +1,12 @@
-import path from "path";
-import Koahub from "./../../src";
+import Koahub from "./../../app";
 import request from "supertest";
 
-let app, koa, server;
+let app, server;
 
 describe('run test', function () {
 
     beforeEach(function () {
         app = new Koahub({root: __dirname});
-        koa = app.getKoa();
     });
 
     describe('run server', function () {

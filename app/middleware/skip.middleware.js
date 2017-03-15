@@ -1,6 +1,6 @@
-import url from "url";
+const url = require('url');
 
-export default function (options) {
+module.exports = function (options) {
     const parent = this;
 
     const opts = typeof options === 'function' ? {custom: options} : options;

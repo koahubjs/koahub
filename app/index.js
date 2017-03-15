@@ -1,34 +1,30 @@
-import Koa from "koa";
-import http from "http";
-import path from "path";
-import body from "koa-body";
-import cors from "koa-cors";
-import lodash from "lodash";
-import logger from "koa-logger";
-import convert from "koa-convert";
-import favicon from "koa-favicon";
-import session from "koa-session2";
-import staticCache from "koa-static-cache";
-import packageFile from "./../package.json";
-import Loader from "./lib/loader.class";
-import Controller from "./lib/controller.class";
-import config from "./config/default.config";
-import httpMiddleware from "./middleware/http.middleware";
-import log from "./util/log.util";
-import {isGeneratorFunction, expressMiddlewareToKoaMiddleware} from "./util/default.util";
+const Koa = require('koa');
+const http = require('http');
+const path = require('path');
+const body = require('koa-body');
+const cors = require('koa-cors');
+const lodash = require('lodash');
+const logger = require('koa-logger');
+const convert = require('koa-convert');
+const favicon = require('koa-favicon');
+const session = require('koa-session2');
+const staticCache = require('koa-static-cache');
 
-//rewite promise, bluebird is more faster
-global.Promise = require('bluebird');
-require('babel-runtime/core-js/promise').default = Promise;
+const log = require('./util/log.util');
+const Loader = require('./lib/loader.class');
+const packageFile = require('./../package.json');
+const config = require('./config/default.config');
+const Controller = require('./lib/controller.class');
+const httpMiddleware = require('./middleware/http.middleware');
+const {isGeneratorFunction, expressMiddlewareToKoaMiddleware} = require('./util/default.util');
 
-export default class Koahub {
+module.exports = class Koahub {
 
     constructor(options = {}) {
 
         // 加载全局变量
         global.koahub = packageFile;
 
-        // new Koa()
         this.koa = new Koa();
         this.options = options;
         this.init();
@@ -197,7 +193,7 @@ export default class Koahub {
     useExpress(fn) {
 
         fn = expressMiddlewareToKoaMiddleware(fn);
-        this.koa.use(fn);
+        this.use(fn);
     }
 
     // 支持soket.io
@@ -207,12 +203,6 @@ export default class Koahub {
         return this.server = server;
     }
 
-    // 支持自定义中间件
-    getKoa() {
-
-        return this.koa;
-    }
-
     loadHttpMiddlewares() {
 
         // 加载body中间件
@@ -220,14 +210,14 @@ export default class Koahub {
             if (lodash.isPlainObject(koahub.config('body'))) {
 
                 this.use(body(koahub.config('body')));
-                this.use(async function (ctx, next) {
+                this.use(function (ctx, next) {
                     if (!ctx.request.body.files) {
                         ctx.post = ctx.request.body;
                     } else {
                         ctx.post = ctx.request.body.fields;
                         ctx.file = ctx.request.body.files;
                     }
-                    await next();
+                    return next();
                 });
             } else {
                 throw new Error('Body options must be a PlainObject');

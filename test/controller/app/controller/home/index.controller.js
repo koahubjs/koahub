@@ -12,7 +12,7 @@ export default class extends koahub.controller {
         this.view('Hello World!');
     }
 
-    index3(a, b){
+    index3(a, b) {
         return a + b;
     }
 

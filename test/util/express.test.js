@@ -1,4 +1,4 @@
-import {expressMiddlewareToKoaMiddleware} from "./../../src/util/default.util";
+import {expressMiddlewareToKoaMiddleware} from "./../../app/util/default.util";
 import request from "supertest";
 import Koa from "koa";
 import assert from "assert";
@@ -115,7 +115,7 @@ describe('express middleware', () => {
                         // These calls won't end up doing anything
                         ctx.status = 500
                         ctx.body = 'A story already written'
-                    }catch (err){
+                    } catch (err) {
 
                     }
                 })

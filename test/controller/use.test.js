@@ -1,4 +1,4 @@
-import Koahub from "./../../src";
+import Koahub from "./../../app";
 import request from "supertest";
 
 let app, koa, server;

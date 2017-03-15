@@ -1,4 +1,4 @@
-export default {
+module.exports = {
 
     //启动端口
     port: 3000,

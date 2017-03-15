@@ -1,4 +1,4 @@
-import {isGeneratorFunction} from "./../../src/util/default.util";
+import {isGeneratorFunction} from "./../../app/util/default.util";
 import assert from "assert";
 
 describe('is generator function', function () {

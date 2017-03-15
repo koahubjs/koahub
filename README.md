@@ -5,11 +5,11 @@
 [![codecov](https://codecov.io/gh/koahubjs/koahub/branch/master/graph/badge.svg)](https://codecov.io/gh/koahubjs/koahub)
 [![Dependency Status](https://img.shields.io/david/koahubjs/koahub.svg?style=flat-square)](https://david-dm.org/koahubjs/koahub)
 
-KoaHub.js -- 中文最佳实践Node.js Web快速开发框架。支持Koa.js, Express.js, Egg.js中间件。
+KoaHub.js -- 中文最佳实践Node.js Web快速开发框架。支持Koa.js, Express.js中间件。
 
 ```javascript
 //base controller, admin/controller/base.controller.js
-export default class extends koahub.controller {
+module.exports = class extends koahub.controller {
 
     async _initialize() {
         console.log('base _initialize');
@@ -21,8 +21,8 @@ export default class extends koahub.controller {
 }
 
 //index controller, admin/controller/index.controller.js
-import base from "./base.controller";
-export default class extends base {
+const base = require('./base.controller');
+module.exports = class extends base {
 
     async _initialize() {
         await super._initialize();
@@ -74,7 +74,7 @@ npm install github:koahubjs/koahub --save
 
 ```javascript
 // app/index.js启动文件
-import Koahub from "koahub";
+const Koahub =  require('koahub');
 
 // 初始化项目
 const app = new Koahub();
@@ -108,12 +108,12 @@ await this.action(path, ...args);
 ## 快捷中间件
 
 ```javascript
-app.use(async function (ctx, next) {
+app.use(function (ctx, next) {
 
     ctx.model = function() {
         // ....
     }
-    await next();
+    return next();
 });
 
 // 控制器中可以直接通过this.model调用
@@ -125,7 +125,7 @@ app.use(async function (ctx, next) {
 ## 配置
 ```javascript
 // app/config/default.config.js
-export default {
+module.exports = {
     port: 3000,
     default_module: 'admin'
 }
@@ -252,7 +252,7 @@ npm start
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahub] Koahub Version: 2.0.3
+[2016-11-28 09:56:03] [Koahub] Koahub Version: 2.1.0
 [2016-11-28 09:56:03] [Koahub] Koahub Website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahub] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahub] Server running at: http://127.0.0.1:3000
