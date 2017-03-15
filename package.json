@@ -7,9 +7,9 @@
   },
   "dependencies": {
     "babel-runtime": "6.23.0",
-    "bluebird": "3.4.7",
+    "bluebird": "3.5.0",
     "co": "4.6.0",
-    "koa": "2.1.0",
+    "koa": "2.2.0",
     "koa-cors": "0.0.16",
     "koa-body": "2.0.0",
     "koa-convert": "1.2.0",
@@ -19,14 +19,14 @@
     "koa-static-cache": "4.0.0",
     "lodash": "4.17.4",
     "path-to-regexp": "1.7.0",
-    "uid-safe": "2.1.3"
+    "uid-safe": "2.1.4"
   },
   "devDependencies": {
-    "babel-cli": "6.23.0",
-    "babel-core": "6.23.1",
+    "babel-cli": "6.24.0",
+    "babel-core": "6.24.0",
     "babel-plugin-transform-runtime": "6.23.0",
     "babel-polyfill": "6.23.0",
-    "babel-preset-es2015": "6.22.0",
+    "babel-preset-es2015": "6.24.0",
     "babel-preset-stage-3": "6.22.0",
     "istanbul": "1.1.0-alpha.1",
     "mocha": "3.2.0",
@@ -34,7 +34,7 @@
   },
   "directories": {},
   "engines": {
-    "node": ">= 7.6.0"
+    "node": ">= 6.0.0"
   },
   "keywords": [
     "web",

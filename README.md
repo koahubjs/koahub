@@ -5,7 +5,7 @@
 [![codecov](https://codecov.io/gh/koahubjs/koahub/branch/master/graph/badge.svg)](https://codecov.io/gh/koahubjs/koahub)
 [![Dependency Status](https://img.shields.io/david/koahubjs/koahub.svg?style=flat-square)](https://david-dm.org/koahubjs/koahub)
 
-KoaHub.js -- 中文最佳实践Node.js Web快速开发框架。支持Koa.js, Express.js中间件，可以直接在项目里使用 ES6/7（Generator Function, Class, Async & Await）等特性，借助 Babel 编译，可稳定运行在 Node.js 环境上。
+KoaHub.js -- 中文最佳实践Node.js Web快速开发框架。支持Koa.js, Express.js, Egg.js中间件。
 
 
 ```javascript
@@ -42,8 +42,6 @@ export default class extends base {
     }
 }
 ```
-
-项目中可以使用 ES6/7 里的所有特性，借助 Babel 编译，可以稳定运行在 >= 7.6.0 的 Node.js 环境中。
 
 ## 特性
 
