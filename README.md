@@ -7,7 +7,6 @@
 
 KoaHub.js -- 中文最佳实践Node.js Web快速开发框架。支持Koa.js, Express.js, Egg.js中间件。
 
-
 ```javascript
 //base controller, admin/controller/base.controller.js
 export default class extends koahub.controller {
@@ -42,6 +41,8 @@ export default class extends base {
     }
 }
 ```
+环境要求：Node.js >= 6.0.0
+
 
 ## 特性
 
