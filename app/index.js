@@ -10,12 +10,12 @@ const favicon = require('koa-favicon');
 const session = require('koa-session2');
 const staticCache = require('koa-static-cache');
 
-const log = require('./util/log.util');
-const Loader = require('./lib/loader.class');
-const packageFile = require('./../package.json');
+const pkg = require('./../package.json');
 const config = require('./config/default.config');
+const Loader = require('./lib/loader.class');
 const Controller = require('./lib/controller.class');
 const httpMiddleware = require('./middleware/http.middleware');
+const log = require('./util/log.util');
 const {isGeneratorFunction, expressMiddlewareToKoaMiddleware} = require('./util/default.util');
 
 module.exports = class Koahub {
@@ -23,7 +23,7 @@ module.exports = class Koahub {
     constructor(options = {}) {
 
         // 加载全局变量
-        global.koahub = packageFile;
+        global.koahub = pkg;
 
         this.koa = new Koa();
         this.options = options;

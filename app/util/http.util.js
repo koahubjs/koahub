@@ -81,70 +81,66 @@ module.exports = {
 
             if (lodash.includes(methods, action)) {
 
-                try {
-                    let result;
-                    let parseResult = function (data) {
-                        if (data) {
-                            result = data;
-                        }
-                    };
+                let result;
+                let parseResult = function (data) {
+                    if (data) {
+                        result = data;
+                    }
+                };
 
-                    // 控制器初始化
-                    if (lodash.includes(methods, '_initialize')) {
-                        parseResult(defaultUtil.getPromiseFunction(_ctrl, '_initialize')(...args));
-                    }
-                    // 控制器初始化不响应404，中断执行
-                    if (ctx.status != 404) {
-                        return;
-                    }
-
-                    // 控制器前置
-                    if (lodash.includes(methods, '_before')) {
-                        parseResult(defaultUtil.getPromiseFunction(_ctrl, '_before')(...args));
-                    }
-                    // 控制器前置不响应404，中断执行
-                    if (ctx.status != 404) {
-                        return;
-                    }
-
-                    // 方法前置
-                    if (lodash.includes(methods, `_before_${action}`)) {
-                        parseResult(defaultUtil.getPromiseFunction(_ctrl, `_before_${action}`)(...args));
-                    }
-                    // 方法前置不响应404，中断执行
-                    if (ctx.status != 404) {
-                        return;
-                    }
-
-                    parseResult(defaultUtil.getPromiseFunction(_ctrl, action)(...args));
-
-                    // 不响应404，中断执行
-                    if (ctx.status != 404) {
-                        return;
-                    }
-
-                    // 方法后置
-                    if (lodash.includes(methods, `_after_${action}`)) {
-                        parseResult(defaultUtil.getPromiseFunction(_ctrl, `_after_${action}`)(...args));
-                    }
-                    // 方法后置不响应404，中断执行
-                    if (ctx.status != 404) {
-                        return;
-                    }
-
-                    // 控制器后置
-                    if (lodash.includes(methods, '_after')) {
-                        parseResult(defaultUtil.getPromiseFunction(_ctrl, '_after')(...args));
-                    }
-                    // 控制器后置不响应404，中断执行
-                    if (ctx.status != 404) {
-                        return;
-                    }
-
-                    return result;
-                } catch (err) {
-                    throw err;
+                // 控制器初始化
+                if (lodash.includes(methods, '_initialize')) {
+                    parseResult(defaultUtil.getPromiseFunction(_ctrl, '_initialize')(...args));
                 }
+                // 控制器初始化不响应404，中断执行
+                if (ctx.status != 404) {
+                    return;
+                }
+
+                // 控制器前置
+                if (lodash.includes(methods, '_before')) {
+                    parseResult(defaultUtil.getPromiseFunction(_ctrl, '_before')(...args));
+                }
+                // 控制器前置不响应404，中断执行
+                if (ctx.status != 404) {
+                    return;
+                }
+
+                // 方法前置
+                if (lodash.includes(methods, `_before_${action}`)) {
+                    parseResult(defaultUtil.getPromiseFunction(_ctrl, `_before_${action}`)(...args));
+                }
+                // 方法前置不响应404，中断执行
+                if (ctx.status != 404) {
+                    return;
+                }
+
+                parseResult(defaultUtil.getPromiseFunction(_ctrl, action)(...args));
+
+                // 不响应404，中断执行
+                if (ctx.status != 404) {
+                    return;
+                }
+
+                // 方法后置
+                if (lodash.includes(methods, `_after_${action}`)) {
+                    parseResult(defaultUtil.getPromiseFunction(_ctrl, `_after_${action}`)(...args));
+                }
+                // 方法后置不响应404，中断执行
+                if (ctx.status != 404) {
+                    return;
+                }
+
+                // 控制器后置
+                if (lodash.includes(methods, '_after')) {
+                    parseResult(defaultUtil.getPromiseFunction(_ctrl, '_after')(...args));
+                }
+                // 控制器后置不响应404，中断执行
+                if (ctx.status != 404) {
+                    return;
+                }
+
+                return result;
             } else {
 
                 // 控制器空操作
