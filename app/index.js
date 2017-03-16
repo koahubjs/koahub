@@ -9,6 +9,7 @@ const convert = require('koa-convert');
 const favicon = require('koa-favicon');
 const session = require('koa-session2');
 const staticCache = require('koa-static-cache');
+const deprecate = require('depd')('koahub');
 
 const pkg = require('./../package.json');
 const config = require('./config/default.config');
@@ -194,6 +195,13 @@ module.exports = class Koahub {
 
         fn = expressMiddlewareToKoaMiddleware(fn);
         this.use(fn);
+    }
+
+    // 获取koa
+    getKoa() {
+
+        deprecate('app.getKoa() has been deprecated, please use the app.use() to use middleware!');
+        return this.koa;
     }
 
     // 支持soket.io
