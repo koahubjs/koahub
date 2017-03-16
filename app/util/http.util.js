@@ -65,6 +65,14 @@ module.exports = {
             return;
         }
 
+        // 过滤控制器中跟ctx属性同名的方法
+        for (let name in ctx) {
+            if (typeof ctx[name] !== 'function' && action == name) {
+                throw new Error(`Don\'t use the "${action}" in the controller`);
+                return;
+            }
+        }
+
         const ctrl = koahub.controllers[`/${module}/${controller}`];
         const filters = ['constructor', '_initialize', '_before', `_before_${action}`, `_after_${action}`, '_after', '_empty'];
 
