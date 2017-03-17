@@ -4,6 +4,7 @@ const path = require('path');
 const lodash = require('lodash');
 const convert = require('koa-convert');
 const deprecate = require('depd')('koahub');
+const socket = require('socket.io');
 
 const pkg = require('./../package.json');
 const config = require('./config/default.config');
@@ -164,7 +165,12 @@ module.exports = class Koahub {
         return this.koa;
     }
 
-    // 支持soket.io
+    // 获取socket
+    getSocket() {
+        return socket(this.getServer());
+    }
+
+    // 获取server
     getServer() {
 
         const server = http.Server(this.koa.callback());

@@ -74,7 +74,7 @@ npm install github:koahubjs/koahub --save
 
 ```javascript
 // app/index.js启动文件
-const Koahub =  require('koahub');
+const Koahub = require('koahub');
 
 // 初始化项目
 const app = new Koahub();
