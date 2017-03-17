@@ -11,7 +11,6 @@ module.exports = function (options) {
                     ctx.post = ctx.request.body.fields;
                     ctx.file = ctx.request.body.files;
                 }
-                resolve();
             });
         });
 
