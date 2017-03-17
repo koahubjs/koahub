@@ -19,8 +19,7 @@
     "lodash": "4.17.4",
     "moment": "2.17.1",
     "path-to-regexp": "1.7.0",
-    "socket.io": "1.7.3",
-    "uid-safe": "2.1.4"
+    "socket.io": "1.7.3"
   },
   "devDependencies": {
     "istanbul": "1.1.0-alpha.1",
