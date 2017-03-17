@@ -1,5 +1,5 @@
-import {isGeneratorFunction} from "./../../app/util/default.util";
-import assert from "assert";
+const {isGeneratorFunction} = require('./../../app/util/default.util');
+const assert = require('assert');
 
 describe('is generator function', function () {
     describe('generator functions', function () {

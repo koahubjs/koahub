@@ -1,31 +1,31 @@
 module.exports = class extends koahub.controller {
 
-    async _initialize() {
+    _initialize() {
         this.num = 1;
     }
 
-    async _before() {
+    _before() {
         this.num++;
     }
 
-    async _before_index() {
+    _before_index() {
         this.num++;
     }
 
-    async index() {
+    index() {
         this.num++;
     }
 
-    async _after_index() {
+    _after_index() {
         this.num++;
     }
 
-    async _after() {
+    _after() {
         this.num++;
         this.view(this.num);
     }
 
-    async _empty() {
+    _empty() {
         this.view('This is a _empty!');
     }
 }

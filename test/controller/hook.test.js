@@ -1,5 +1,5 @@
-import Koahub from "./../../app";
-import request from "supertest";
+const Koahub = require('./../../app');
+const request = require('supertest');
 
 let app;
 

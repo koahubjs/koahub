@@ -1,7 +1,7 @@
-import {getModuleControllerAction} from "./../../app/util/http.util";
-import {urlObjToParam} from "./../../app/util/default.util";
-import assert from "assert";
-import Koahub from "./../../app";
+const {getModuleControllerAction} = require('./../../app/util/http.util');
+const {urlObjToParam} = require('./../../app/util/default.util');
+const assert = require('assert');
+const Koahub = require('./../../app');
 
 describe('http util', () => {
 

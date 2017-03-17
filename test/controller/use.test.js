@@ -1,7 +1,8 @@
-import Koahub from "./../../app";
-import request from "supertest";
+const Koahub = require('./../../app');
+const request = require('supertest');
+const assert = require('assert');
 
-let app, koa, server;
+let app, koa;
 
 describe('use test', function () {
 
@@ -12,6 +13,9 @@ describe('use test', function () {
     describe('use middleware', function () {
 
         it('koa middleware async', function (done) {
+
+            assert.deepEqual(app.getKoa(), app.koa);
+
             app.use(async function (ctx, next) {
                 ctx.body = 'Hello Use';
             });

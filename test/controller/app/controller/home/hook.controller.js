@@ -1,12 +1,12 @@
-import lodash from "lodash";
+const lodash = require('lodash');
 
-export default class extends koahub.controller {
+module.exports = class extends koahub.controller {
 
-    async _initialize() {
+    _initialize() {
         // 控制器初始化
     }
 
-    async http1() {
+    http1() {
 
         this.hook.add('hook1', '/home/index/index');
 
@@ -20,7 +20,7 @@ export default class extends koahub.controller {
         await this.hook.run('hook1');
     }
 
-    async http2same() {
+    http2same() {
 
         this.hook.add('hook1', '/home/index/index');
         this.hook.add('hook1', '/home/index/index');
@@ -28,7 +28,7 @@ export default class extends koahub.controller {
         this.view(lodash.isEqual(this.hook.get('hook1'), ['/home/index/index', '/home/index/index']));
     }
 
-    async http2diff() {
+    http2diff() {
 
         this.hook.add('hook1', '/home/index/index');
         this.hook.add('hook2', '/home/index/index2');
@@ -36,7 +36,7 @@ export default class extends koahub.controller {
         this.view(lodash.isEqual(this.hook.get('hook1'), ['/home/index/index']));
     }
 
-    async http2all() {
+    http2all() {
 
         this.hook.add('hook1', '/home/index/index');
         this.hook.add('hook2', '/home/index/index2');

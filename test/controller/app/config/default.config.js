@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     loader: {
         'addons': {
             root: 'addon',
@@ -9,13 +9,5 @@ export default {
         'utils': {
             root: 'util'
         }
-    },
-
-    session: true,
-
-    cors: true,
-
-    static: {
-        dir: 'www'
     }
 }

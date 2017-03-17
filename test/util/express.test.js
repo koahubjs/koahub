@@ -1,7 +1,7 @@
-import {expressMiddlewareToKoaMiddleware} from "./../../app/util/default.util";
-import request from "supertest";
-import Koa from "koa";
-import assert from "assert";
+const {expressMiddlewareToKoaMiddleware} = require('./../../app/util/default.util');
+const request = require('supertest');
+const Koa = require('koa');
+const assert = require('assert');
 
 describe('express middleware', () => {
     let app

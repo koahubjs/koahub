@@ -113,7 +113,7 @@ module.exports = class Controller {
         this.view(fs.createReadStream(file));
     }
 
-    action(path, ...args) {
-        return httpUtil.runAction(Object.assign(this.ctx, {path: path}), this.next, ...args);
+    async action(path, ...args) {
+        return await httpUtil.runAction(Object.assign(this.ctx, {path: path}), this.next, ...args);
     }
 }

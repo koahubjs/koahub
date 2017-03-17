@@ -1,5 +1,5 @@
-import Koahub from "./../../app";
-import request from "supertest";
+const Koahub = require('./../../app');
+const request = require('supertest');
 
 let app;
 
@@ -7,7 +7,6 @@ describe('http controller', function () {
 
     beforeEach(function () {
         app = new Koahub({root: __dirname});
-
         app.loadHttpMiddlewares();
     });
 
@@ -39,6 +38,7 @@ describe('http controller', function () {
         })
 
         it('call http should response 404', function (done) {
+            koahub.config('url_suffix', '');
             request(app.getServer())
                 .get('/home/index/index.jpg')
                 .expect(404)
@@ -108,6 +108,13 @@ describe('http controller', function () {
                 .get('/home/index/index6')
                 .expect(200)
                 .expect('1')
+                .end(done);
+        });
+
+        it('call /home/index/message should response 500', function (done) {
+            request(app.getServer())
+                .get('/home/index/message')
+                .expect(500)
                 .end(done);
         });
     });

@@ -1,14 +1,8 @@
 const Koa = require('koa');
 const http = require('http');
 const path = require('path');
-const body = require('koa-body');
-const cors = require('koa-cors');
 const lodash = require('lodash');
-const logger = require('koa-logger');
 const convert = require('koa-convert');
-const favicon = require('koa-favicon');
-const session = require('koa-session2');
-const staticCache = require('koa-static-cache');
 const deprecate = require('depd')('koahub');
 
 const pkg = require('./../package.json');
@@ -46,7 +40,6 @@ module.exports = class Koahub {
         // 捕获未知错误
         process.on('uncaughtException', function (err) {
             log(err);
-
             if (err.message.indexOf(' EADDRINUSE ') > -1) {
                 process.exit();
             }
@@ -66,9 +59,8 @@ module.exports = class Koahub {
 
     loadConfigs() {
 
-        // Object.assign({}, config) 创建新对象，不允许覆盖config
-        koahub.configs = new Loader(koahub.paths.app, config.loader.configs);
-        koahub.configs.default = lodash.merge(Object.assign({}, config), koahub.configs.default);
+        koahub.configs = new Loader(__dirname, config.loader.configs);
+        koahub.configs = lodash.merge(koahub.configs, new Loader(koahub.paths.app, config.loader.configs));
     }
 
     loadUtils() {
@@ -120,54 +112,22 @@ module.exports = class Koahub {
 
     loadMiddlewares() {
 
-        // log middleware
-        if (koahub.config('logger')) {
-            this.use(logger());
-        }
+        koahub.middlewares = new Loader(__dirname, config.loader.middlewares);
+        koahub.middlewares = lodash.merge(koahub.middlewares, new Loader(koahub.paths.app, config.loader.middlewares));
 
-        // favicon middleware
-        if (koahub.config('favicon')) {
-            if (lodash.isString(koahub.config('favicon'))) {
-                this.use(favicon(koahub.config('favicon')));
-            } else {
-                throw new Error('Favicon must be a path');
+        // 自动加载中间件
+        for (let key in koahub.middlewares) {
+            if (!koahub.configs.middleware[key]) {
+                continue;
             }
-        }
-
-        // cors middleware
-        if (koahub.config('cors')) {
-            if (lodash.isPlainObject(koahub.config('cors'))) {
-                this.use(cors(koahub.config('cors')));
-            } else {
-                if (lodash.isBoolean(koahub.config('cors'))) {
-                    this.use(cors());
-                } else {
-                    throw new Error('Cors must be a PlainObject or Boolean');
-                }
+            if (koahub.configs.middleware[key] === false) {
+                continue;
             }
-        }
-
-        // session middleware
-        if (koahub.config('session')) {
-            if (lodash.isPlainObject(koahub.config('session'))) {
-                this.use(session(koahub.config('session')));
-            } else {
-                if (lodash.isBoolean(koahub.config('session'))) {
-                    this.use(session());
-                } else {
-                    throw new Error('Session must be a PlainObject or Boolean');
-                }
+            if (koahub.configs.middleware[key] === true) {
+                this.use(koahub.middlewares[key]());
+                continue;
             }
-        }
-
-        // static middleware
-        if (koahub.config('static')) {
-            if (lodash.isPlainObject(koahub.config('static'))) {
-                const {dir = '', options = {}} = koahub.config('static');
-                this.use(staticCache(dir, options));
-            } else {
-                throw new Error('Static must be a PlainObject');
-            }
+            this.use(koahub.middlewares[key](koahub.configs.middleware[key]));
         }
     }
 
@@ -212,25 +172,6 @@ module.exports = class Koahub {
     }
 
     loadHttpMiddlewares() {
-
-        // 加载body中间件
-        if (koahub.config('body')) {
-            if (lodash.isPlainObject(koahub.config('body'))) {
-
-                this.use(body(koahub.config('body')));
-                this.use(function (ctx, next) {
-                    if (!ctx.request.body.files) {
-                        ctx.post = ctx.request.body;
-                    } else {
-                        ctx.post = ctx.request.body.fields;
-                        ctx.file = ctx.request.body.files;
-                    }
-                    return next();
-                });
-            } else {
-                throw new Error('Body options must be a PlainObject');
-            }
-        }
 
         // 加载http中间件
         this.use(httpMiddleware().skip(function (ctx) {

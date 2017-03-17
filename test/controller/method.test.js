@@ -1,5 +1,5 @@
-import Koahub from "./../../app";
-import request from "supertest";
+const Koahub = require('./../../app');
+const request = require('supertest');
 
 let app;
 
@@ -39,11 +39,20 @@ describe('method controller', function () {
                 .end(done);
         });
 
-        it('call post /home/method/is_post should response false', function (done) {
+        it('call get /home/method/is_post should response 200', function (done) {
             request(app.getServer())
                 .post('/home/method/is_post')
                 .expect(200)
                 .expect('true')
+                .end(done);
+        });
+
+        it('call post /home/method/is_post_id should response 200', function (done) {
+            request(app.getServer())
+                .post('/home/method/is_post_id')
+                .field('id', '1')
+                .expect(200)
+                .expect('1')
                 .end(done);
         });
 
@@ -132,11 +141,11 @@ describe('method controller', function () {
     describe('ctx method test', function () {
 
         beforeEach(function () {
-            app.use(async function (ctx, next) {
+            app.use(function (ctx, next) {
                 ctx.render = function *(a, b) {
                     return a + b;
                 }
-                await next();
+                return next();
             });
             app.loadHttpMiddlewares();
         });

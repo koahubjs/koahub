@@ -8,7 +8,7 @@ const defaultUtil = require('./../util/default.util');
 
 module.exports = function httpMiddleware() {
 
-    const http = function (ctx, next) {
+    const http = async function (ctx, next) {
 
         const routers = koahub.configs.router;
 
@@ -47,12 +47,12 @@ module.exports = function httpMiddleware() {
                     }
                 }
 
-                return httpUtil.runAction(Object.assign(ctx, {originalPath: ctx.path, path: path, url: url}), next);
+                await httpUtil.runAction(Object.assign(ctx, {originalPath: ctx.path, path: path, url: url}), next);
             } else {
-                return httpUtil.runAction(ctx, next);
+                await httpUtil.runAction(ctx, next);
             }
         } else {
-            return httpUtil.runAction(ctx, next);
+            await httpUtil.runAction(ctx, next);
         }
     };
 

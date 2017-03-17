@@ -1,5 +1,5 @@
-import assert from "assert";
-import log from "./../../app/util/log.util";
+const assert = require('assert');
+const log = require('./../../app/util/log.util');
 
 describe('log util', () => {
 

@@ -1,5 +1,5 @@
-import Koahub from "./../../app";
-import request from "supertest";
+const Koahub = require('./../../app');
+const request = require('supertest');
 
 let app;
 
@@ -7,7 +7,6 @@ describe('ctx controller', function () {
 
     beforeEach(function () {
         app = new Koahub({root: __dirname});
-
         app.loadHttpMiddlewares();
     });
 

@@ -1,14 +1,14 @@
-export default class extends koahub.controller {
+module.exports = class extends koahub.controller {
 
-    async _initialize() {
+    _initialize() {
         // 控制器初始化
     }
 
-    async index() {
+    index() {
         this.view('Hello World!');
     }
 
-    async detail() {
+    detail() {
         this.view(this.query.id);
     }
 }

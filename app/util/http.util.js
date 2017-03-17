@@ -57,7 +57,7 @@ module.exports = {
         }
     },
 
-    runAction(ctx, next, ...args) {
+    async runAction(ctx, next, ...args) {
 
         const {module, controller, action} = this.getModuleControllerAction(ctx.path);
         if (!lodash.includes(koahub.modules, module)) {
@@ -65,7 +65,7 @@ module.exports = {
             return;
         }
 
-        // 过滤控制器中跟ctx属性同名的方法
+        // 移除控制器中跟ctx中同名的属性
         for (let name in ctx) {
             if (typeof ctx[name] !== 'function' && action == name) {
                 throw new Error(`Don\'t use the "${action}" in the controller`);
@@ -98,7 +98,7 @@ module.exports = {
 
                 // 控制器初始化
                 if (lodash.includes(methods, '_initialize')) {
-                    parseResult(defaultUtil.getPromiseFunction(_ctrl, '_initialize')(...args));
+                    parseResult(await defaultUtil.getPromiseFunction(_ctrl, '_initialize')(...args));
                 }
                 // 控制器初始化不响应404，中断执行
                 if (ctx.status != 404) {
@@ -107,7 +107,7 @@ module.exports = {
 
                 // 控制器前置
                 if (lodash.includes(methods, '_before')) {
-                    parseResult(defaultUtil.getPromiseFunction(_ctrl, '_before')(...args));
+                    parseResult(await defaultUtil.getPromiseFunction(_ctrl, '_before')(...args));
                 }
                 // 控制器前置不响应404，中断执行
                 if (ctx.status != 404) {
@@ -116,14 +116,14 @@ module.exports = {
 
                 // 方法前置
                 if (lodash.includes(methods, `_before_${action}`)) {
-                    parseResult(defaultUtil.getPromiseFunction(_ctrl, `_before_${action}`)(...args));
+                    parseResult(await defaultUtil.getPromiseFunction(_ctrl, `_before_${action}`)(...args));
                 }
                 // 方法前置不响应404，中断执行
                 if (ctx.status != 404) {
                     return;
                 }
 
-                parseResult(defaultUtil.getPromiseFunction(_ctrl, action)(...args));
+                parseResult(await defaultUtil.getPromiseFunction(_ctrl, action)(...args));
 
                 // 不响应404，中断执行
                 if (ctx.status != 404) {
@@ -132,7 +132,7 @@ module.exports = {
 
                 // 方法后置
                 if (lodash.includes(methods, `_after_${action}`)) {
-                    parseResult(defaultUtil.getPromiseFunction(_ctrl, `_after_${action}`)(...args));
+                    parseResult(await defaultUtil.getPromiseFunction(_ctrl, `_after_${action}`)(...args));
                 }
                 // 方法后置不响应404，中断执行
                 if (ctx.status != 404) {
@@ -141,7 +141,7 @@ module.exports = {
 
                 // 控制器后置
                 if (lodash.includes(methods, '_after')) {
-                    parseResult(defaultUtil.getPromiseFunction(_ctrl, '_after')(...args));
+                    parseResult(await defaultUtil.getPromiseFunction(_ctrl, '_after')(...args));
                 }
                 // 控制器后置不响应404，中断执行
                 if (ctx.status != 404) {

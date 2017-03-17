@@ -1,6 +1,6 @@
-import Koa from "koa";
-import request from "supertest";
-import skip from "../../app/middleware/skip.middleware";
+const Koa = require('koa');
+const request = require('supertest');
+const skip = require('../../app/middleware/skip.middleware');
 
 describe('skip middleware', function () {
     var middleware;
