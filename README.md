@@ -85,7 +85,7 @@ app.run();
 
 ## 方法
 
-ctx上的函数或参数将自动加载到Controller，例如支持 `this.body = 'Hello World!'`, ctx中具体的API请参考Koa.js, Controller中的扩展方法如下。
+ctx上的函数或参数将自动加载到controller，例如支持 `this.body = 'Hello World!'`, ctx中具体的API请参考Koa.js, controller中的扩展方法如下。
 
 ```javascript
 this.ctx;
@@ -108,12 +108,12 @@ await this.action(path, ...args);
 ## 快捷中间件
 
 ```javascript
-app.use(function (ctx, next) {
+app.use(async function (ctx, next) {
 
     ctx.model = function() {
         // ....
     }
-    return next();
+    await next();
 });
 
 // 控制器中可以直接通过this.model调用
@@ -130,7 +130,7 @@ module.exports = {
     default_module: 'admin'
 }
 
-//默认配置如下
+//框架默认配置
 //启动端口
 port: 3000,
 
@@ -139,28 +139,8 @@ default_module: 'home',
 default_controller: 'index',
 default_action: 'index',
 
-//favicon设置
-favicon: 'www/favicon.ico',
-
-//http日志
-logger: true,
-
 //url后缀
 url_suffix: '',
-
-//body配置
-body: {
-    multipart: true
-},
-
-//cors配置
-cors: false,
-
-//session配置
-session: false,
-
-//static配置
-static: false,
 
 //自动加载配置
 loader: {
@@ -177,8 +157,39 @@ loader: {
     "configs": {
         root: 'config',
         suffix: '.config.js'
+    },
+    "middlewares": {
+        root: 'middleware',
+        suffix: '.middleware.js'
     }
 }
+
+//中间件默认配置
+//http日志
+logger: true,
+
+//favicon设置
+favicon: 'www/favicon.ico',
+
+//body配置
+body: {
+    multipart: true
+},
+
+//cors配置
+cors: false,
+
+//session配置
+session: false,
+
+//static配置
+static: false,
+
+//skip middleware
+skip: false,
+
+//http middleware
+http: false
 ```
 
 ## 其他
@@ -197,7 +208,7 @@ async _empty()
 
 // 支持restful路由设置
 // app/config/router.config.js
-export default [
+module.exports = [
     ['/product', {
         get: "/home/product/index"
     }],
