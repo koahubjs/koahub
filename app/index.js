@@ -83,38 +83,10 @@ module.exports = class Koahub {
         koahub.controller = Controller;
     }
 
-    loadLoaders() {
-
-        for (let key in koahub.config('loader')) {
-
-            // 移除configs重复加载
-            if (key == 'configs') {
-                continue;
-            }
-            koahub[key] = new Loader(koahub.paths.app, koahub.config('loader')[key]);
-        }
-
-        // 加载模块
-        this.loadModules();
-    }
-
-    loadModules() {
-
-        let modules = [];
-        for (let key in koahub.controllers) {
-            let paths = key.split('/');
-            if (paths.length < 3) {
-                continue;
-            }
-            modules.push(paths[1]);
-        }
-        koahub.modules = lodash.union(modules);
-    }
-
     loadMiddlewares() {
 
-        koahub.middlewares = new Loader(__dirname, config.loader.middlewares);
-        koahub.middlewares = lodash.merge(koahub.middlewares, new Loader(koahub.paths.app, config.loader.middlewares));
+        koahub.middlewares = new Loader(__dirname, koahub.config('loader').middlewares);
+        koahub.middlewares = lodash.merge(koahub.middlewares, new Loader(koahub.paths.app, koahub.config('loader').middlewares));
 
         // 自动加载中间件
         for (let key in koahub.middlewares) {
@@ -131,6 +103,31 @@ module.exports = class Koahub {
             this.use(koahub.middlewares[key](koahub.configs.middleware[key]));
         }
     }
+    
+    loadLoaders() {
+
+        for (let key in koahub.config('loader')) {
+
+            // 移除重复加载
+            if (key == 'configs' || key == 'middlewares') {
+                continue;
+            }
+            koahub[key] = new Loader(koahub.paths.app, koahub.config('loader')[key]);
+        }
+    }
+
+    loadModules() {
+
+        let modules = [];
+        for (let key in koahub.controllers) {
+            let paths = key.split('/');
+            if (paths.length < 3) {
+                continue;
+            }
+            modules.push(paths[1]);
+        }
+        koahub.modules = lodash.union(modules);
+    }
 
     init() {
 
@@ -138,8 +135,9 @@ module.exports = class Koahub {
         this.loadPaths();
         this.loadConfigs();
         this.loadUtils();
-        this.loadLoaders();
         this.loadMiddlewares();
+        this.loadLoaders();
+        this.loadModules();
     }
 
     // 默认支持koa middleware
