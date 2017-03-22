@@ -28,27 +28,26 @@ module.exports = {
                 module = paths[0];
                 controller = paths[1];
                 break;
-            case 3:
-
-                module = paths[0];
-                controller = paths[1];
-                action = paths[2];
-                break;
             default:
 
-                module = paths[0];
-                controller = '';
-                for (let key in paths) {
-                    if (key > 0 && key < paths.length - 1) {
-                        if (key === paths.length - 2) {
-                            controller += paths[key];
-                            break;
-                        }
-                        controller += paths[key] + '/';
-                    }
+                module = paths.shift();
+                action = paths.pop();
+
+                if (koahub.controllers[`/${module}/${paths.join('/')}`]) {
+                    controller = paths.join('/');
+                    break;
                 }
-                controller = controller.substr(0, controller.length - 1);
-                action = paths[paths.length - 1];
+
+                paths.push(action);
+                if (koahub.controllers[`/${module}/${paths.join('/')}`]) {
+                    controller = paths.join('/');
+                    action = koahub.config('default_action');
+                    break;
+                }
+
+                action = paths.pop();
+                controller = paths.join('/');
+
         }
 
         return {

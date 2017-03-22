@@ -102,7 +102,7 @@ module.exports = class Koahub {
             this.use(koahub.middlewares[key](koahub.configs.middleware[key]));
         }
     }
-    
+
     loadLoaders() {
 
         for (let key in koahub.config('loader')) {
