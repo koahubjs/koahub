@@ -39,7 +39,7 @@ module.exports = class Controller {
 
     isGet() {
 
-        if (this.ctx.method == 'GET') {
+        if (this.ctx.method === 'GET') {
             return true;
         }
         return false;
@@ -47,7 +47,7 @@ module.exports = class Controller {
 
     isPost() {
 
-        if (this.ctx.method == 'POST') {
+        if (this.ctx.method === 'POST') {
             return true;
         }
         return false;

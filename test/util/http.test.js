@@ -68,7 +68,7 @@ describe('http util', () => {
             });
         });
 
-        it('path /admin/index/index/index return admin/index/index/index', () => {
+        it('path /admin/index/index/index return /admin/index/index/index', () => {
             assert.deepEqual(getModuleControllerAction('/admin/index/index/index'), {
                 module: 'admin',
                 controller: 'index/index',

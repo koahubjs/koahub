@@ -12,11 +12,11 @@ module.exports = class Hook {
 
     get(name) {
 
-        if (arguments.length == 0) {
+        if (arguments.length === 0) {
             return this.hooks;
         } else {
             for (let key in this.hooks) {
-                if (name == key) {
+                if (name === key) {
                     return this.hooks[name];
                 }
             }
@@ -27,7 +27,7 @@ module.exports = class Hook {
 
         let add = true;
         for (let key in this.hooks) {
-            if (name == key) {
+            if (name === key) {
                 this.hooks[key].push(action);
                 add = false;
             }
@@ -40,7 +40,7 @@ module.exports = class Hook {
     run(name) {
 
         for (let key in this.hooks) {
-            if (name == key) {
+            if (name === key) {
                 for (let action of this.hooks[key]) {
                     if (/(\/\w+)+/.test(action)) {
 

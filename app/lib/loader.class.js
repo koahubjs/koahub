@@ -75,7 +75,7 @@ module.exports = class Loader {
                 name = name.replace(/\\/g, '/');
 
                 let lib = require(paths[key]);
-                if (lib.hasOwnProperty('default') && Object.keys(lib).length == 1) {
+                if (lib.hasOwnProperty('default') && Object.keys(lib).length === 1) {
                     loaders[name] = lib.default;
                 } else {
                     loaders[name] = lib;

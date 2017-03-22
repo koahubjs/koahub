@@ -40,13 +40,14 @@ module.exports = {
                 controller = '';
                 for (let key in paths) {
                     if (key > 0 && key < paths.length - 1) {
-                        if (key == paths.length - 2) {
+                        if (key === paths.length - 2) {
                             controller += paths[key];
                             break;
                         }
                         controller += paths[key] + '/';
                     }
                 }
+                controller = controller.substr(0, controller.length - 1);
                 action = paths[paths.length - 1];
         }
 
@@ -67,7 +68,7 @@ module.exports = {
 
         // 移除控制器中跟ctx中同名的属性
         for (let name in ctx) {
-            if (typeof ctx[name] !== 'function' && action == name) {
+            if (typeof ctx[name] !== 'function' && action === name) {
                 throw new Error(`Don\'t use the "${action}" in the controller`);
                 return;
             }

@@ -68,14 +68,13 @@ module.exports = class Koahub {
 
         // config函数
         koahub.config = function (name, value) {
-            if (name == undefined) {
-                return koahub.configs.default;
-            } else {
-                if (value == undefined) {
+            switch (arguments.length) {
+                case 0:
+                    return koahub.configs.default;
+                case 1:
                     return koahub.configs.default[name];
-                } else {
+                case 2:
                     koahub.configs.default[name] = value;
-                }
             }
         };
 
@@ -109,7 +108,7 @@ module.exports = class Koahub {
         for (let key in koahub.config('loader')) {
 
             // 移除重复加载
-            if (key == 'configs' || key == 'middlewares') {
+            if (key === 'configs' || key === 'middlewares') {
                 continue;
             }
             koahub[key] = new Loader(koahub.paths.app, koahub.config('loader')[key]);
