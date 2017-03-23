@@ -50,34 +50,14 @@ module.exports = {
 
         }
 
-        return {
-            module: module,
-            controller: controller,
-            action: action
-        }
+        return {module, controller, action};
     },
 
-    async runAction(ctx, next, ...args) {
+    async runController(ctx, next, ...args){
 
         const {module, controller, action} = this.getModuleControllerAction(ctx.path);
-        if (!lodash.includes(koahub.modules, module)) {
-            log('Not Found Module');
-            return;
-        }
-
-        // 移除控制器中跟ctx中同名的属性
-        for (let name in ctx) {
-            if (typeof ctx[name] !== 'function' && action === name) {
-                throw new Error(`Don\'t use the "${action}" in the controller`);
-                return;
-            }
-        }
-
         const ctrl = koahub.controllers[`/${module}/${controller}`];
-        const filters = ['constructor', '_initialize', '_before', `_before_${action}`, `_after_${action}`, '_after', '_empty'];
-
-        // 方法首字符是`_`表示私有方法
-        if (ctrl && action.substr(0, 1) != '_' && !lodash.includes(filters, action)) {
+        if (ctrl) {
 
             const _ctrl = new ctrl(ctx, next);
             const methods = Object.getOwnPropertyNames(ctrl.prototype);
@@ -153,14 +133,46 @@ module.exports = {
 
                 // 控制器空操作
                 if (lodash.includes(methods, '_empty')) {
-                    _ctrl['_empty'](...args);
+                    return this.runController(Object.assign(ctx, {path: `/${module}/${controller}/_empty`}), next, ...args);
                 } else {
                     log('Not Found Action');
+                    return;
                 }
             }
         } else {
 
-            log('Not Found Controller');
+            if (koahub.controllers[`/${module}/empty`]) {
+                return this.runController(Object.assign(ctx, {path: `/${module}/empty/${action}`}), next, ...args);
+            } else {
+                log('Not Found Controller');
+                return;
+            }
         }
+    },
+
+    async runHttp(ctx, next, ...args) {
+
+        const {module, controller, action} = this.getModuleControllerAction(ctx.path);
+        if (!lodash.includes(koahub.modules, module)) {
+            log('Not Found Module');
+            return;
+        }
+
+        // 移除控制器中跟ctx中同名的属性
+        for (let name in ctx) {
+            if (typeof ctx[name] !== 'function' && action === name) {
+                throw new Error(`Don\'t use the "${action}" in the controller`);
+                return;
+            }
+        }
+
+        // 过滤控制器默认方法
+        const filters = ['constructor', '_initialize', '_before', `_before_${action}`, `_after_${action}`, '_after', '_empty'];
+        if (lodash.includes(filters, action)) {
+            log('Don\'t access the "${action}"');
+            return;
+        }
+
+        return await this.runController(ctx, next, ...args);
     }
 }

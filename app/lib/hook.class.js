@@ -44,8 +44,8 @@ module.exports = class Hook {
                 for (let action of this.hooks[key]) {
                     if (/(\/\w+)+/.test(action)) {
 
-                        // run action
-                        return httpUtil.runAction(Object.assign(this.ctx, {path: action}), this.next);
+                        // run http
+                        return httpUtil.runHttp(Object.assign(this.ctx, {path: action}), this.next);
                     } else {
 
                         // run functions

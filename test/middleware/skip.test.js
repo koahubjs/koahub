@@ -3,7 +3,7 @@ const request = require('supertest');
 const skip = require('../../app/middleware/skip.middleware');
 
 describe('skip middleware', function () {
-    var middleware;
+    let middleware;
 
     beforeEach(function () {
         middleware = function (ctx, next) {
@@ -15,7 +15,7 @@ describe('skip middleware', function () {
 
     describe('with PATH exception', function () {
         it('should not call the middleware when one of the path match', function (done) {
-            var app = new Koa();
+            const app = new Koa();
 
             app.use(middleware.skip({path: ['/foo']}));
             request(app.listen())
@@ -24,7 +24,7 @@ describe('skip middleware', function () {
         });
 
         it('should call the middleware when the path doesnt match', function (done) {
-            var app = new Koa();
+            const app = new Koa();
 
             app.use(middleware.skip({path: ['/foo']}));
             request(app.listen())
@@ -35,7 +35,7 @@ describe('skip middleware', function () {
 
     describe('with PATH (regexp) exception', function () {
         it('should not call the middleware when the regex match', function (done) {
-            var app = new Koa();
+            const app = new Koa();
 
             app.use(middleware.skip({path: ['/foo', /ar$/ig]}));
             request(app.listen())
@@ -46,7 +46,7 @@ describe('skip middleware', function () {
 
     describe('with PATH (useOriginalUrl) exception', function () {
         it('should not call the middleware when one of the path match ctx.url instead of ctx.originalUrl', function (done) {
-            var app = new Koa();
+            const app = new Koa();
 
             app.use(function (ctx, next) {
                 ctx.url = '/foo';
@@ -59,7 +59,7 @@ describe('skip middleware', function () {
         });
 
         it('should call the middleware when the path doesnt match ctx.url even if path matches ctx.originalUrl', function (done) {
-            var app = new Koa();
+            const app = new Koa();
 
             app.use(function (ctx, next) {
                 ctx.originalUrl = '/foo';
@@ -74,7 +74,7 @@ describe('skip middleware', function () {
 
     describe('with EXT exception', function () {
         it('should not call the middleware when the ext match', function (done) {
-            var app = new Koa();
+            const app = new Koa();
 
             app.use(middleware.skip({ext: ['html', 'css']}));
             request(app.listen())
@@ -83,7 +83,7 @@ describe('skip middleware', function () {
         });
 
         it('should call the middleware when the ext doesnt match', function (done) {
-            var app = new Koa();
+            const app = new Koa();
 
             app.use(middleware.skip({ext: ['html', 'css']}));
             request(app.listen())
@@ -94,7 +94,7 @@ describe('skip middleware', function () {
 
     describe('with METHOD exception', function () {
         it('should not call the middleware when the method match', function (done) {
-            var app = new Koa();
+            const app = new Koa();
 
             app.use(middleware.skip({method: ['GET', 'OPTIONS']}));
             request(app.listen())
@@ -103,7 +103,7 @@ describe('skip middleware', function () {
         });
 
         it('should call the middleware when the method doesnt match', function (done) {
-            var app = new Koa();
+            const app = new Koa();
 
             app.use(middleware.skip({method: ['GET', 'OPTIONS']}));
             request(app.listen())
@@ -114,7 +114,7 @@ describe('skip middleware', function () {
 
     describe('with custom exception', function () {
         it('should not call the middleware when the custom rule match', function (done) {
-            var app = new Koa();
+            const app = new Koa();
 
             app.use(middleware.skip(function (ctx) {
                 return ctx.url === '/index';
@@ -125,7 +125,7 @@ describe('skip middleware', function () {
         });
 
         it('should call the middleware when the custom rule doesnt match', function (done) {
-            var app = new Koa();
+            const app = new Koa();
 
             app.use(middleware.skip(function (ctx) {
                 return ctx.url === '/index';

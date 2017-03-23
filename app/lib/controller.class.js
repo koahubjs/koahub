@@ -114,6 +114,6 @@ module.exports = class Controller {
     }
 
     async action(path, ...args) {
-        return await httpUtil.runAction(Object.assign(this.ctx, {path: path}), this.next, ...args);
+        return await httpUtil.runHttp(Object.assign(this.ctx, {path: path}), this.next, ...args);
     }
 }

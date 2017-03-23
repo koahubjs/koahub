@@ -47,12 +47,12 @@ module.exports = function httpMiddleware() {
                     }
                 }
 
-                await httpUtil.runAction(Object.assign(ctx, {originalPath: ctx.path, path: path, url: url}), next);
+                await httpUtil.runHttp(Object.assign(ctx, {originalPath: ctx.path, path: path, url: url}), next);
             } else {
-                await httpUtil.runAction(ctx, next);
+                await httpUtil.runHttp(ctx, next);
             }
         } else {
-            await httpUtil.runAction(ctx, next);
+            await httpUtil.runHttp(ctx, next);
         }
     };
 

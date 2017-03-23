@@ -10,7 +10,7 @@ describe('is generator function', function () {
             assert(!isGeneratorFunction(function () {
             }))
 
-            var noConstructorFn = function () {
+            const noConstructorFn = function () {
             }
             noConstructorFn.constructor = undefined
 
