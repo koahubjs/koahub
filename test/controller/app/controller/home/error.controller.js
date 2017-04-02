@@ -5,6 +5,8 @@ module.exports = class extends koahub.controller {
 
         new Promise((resolve, reject) => {
             a.b = 1;
-        })
+        });
+
+        this.body = 'Hello World!';
     }
 }
