@@ -1,5 +1,6 @@
 module.exports = {
-    session: true,
+
+    session: false,
 
     cors: true,
 

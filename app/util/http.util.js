@@ -162,7 +162,6 @@ module.exports = {
         for (let name in ctx) {
             if (typeof ctx[name] !== 'function' && action === name) {
                 throw new Error(`Don\'t use the "${action}" in the controller`);
-                return;
             }
         }
 

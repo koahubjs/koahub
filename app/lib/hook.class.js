@@ -37,7 +37,7 @@ module.exports = class Hook {
         }
     }
 
-    run(name) {
+    async run(name) {
 
         for (let key in this.hooks) {
             if (name === key) {
@@ -45,7 +45,7 @@ module.exports = class Hook {
                     if (/(\/\w+)+/.test(action)) {
 
                         // run http
-                        return httpUtil.runHttp(Object.assign(this.ctx, {path: action}), this.next);
+                        await httpUtil.runHttp(Object.assign(this.ctx, {path: action}), this.next);
                     } else {
 
                         // run functions
@@ -53,7 +53,7 @@ module.exports = class Hook {
                         for (let i = 1; i < arguments.length; i++) {
                             args.push(arguments[i]);
                         }
-                        return action(...args);
+                        await action(...args);
                     }
                 }
             }

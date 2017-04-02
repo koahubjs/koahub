@@ -89,7 +89,7 @@ module.exports = class Koahub {
 
         // 自动加载中间件
         for (let key in koahub.middlewares) {
-            if (!koahub.configs.middleware[key]) {
+            if (koahub.configs.middleware[key] === undefined) {
                 continue;
             }
             if (koahub.configs.middleware[key] === false) {
