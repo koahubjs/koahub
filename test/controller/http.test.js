@@ -145,14 +145,6 @@ describe('http controller', function () {
                 .expect(200)
                 .end(done);
         });
-
-        it('call /home/error/index should response 200', function (done) {
-            request(app.getServer())
-                .get('/home/error/index')
-                .expect(200)
-                .expect('Hello World!')
-                .end(done);
-        });
     });
 
     describe('router request', function () {
