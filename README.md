@@ -158,16 +158,11 @@ url_suffix: '',
 
 //自动加载配置
 loader: {
-    "controllers": [{
+    "controllers": {
         root: 'controller',
         suffix: '.controller.js',
         prefix: '/',
-    }, {
-        root: 'addon',
-        suffix: '.controller.js',
-        prefix: '/addon/',
-        filter: [/\/controller/]
-    }],
+    },
     "configs": {
         root: 'config',
         suffix: '.config.js'
@@ -199,11 +194,8 @@ session: false,
 //static配置
 static: false,
 
-//skip middleware
-skip: false,
-
-//http middleware
-http: false
+//common配置
+common: true
 ```
 
 ## 其他
@@ -277,7 +269,7 @@ npm start
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahub] Koahub Version: 2.1.3
+[2016-11-28 09:56:03] [Koahub] Koahub Version: 2.2.0
 [2016-11-28 09:56:03] [Koahub] Koahub Website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahub] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahub] Server running at: http://127.0.0.1:3000
