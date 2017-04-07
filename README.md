@@ -54,7 +54,7 @@ module.exports = class extends base {
 * 支持多级 Controller
 * 支持自动加载
 * 支持钩子机制
-* 支持Socket.io
+* 支持 Socket.io
 * 支持错误处理
 * 支持全局koahub变量
 * 支持快捷方法
@@ -62,7 +62,7 @@ module.exports = class extends base {
 * 支持前置，后置，空操作
 * 支持禁用控制器方法
 * 支持 Restful 设计
-* 直接 Common 自动加载
+* 支持 Common 自动加载
 * ...
 
 ## 安装
