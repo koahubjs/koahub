@@ -1,4 +1,4 @@
-const httpUtil = require('./../util/http.util');
+const common = require('./../common');
 
 module.exports = class Hook {
 
@@ -45,7 +45,7 @@ module.exports = class Hook {
                     if (/(\/\w+)+/.test(action)) {
 
                         // run http
-                        await httpUtil.runHttp(Object.assign(this.ctx, {path: action}), this.next);
+                        await common.runHttp(Object.assign(this.ctx, {path: action}), this.next);
                     } else {
 
                         // run functions

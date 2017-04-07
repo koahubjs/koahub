@@ -20,9 +20,6 @@ module.exports = {
     //static配置
     static: false,
 
-    //skip middleware
-    skip: false,
-
-    //http middleware
-    http: false
+    //common配置
+    common: true
 }

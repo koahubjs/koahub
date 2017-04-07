@@ -61,7 +61,8 @@ module.exports = class extends base {
 * 支持修改代码，立即生效
 * 支持前置，后置，空操作
 * 支持禁用控制器方法
-* 支持restful
+* 支持 Restful 设计
+* 直接 Common 自动加载
 * ...
 
 ## 安装
@@ -105,6 +106,18 @@ this.error(data, msg);
 await this.action(path, ...args);
 ```
 
+## 快捷方法
+
+```javascript
+// app/common.js 函数文件
+module.exports = {
+    add(a, b){
+        return a + b;
+    }
+}
+// 控制器中可以直接通过this.add调用
+```
+
 ## 快捷中间件
 
 ```javascript
@@ -118,6 +131,7 @@ app.use(async function (ctx, next) {
 
 // 控制器中可以直接通过this.model调用
 ```
+
 
 ## 命令行工具
 [KoaHub CLI](https://github.com/koahubjs/koahub-cli)
@@ -263,7 +277,7 @@ npm start
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahub] Koahub Version: 2.1.2
+[2016-11-28 09:56:03] [Koahub] Koahub Version: 2.1.3
 [2016-11-28 09:56:03] [Koahub] Koahub Website: http://js.koahub.com
 [2016-11-28 09:56:03] [Koahub] Server Enviroment: development
 [2016-11-28 09:56:03] [Koahub] Server running at: http://127.0.0.1:3000

@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
+const common = require('./../common');
 
 module.exports = class Loader {
 
@@ -74,12 +75,7 @@ module.exports = class Loader {
                 name = options.prefix + name;
                 name = name.replace(/\\/g, '/');
 
-                let lib = require(paths[key]);
-                if (lib.hasOwnProperty('default') && Object.keys(lib).length === 1) {
-                    loaders[name] = lib.default;
-                } else {
-                    loaders[name] = lib;
-                }
+                loaders[name] = common.requireDefault(paths[key]);
             }
         }
 

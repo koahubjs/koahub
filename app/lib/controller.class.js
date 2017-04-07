@@ -3,8 +3,7 @@ const co = require('co');
 const path = require('path');
 const assert = require('assert');
 const Hook = require('./../lib/hook.class');
-const httpUtil = require('./../util/http.util');
-const defaultUtil = require('./../util/default.util');
+const common = require('./../common');
 
 module.exports = class Controller {
 
@@ -28,7 +27,7 @@ module.exports = class Controller {
                     }
                 });
             } else {
-                if (defaultUtil.isGeneratorFunction(ctx[name])) {
+                if (common.isGeneratorFunction(ctx[name])) {
                     this[name] = co.wrap(ctx[name]).bind(ctx);
                 } else {
                     this[name] = ctx[name];
@@ -114,6 +113,6 @@ module.exports = class Controller {
     }
 
     async action(path, ...args) {
-        return await httpUtil.runHttp(Object.assign(this.ctx, {path: path}), this.next, ...args);
+        return await common.runHttp(Object.assign(this.ctx, {path: path}), this.next, ...args);
     }
 }

@@ -1,4 +1,4 @@
-const {expressMiddlewareToKoaMiddleware} = require('./../../app/util/default.util');
+const common = require('./../../app/common');
 const request = require('supertest');
 const Koa = require('koa');
 const assert = require('assert');
@@ -20,7 +20,7 @@ describe('express middleware', () => {
             next()
         }
 
-        app.use(expressMiddlewareToKoaMiddleware(noop))
+        app.use(common.expressMiddlewareToKoaMiddleware(noop))
         request(app.callback())
             .get('/')
             .expect('Original')
@@ -32,8 +32,8 @@ describe('express middleware', () => {
             next()
         }
 
-        app.use(expressMiddlewareToKoaMiddleware(noop))
-        app.use(expressMiddlewareToKoaMiddleware(noop))
+        app.use(common.expressMiddlewareToKoaMiddleware(noop))
+        app.use(common.expressMiddlewareToKoaMiddleware(noop))
         request(app.callback())
             .get('/')
             .expect('Original')
@@ -49,7 +49,7 @@ describe('express middleware', () => {
             ctx.status = 200
         }
 
-        app.use(expressMiddlewareToKoaMiddleware(noop))
+        app.use(common.expressMiddlewareToKoaMiddleware(noop))
         app.use(goodStatusSetter)
         request(app.callback())
             .get('/')
@@ -67,7 +67,7 @@ describe('express middleware', () => {
                 })
         })
 
-        app.use(expressMiddlewareToKoaMiddleware((req, res) => {
+        app.use(common.expressMiddlewareToKoaMiddleware((req, res) => {
             res.statusCode = 200
             callOne = true
         }))
@@ -87,7 +87,7 @@ describe('express middleware', () => {
             next().catch((err) => ctx.status = 505)
         })
 
-        app.use(expressMiddlewareToKoaMiddleware((req, res, next) => {
+        app.use(common.expressMiddlewareToKoaMiddleware((req, res, next) => {
             next(new Error('How express does error handling'))
         }))
 
@@ -121,7 +121,7 @@ describe('express middleware', () => {
                 })
         })
 
-        app.use(expressMiddlewareToKoaMiddleware((req, res) => {
+        app.use(common.expressMiddlewareToKoaMiddleware((req, res) => {
             res.statusCode = 200
             res.setHeader('Content-Length', message.length)
             res.end(message)

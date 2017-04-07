@@ -13,16 +13,11 @@ module.exports = {
 
     //自动加载配置
     loader: {
-        "controllers": [{
+        "controllers": {
             root: 'controller',
             suffix: '.controller.js',
             prefix: '/',
-        }, {
-            root: 'addon',
-            suffix: '.controller.js',
-            prefix: '/addon/',
-            filter: [/\/controller/]
-        }],
+        },
         "configs": {
             root: 'config',
             suffix: '.config.js'

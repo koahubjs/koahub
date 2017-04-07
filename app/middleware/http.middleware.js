@@ -2,9 +2,7 @@ const {parse} = require('url');
 const pathToRegexp = require('path-to-regexp');
 const lodash = require('lodash');
 const skip = require('./skip.middleware');
-const log = require('./../util/log.util');
-const httpUtil = require('./../util/http.util');
-const defaultUtil = require('./../util/default.util');
+const common = require('./../common');
 
 module.exports = function httpMiddleware() {
 
@@ -35,24 +33,24 @@ module.exports = function httpMiddleware() {
                 const router = routers[index][1];
                 if (lodash.isString(router)) {
                     path = router;
-                    url = router + defaultUtil.urlObjToParam(parse(ctx.url).query, params);
+                    url = router + common.urlObjToParam(parse(ctx.url).query, params);
                 } else {
                     const routerMethod = router[method.toLowerCase()];
                     if (routerMethod) {
                         path = routerMethod;
-                        url = routerMethod + defaultUtil.urlObjToParam(parse(ctx.url).query, params);
+                        url = routerMethod + common.urlObjToParam(parse(ctx.url).query, params);
                     } else {
-                        log('Not Found Router');
+                        common.log('Not Found Router');
                         return;
                     }
                 }
 
-                await httpUtil.runHttp(Object.assign(ctx, {originalPath: ctx.path, path: path, url: url}), next);
+                await common.runHttp(Object.assign(ctx, {originalPath: ctx.path, path: path, url: url}), next);
             } else {
-                await httpUtil.runHttp(ctx, next);
+                await common.runHttp(ctx, next);
             }
         } else {
-            await httpUtil.runHttp(ctx, next);
+            await common.runHttp(ctx, next);
         }
     };
 

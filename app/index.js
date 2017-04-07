@@ -1,18 +1,20 @@
+const fs = require('fs');
 const Koa = require('koa');
 const http = require('http');
 const path = require('path');
+const assert = require('assert');
 const lodash = require('lodash');
-const convert = require('koa-convert');
-const deprecate = require('depd')('koahub');
 const socket = require('socket.io');
+const convert = require('koa-convert');
+const debug = require('debug')('koahub');
+const deprecate = require('depd')('koahub');
 
+const common = require('./common');
 const pkg = require('./../package.json');
-const config = require('./config/default.config');
 const Loader = require('./lib/loader.class');
+const config = require('./config/default.config');
 const Controller = require('./lib/controller.class');
 const httpMiddleware = require('./middleware/http.middleware');
-const log = require('./util/log.util');
-const {isGeneratorFunction, expressMiddlewareToKoaMiddleware} = require('./util/default.util');
 
 module.exports = class Koahub {
 
@@ -30,17 +32,17 @@ module.exports = class Koahub {
 
         // 监控错误日志
         this.koa.on("error", function (err, ctx) {
-            log(err);
+            common.log(err);
         });
 
         // 捕获promise reject错误
         process.on('unhandledRejection', function (reason, promise) {
-            log(reason);
+            common.log(reason);
         });
 
         // 捕获未知错误
         process.on('uncaughtException', function (err) {
-            log(err);
+            common.log(err);
             if (err.message.indexOf(' EADDRINUSE ') > -1) {
                 process.exit();
             }
@@ -70,13 +72,28 @@ module.exports = class Koahub {
         koahub.config = function (name, value) {
             switch (arguments.length) {
                 case 0:
-                    return koahub.configs.default;
+                    return koahub.configs;
                 case 1:
+                    if (name.indexOf('.') !== -1) {
+                        const names = name.split('.');
+                        return koahub.configs[names[0]][names[1]];
+                    }
                     return koahub.configs.default[name];
                 case 2:
+                    if (name.indexOf('.') !== -1) {
+                        const names = name.split('.');
+                        koahub.configs[names[0]][names[1]] = value;
+                        return;
+                    }
                     koahub.configs.default[name] = value;
             }
         };
+
+        // common函数
+        if (fs.existsSync(path.resolve(koahub.paths.app, 'common.js'))) {
+            koahub.common = common.requireDefault(path.resolve(koahub.paths.app, 'common.js'));
+            assert(lodash.isPlainObject(koahub.common), 'Common.js must export plain object');
+        }
 
         // controller继承
         koahub.controller = Controller;
@@ -88,11 +105,12 @@ module.exports = class Koahub {
         koahub.middlewares = lodash.merge(koahub.middlewares, new Loader(koahub.paths.app, koahub.config('loader').middlewares));
 
         // 自动加载中间件
-        for (let key in koahub.middlewares) {
-            if (koahub.configs.middleware[key] === undefined) {
+        for (let key in koahub.configs.middleware) {
+            if (!koahub.configs.middleware[key]) {
                 continue;
             }
-            if (koahub.configs.middleware[key] === false) {
+            if (!koahub.middlewares[key]) {
+                throw new Error(`middleware ${key} not found, please export the middleware`);
                 continue;
             }
             if (koahub.configs.middleware[key] === true) {
@@ -142,7 +160,7 @@ module.exports = class Koahub {
     // 默认支持koa middleware
     use(fn) {
 
-        if (isGeneratorFunction(fn)) {
+        if (common.isGeneratorFunction(fn)) {
             fn = convert(fn);
         }
         this.koa.use(fn);
@@ -151,7 +169,7 @@ module.exports = class Koahub {
     // 支持express middleware
     useExpress(fn) {
 
-        fn = expressMiddlewareToKoaMiddleware(fn);
+        fn = common.expressMiddlewareToKoaMiddleware(fn);
         this.use(fn);
     }
 
@@ -229,9 +247,9 @@ module.exports = class Koahub {
 
     started(port) {
 
-        log(`Koahub Version: ${koahub.version}`);
-        log(`Koahub Website: http://js.koahub.com`);
-        log(`Server Enviroment: ${process.env.NODE_ENV || 'development'}`);
-        log(`Server running at: http://127.0.0.1:${port}`);
+        common.log(`Koahub Version: ${koahub.version}`);
+        common.log(`Koahub Website: http://js.koahub.com`);
+        common.log(`Server Enviroment: ${process.env.NODE_ENV || 'development'}`);
+        common.log(`Server running at: http://127.0.0.1:${port}`);
     }
 }
