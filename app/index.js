@@ -4,7 +4,6 @@ const http = require('http');
 const path = require('path');
 const assert = require('assert');
 const lodash = require('lodash');
-const socket = require('socket.io');
 const convert = require('koa-convert');
 const debug = require('debug')('koahub');
 const deprecate = require('depd')('koahub');
@@ -181,7 +180,7 @@ module.exports = class Koahub {
     }
 
     // 获取socket
-    getSocket() {
+    getSocket(socket) {
         return socket(this.getServer());
     }
 

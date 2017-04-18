@@ -7,7 +7,7 @@ let app, io, server;
 describe('socket test io instanceof of socket.io', function () {
 
     app = new Koahub();
-    io = app.getSocket();
+    io = app.getSocket(socket);
     server = app.getServer();
     app.run();
 
