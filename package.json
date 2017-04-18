@@ -24,8 +24,7 @@
   "devDependencies": {
     "istanbul": "1.1.0-alpha.1",
     "mocha": "3.2.0",
-    "supertest": "3.0.0",
-    "socket.io": "1.7.3"
+    "supertest": "3.0.0"
   },
   "directories": {},
   "engines": {
@@ -59,5 +58,5 @@
     "test": "mocha --recursive test/{,**/}*.test.js",
     "cover": "istanbul cover _mocha -- --recursive test/{,**/}*.test.js"
   },
-  "version": "2.2.0"
+  "version": "2.2.1"
 }

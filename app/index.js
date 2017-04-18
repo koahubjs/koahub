@@ -179,11 +179,6 @@ module.exports = class Koahub {
         return this.koa;
     }
 
-    // 获取socket
-    getSocket(socket) {
-        return socket(this.getServer());
-    }
-
     // 获取server
     getServer() {
 
