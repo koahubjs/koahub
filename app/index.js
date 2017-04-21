@@ -62,7 +62,7 @@ module.exports = class Koahub {
     loadConfigs() {
 
         koahub.configs = new Loader(__dirname, config.loader.configs);
-        koahub.configs = lodash.merge(koahub.configs, new Loader(koahub.paths.app, config.loader.configs));
+        koahub.configs = lodash.mergeWith(koahub.configs, new Loader(koahub.paths.app, config.loader.configs), common.arrayCustomizer);
     }
 
     loadUtils() {
@@ -101,10 +101,17 @@ module.exports = class Koahub {
     loadMiddlewares() {
 
         koahub.middlewares = new Loader(__dirname, koahub.config('loader').middlewares);
-        koahub.middlewares = lodash.merge(koahub.middlewares, new Loader(koahub.paths.app, koahub.config('loader').middlewares));
+        koahub.middlewares = lodash.mergeWith(koahub.middlewares, new Loader(koahub.paths.app, koahub.config('loader').middlewares), common.arrayCustomizer);
+
+        // 中间件排序
+        for (let key in koahub.configs.middleware) {
+            if (!lodash.includes(koahub.configs.middleware['middleware'], key) && key !== 'middleware') {
+                koahub.configs.middleware['middleware'].push(key);
+            }
+        }
 
         // 自动加载中间件
-        for (let key in koahub.configs.middleware) {
+        for (let key of koahub.configs.middleware['middleware']) {
             if (!koahub.configs.middleware[key]) {
                 continue;
             }

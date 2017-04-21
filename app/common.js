@@ -287,5 +287,17 @@ module.exports = {
         } else {
             console[type](log);
         }
+    },
+
+    /**
+     * array customizer
+     * @param objValue
+     * @param srcValue
+     * @returns {string|*|Array.<T>}
+     */
+    arrayCustomizer(objValue, srcValue) {
+        if (lodash.isArray(objValue)) {
+            return objValue.concat(srcValue);
+        }
     }
 }
