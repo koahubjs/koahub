@@ -1,5 +1,8 @@
 module.exports = {
 
+    //middleware顺序
+    middleware: ['logger', 'common', 'body', 'session'],
+
     //http日志
     logger: true,
 
