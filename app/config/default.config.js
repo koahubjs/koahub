@@ -13,16 +13,16 @@ module.exports = {
 
     //自动加载配置
     loader: {
-        "controllers": {
+        'controllers': {
             root: 'controller',
             suffix: '.controller.js',
             prefix: '/',
         },
-        "configs": {
+        'configs': {
             root: 'config',
             suffix: '.config.js'
         },
-        "middlewares": {
+        'middlewares': {
             root: 'middleware',
             suffix: '.middleware.js'
         }

@@ -30,7 +30,7 @@ module.exports = class Koahub {
     loadErrors() {
 
         // 监控错误日志
-        this.koa.on("error", function (err, ctx) {
+        this.koa.on('error', function (err, ctx) {
             common.log(err);
         });
 
