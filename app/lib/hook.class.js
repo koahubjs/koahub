@@ -30,21 +30,13 @@ module.exports = class Hook {
 
     async run(name) {
 
-        for (let key in this.hooks) {
-            if (name !== key) {
-                continue;
+        let fn = this.hooks[name];
+        if (fn && typeof fn === 'function') {
+            let args = [];
+            for (let i = 1; i < arguments.length; i++) {
+                args.push(arguments[i]);
             }
-
-            let fn = this.hooks[key];
-            if (typeof fn === 'function') {
-
-                // run functions
-                let args = [];
-                for (let i = 1; i < arguments.length; i++) {
-                    args.push(arguments[i]);
-                }
-                await fn(...args);
-            }
+            return await fn(...args);
         }
     }
 }
