@@ -10,6 +10,7 @@ const deprecate = require('depd')('koahub');
 
 const common = require('./common');
 const pkg = require('./../package.json');
+const Hook = require('./lib/hook.class');
 const Loader = require('./lib/loader.class');
 const config = require('./config/default.config');
 const Controller = require('./lib/controller.class');
@@ -98,7 +99,25 @@ module.exports = class Koahub {
         koahub.controller = Controller;
     }
 
+    loadHooks() {
+
+        koahub.hook = new Hook();
+
+        // hook初始化
+        if (fs.existsSync(path.resolve(koahub.paths.app, 'hook.js'))) {
+            koahub.hooks = common.requireDefault(path.resolve(koahub.paths.app, 'hook.js'));
+            assert(lodash.isPlainObject(koahub.hooks), 'Hook.js must export plain object');
+        }
+
+        for (let key in koahub.hooks) {
+            koahub.hook.add(key, koahub.hooks[key]);
+        }
+    }
+
     loadMiddlewares() {
+
+        // 执行钩子 serverLoadMiddlewaresBefore
+        koahub.hook.run('serverLoadMiddlewaresBefore');
 
         koahub.middlewares = new Loader(__dirname, koahub.config('loader').middlewares);
         koahub.middlewares = lodash.mergeWith(koahub.middlewares, new Loader(koahub.paths.app, koahub.config('loader').middlewares), common.arrayCustomizer);
@@ -129,6 +148,9 @@ module.exports = class Koahub {
 
     loadLoaders() {
 
+        // 执行钩子 serverLoadLoadersBefore
+        koahub.hook.run('serverLoadLoadersBefore');
+
         for (let key in koahub.config('loader')) {
 
             // 移除重复加载
@@ -140,6 +162,9 @@ module.exports = class Koahub {
     }
 
     loadModules() {
+
+        // 执行钩子 serverLoadModulesBefore
+        koahub.hook.run('serverLoadModulesBefore');
 
         let modules = [];
         for (let key in koahub.controllers) {
@@ -158,6 +183,7 @@ module.exports = class Koahub {
         this.loadPaths();
         this.loadConfigs();
         this.loadUtils();
+        this.loadHooks();
         this.loadMiddlewares();
         this.loadLoaders();
         this.loadModules();
@@ -195,6 +221,9 @@ module.exports = class Koahub {
 
     loadHttpMiddlewares() {
 
+        // 执行钩子 serverLoadHttpMiddlewaresBefore
+        koahub.hook.run('serverLoadHttpMiddlewaresBefore');
+
         // 加载http中间件
         this.use(httpMiddleware().skip(function (ctx) {
 
@@ -226,6 +255,7 @@ module.exports = class Koahub {
 
     run(port) {
 
+        // http中间件最后加载
         this.loadHttpMiddlewares();
 
         if (!port) {
@@ -237,16 +267,20 @@ module.exports = class Koahub {
 
     start(port) {
 
-        if (this.server) {
-            this.server.listen(port);
-        } else {
-            this.getServer().listen(port);
-        }
+        // 执行钩子 serverStart
+        koahub.hook.run('serverStart');
 
-        this.started(port);
+        if (this.server) {
+            this.server.listen(port, this.started(port));
+        } else {
+            this.getServer().listen(port, this.started(port));
+        }
     }
 
     started(port) {
+
+        // 执行钩子 serverStarted
+        koahub.hook.run('serverStarted');
 
         common.log(`Koahub Version: ${koahub.version}`);
         common.log(`Koahub Website: http://js.koahub.com`);

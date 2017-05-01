@@ -3,10 +3,6 @@ const common = require('./../common');
 module.exports = class Hook {
 
     constructor(ctx, next) {
-
-        this.ctx = ctx;
-        this.next = next;
-
         this.hooks = {};
     }
 
@@ -23,39 +19,31 @@ module.exports = class Hook {
         }
     }
 
-    add(name, action) {
+    add(name, fn) {
 
-        let add = true;
-        for (let key in this.hooks) {
-            if (name === key) {
-                this.hooks[key].push(action);
-                add = false;
-            }
+        if (this.hooks[name]) {
+            common.log(`The "${name}" hook already exists. repeat adding will cover before`, 'info');
         }
-        if (add) {
-            this.hooks[name] = [action];
-        }
+
+        this.hooks[name] = fn;
     }
 
     async run(name) {
 
         for (let key in this.hooks) {
-            if (name === key) {
-                for (let action of this.hooks[key]) {
-                    if (/(\/\w+)+/.test(action)) {
+            if (name !== key) {
+                continue;
+            }
 
-                        // run http
-                        await common.runHttp(Object.assign(this.ctx, {path: action}), this.next);
-                    } else {
+            let fn = this.hooks[key];
+            if (typeof fn === 'function') {
 
-                        // run functions
-                        let args = [];
-                        for (let i = 1; i < arguments.length; i++) {
-                            args.push(arguments[i]);
-                        }
-                        await action(...args);
-                    }
+                // run functions
+                let args = [];
+                for (let i = 1; i < arguments.length; i++) {
+                    args.push(arguments[i]);
                 }
+                await fn(...args);
             }
         }
     }

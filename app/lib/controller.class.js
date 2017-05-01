@@ -2,7 +2,6 @@ const fs = require('fs');
 const co = require('co');
 const path = require('path');
 const assert = require('assert');
-const Hook = require('./../lib/hook.class');
 const common = require('./../common');
 
 module.exports = class Controller {
@@ -14,7 +13,6 @@ module.exports = class Controller {
 
         this.ctx = ctx;
         this.next = next;
-        this.hook = new Hook(ctx, next);
 
         for (let name in ctx) {
             if (typeof ctx[name] !== 'function') {
@@ -34,6 +32,10 @@ module.exports = class Controller {
                 }
             }
         }
+    }
+
+    get hook() {
+        return koahub.hook;
     }
 
     isGet() {
