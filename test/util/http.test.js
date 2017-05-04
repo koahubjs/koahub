@@ -76,18 +76,4 @@ describe('http util', () => {
         });
     });
 
-    describe('urlObjToParam', () => {
-        it('query null, obj {id: 1} return ?id=1', () => {
-            assert.equal(common.urlObjToParam('', {id: 1}), '?id=1');
-        });
-
-        it('query null, obj {id: 1, name: 2} return ?id=1&name=2', () => {
-            assert.equal(common.urlObjToParam('', {id: 1, name: 2}), '?id=1&name=2');
-        });
-
-        it('query name=2, obj {id: 1} return ?id=1&name=2', () => {
-            assert.equal(common.urlObjToParam('name=2', {id: 1}), '?id=1&name=2');
-        });
-    });
-
 });

@@ -9,6 +9,6 @@ module.exports = class extends koahub.controller {
     }
 
     detail() {
-        this.view(this.query.id);
+        this.view(this.params.id);
     }
 }
