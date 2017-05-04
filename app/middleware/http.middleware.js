@@ -8,10 +8,11 @@ module.exports = function httpMiddleware() {
 
     const http = async function (ctx, next) {
 
-        const routers = koahub.configs.router;
+        let routers = koahub.configs.router;
+        let regexp, regres, index, url, path, method = ctx.method;
 
-        let regexp, regres, index, url, path, method = ctx.method,
-            params = [];
+        // 注入params参数
+        ctx.params = {}
 
         if (routers && routers.length) {
             for (let router in routers) {
@@ -22,7 +23,7 @@ module.exports = function httpMiddleware() {
 
                 if (regres) {
                     for (var key in keys) {
-                        params[keys[key].name] = regres[parseInt(key) + 1];
+                        ctx.params[keys[key].name] = regres[parseInt(key) + 1];
                     }
                     index = router;
                     break;
@@ -33,12 +34,12 @@ module.exports = function httpMiddleware() {
                 const router = routers[index][1];
                 if (lodash.isString(router)) {
                     path = router;
-                    url = router + common.urlObjToParam(parse(ctx.url).query, params);
+                    url = router + parse(ctx.url).search;
                 } else {
                     const routerMethod = router[method.toLowerCase()];
                     if (routerMethod) {
                         path = routerMethod;
-                        url = routerMethod + common.urlObjToParam(parse(ctx.url).query, params);
+                        url = routerMethod + parse(ctx.url).search;
                     } else {
                         common.log('Not Found Router');
                         return;

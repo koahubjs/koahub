@@ -241,26 +241,6 @@ module.exports = {
     },
 
     /**
-     * url obj to param
-     * @param query
-     * @param obj
-     * @returns {string}
-     */
-    urlObjToParam(query, obj) {
-
-        let param = '';
-        for (let key in obj) {
-            param += '&' + key + '=' + obj[key];
-        }
-
-        param = '?' + param.substr(1, param.length);
-        if (query) {
-            param += '&' + query;
-        }
-        return param;
-    },
-
-    /**
      * return es6 module or common module
      * @param file
      * @returns {*}
