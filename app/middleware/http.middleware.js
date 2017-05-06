@@ -9,7 +9,7 @@ module.exports = function httpMiddleware() {
     const http = async function (ctx, next) {
 
         let routers = koahub.configs.router;
-        let regexp, regres, index, url, path, method = ctx.method;
+        let regexp, regres, index, url, path, query, method = ctx.method;
 
         // 注入params参数
         ctx.params = {}
@@ -34,12 +34,14 @@ module.exports = function httpMiddleware() {
                 const router = routers[index][1];
                 if (lodash.isString(router)) {
                     path = router;
-                    url = router + (parse(ctx.url).search || '');
+                    query = parse(ctx.url).search || '';
+                    url = path + query;
                 } else {
                     const routerMethod = router[method.toLowerCase()];
                     if (routerMethod) {
                         path = routerMethod;
-                        url = router + (parse(ctx.url).search || '');
+                        query = parse(ctx.url).search || '';
+                        url = path + query;
                     } else {
                         common.log('Not Found Router');
                         return;
