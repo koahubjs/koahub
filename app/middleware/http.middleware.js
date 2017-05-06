@@ -34,12 +34,12 @@ module.exports = function httpMiddleware() {
                 const router = routers[index][1];
                 if (lodash.isString(router)) {
                     path = router;
-                    url = router + parse(ctx.url).search;
+                    url = router + (parse(ctx.url).search || '');
                 } else {
                     const routerMethod = router[method.toLowerCase()];
                     if (routerMethod) {
                         path = routerMethod;
-                        url = routerMethod + parse(ctx.url).search;
+                        url = router + (parse(ctx.url).search || '');
                     } else {
                         common.log('Not Found Router');
                         return;
