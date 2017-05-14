@@ -63,6 +63,7 @@ module.exports = class extends base {
 * 支持禁用控制器方法
 * 支持 Restful 设计
 * 支持 Common 自动加载
+* 支持启动自定义
 * ...
 
 ## 安装
@@ -269,10 +270,12 @@ npm start
 ## 启动信息
 
 ```text
-[2016-11-28 09:56:03] [Koahub] Koahub Version: 2.2.3
-[2016-11-28 09:56:03] [Koahub] Koahub Website: http://js.koahub.com
-[2016-11-28 09:56:03] [Koahub] Server Enviroment: development
-[2016-11-28 09:56:03] [Koahub] Server running at: http://127.0.0.1:3000
+[2017-05-14 11:48:05] [Koahub] Koahub Version: 2.2.3
+[2017-05-14 11:48:05] [Koahub] Koahub Website: http://js.koahub.com
+[2017-05-14 11:48:05] [Koahub] Nodejs Version: v7.9.0
+[2017-05-14 11:48:05] [Koahub] Nodejs Platform: darwin x64
+[2017-05-14 11:48:05] [Koahub] Server Enviroment: development
+[2017-05-14 11:48:05] [Koahub] Server running at: http://127.0.0.1:3000
 ```
 
 
