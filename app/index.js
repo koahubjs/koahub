@@ -132,7 +132,7 @@ module.exports = class Koahub {
                 continue;
             }
             if (!koahub.middlewares[key]) {
-                throw new Error(`middleware ${key} not found, please export the middleware`);
+                throw new Error(`The ${key} middleware not found, please export the middleware`);
                 continue;
             }
             if (koahub.configs.middleware[key] === true) {
@@ -272,7 +272,9 @@ module.exports = class Koahub {
 
         common.log(`Koahub Version: ${koahub.version}`);
         common.log(`Koahub Website: http://js.koahub.com`);
-        common.log(`Server Enviroment: ${process.env.NODE_ENV || 'development'}`);
+        common.log(`Nodejs Version: ${process.version}`);
+        common.log(`Nodejs Platform: ${process.platform} ${process.arch}`);
+        common.log(`Server Enviroment: ${this.koa.env}`);
         common.log(`Server running at: http://127.0.0.1:${port}`);
     }
 }
