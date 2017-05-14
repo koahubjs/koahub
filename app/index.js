@@ -116,9 +116,6 @@ module.exports = class Koahub {
 
     loadMiddlewares() {
 
-        // 执行钩子 serverLoadMiddlewaresBefore
-        koahub.hook.run('serverLoadMiddlewaresBefore');
-
         koahub.middlewares = new Loader(__dirname, koahub.config('loader').middlewares);
         koahub.middlewares = lodash.mergeWith(koahub.middlewares, new Loader(koahub.paths.app, koahub.config('loader').middlewares), common.arrayCustomizer);
 
@@ -148,9 +145,6 @@ module.exports = class Koahub {
 
     loadLoaders() {
 
-        // 执行钩子 serverLoadLoadersBefore
-        koahub.hook.run('serverLoadLoadersBefore');
-
         for (let key in koahub.config('loader')) {
 
             // 移除重复加载
@@ -162,9 +156,6 @@ module.exports = class Koahub {
     }
 
     loadModules() {
-
-        // 执行钩子 serverLoadModulesBefore
-        koahub.hook.run('serverLoadModulesBefore');
 
         let modules = [];
         for (let key in koahub.controllers) {
@@ -221,9 +212,6 @@ module.exports = class Koahub {
 
     loadHttpMiddlewares() {
 
-        // 执行钩子 serverLoadHttpMiddlewaresBefore
-        koahub.hook.run('serverLoadHttpMiddlewaresBefore');
-
         // 加载http中间件
         this.use(httpMiddleware().skip(function (ctx) {
 
@@ -253,7 +241,7 @@ module.exports = class Koahub {
         }));
     }
 
-    run(port) {
+    async run(port) {
 
         // http中间件最后加载
         this.loadHttpMiddlewares();
@@ -262,13 +250,13 @@ module.exports = class Koahub {
             port = koahub.config('port');
         }
 
-        this.start(port);
+        await this.start(port);
     }
 
-    start(port) {
+    async start(port) {
 
         // 执行钩子 serverStart
-        koahub.hook.run('serverStart');
+        await koahub.hook.run('serverStart');
 
         if (this.server) {
             this.server.listen(port, this.started(port));
@@ -277,10 +265,10 @@ module.exports = class Koahub {
         }
     }
 
-    started(port) {
+    async started(port) {
 
         // 执行钩子 serverStarted
-        koahub.hook.run('serverStarted');
+        await koahub.hook.run('serverStarted');
 
         common.log(`Koahub Version: ${koahub.version}`);
         common.log(`Koahub Website: http://js.koahub.com`);

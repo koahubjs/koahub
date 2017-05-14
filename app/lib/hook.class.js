@@ -25,6 +25,11 @@ module.exports = class Hook {
             common.log(`The "${name}" hook already exists. repeat adding will cover before`, 'info');
         }
 
+        if (typeof fn !== 'function') {
+            throw new Error(`The "${name}" hook only support function`);
+            return;
+        }
+
         this.hooks[name] = fn;
     }
 
