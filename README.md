@@ -64,6 +64,7 @@ module.exports = class extends base {
 * 支持 Restful 设计
 * 支持 Common 自动加载
 * 支持启动自定义
+* 支持根据环境加载配置
 * ...
 
 ## 安装

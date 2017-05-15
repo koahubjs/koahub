@@ -23,8 +23,8 @@ module.exports = class Koahub {
         // 加载全局变量
         global.koahub = pkg;
 
-        this.koa = new Koa();
-        this.options = options;
+        this.koa = koahub.koa = new Koa();
+        this.options = koahub.options = options;
         this.init();
     }
 
@@ -70,22 +70,44 @@ module.exports = class Koahub {
 
         // config函数
         koahub.config = function (name, value) {
+
+            const env = koahub.koa.env;
             switch (arguments.length) {
+
                 case 0:
                     return koahub.configs;
                 case 1:
+
                     if (name.indexOf('.') !== -1) {
                         const names = name.split('.');
+                        if (koahub.configs[`${env}/${names[0]}`] && koahub.configs[`${env}/${names[0]}`][names[1]]) {
+                            return koahub.configs[`${env}/${names[0]}`][names[1]];
+                        }
                         return koahub.configs[names[0]][names[1]];
+                    } else {
+                        if (koahub.configs[`${env}/default`] && koahub.configs[`${env}/default`][name]) {
+                            return koahub.configs[`${env}/default`][name];
+                        }
+                        return koahub.configs.default[name];
                     }
-                    return koahub.configs.default[name];
                 case 2:
+
                     if (name.indexOf('.') !== -1) {
                         const names = name.split('.');
+                        if (koahub.configs[`${env}/${names[0]}`] && koahub.configs[`${env}/${names[0]}`][names[1]]) {
+                            koahub.configs[`${env}/${names[0]}`][names[1]] = value;
+                            return;
+                        }
                         koahub.configs[names[0]][names[1]] = value;
                         return;
+                    } else {
+                        if (koahub.configs[`${env}/default`] && koahub.configs[`${env}/default`][name]) {
+                            koahub.configs[`${env}/default`][name] = value;
+                            return;
+                        }
+                        koahub.configs.default[name] = value;
+                        return;
                     }
-                    koahub.configs.default[name] = value;
             }
         };
 
