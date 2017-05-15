@@ -33,15 +33,13 @@ module.exports = class Hook {
         this.hooks[name] = fn;
     }
 
-    async run(name) {
+    run(name, ...args) {
 
-        let fn = this.hooks[name];
-        if (fn && typeof fn === 'function') {
-            let args = [];
-            for (let i = 1; i < arguments.length; i++) {
-                args.push(arguments[i]);
-            }
-            return await fn(...args);
+        const fn = this.hooks[name];
+        if (!fn) {
+            common.log(`The "${name}" hook not found`, 'info');
+            return;
         }
+        return fn(...args);
     }
 }
