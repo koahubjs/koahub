@@ -37,7 +37,6 @@ module.exports = class Hook {
 
         const fn = this.hooks[name];
         if (!fn) {
-            common.log(`The "${name}" hook not found`, 'info');
             return;
         }
         return fn(...args);
