@@ -176,7 +176,7 @@ loader: {
 
 //中间件默认配置
 //middleware顺序
-middleware: ['koa-logger', 'koa-session2'],
+middleware: ['koa-logger'],
 
 //http日志
 'koa-logger': true,
