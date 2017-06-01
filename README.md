@@ -64,7 +64,6 @@ module.exports = class extends base {
 * 支持 Restful 设计
 * 支持 Common 自动加载
 * 支持启动自定义
-* 支持根据环境加载配置
 * ...
 
 ## 安装
@@ -176,11 +175,14 @@ loader: {
 }
 
 //中间件默认配置
+//middleware顺序
+middleware: ['koa-logger', 'koa-session2'],
+
 //http日志
-logger: true,
+'koa-logger': true,
 
 //favicon设置
-favicon: 'www/favicon.ico',
+'koa-favicon': 'www/favicon.ico',
 
 //body配置
 body: {
@@ -188,16 +190,13 @@ body: {
 },
 
 //cors配置
-cors: false,
+'koa-cors': false,
 
 //session配置
-session: false,
+'koa-session2': false,
 
 //static配置
-static: false,
-
-//common配置
-common: true
+'koa-static-cache': false
 ```
 
 ## 其他
@@ -271,9 +270,9 @@ npm start
 ## 启动信息
 
 ```text
-[2017-05-14 11:48:05] [Koahub] Koahub Version: 2.2.4
+[2017-05-14 11:48:05] [Koahub] Koahub Version: 2.2.5
 [2017-05-14 11:48:05] [Koahub] Koahub Website: http://js.koahub.com
-[2017-05-14 11:48:05] [Koahub] Nodejs Version: v7.9.0
+[2017-05-14 11:48:05] [Koahub] Nodejs Version: v8.0.0
 [2017-05-14 11:48:05] [Koahub] Nodejs Platform: darwin x64
 [2017-05-14 11:48:05] [Koahub] Server Enviroment: development
 [2017-05-14 11:48:05] [Koahub] Server running at: http://127.0.0.1:3000

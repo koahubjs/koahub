@@ -16,8 +16,8 @@ module.exports = class extends koahub.controller {
     }
 
     async fun2() {
-    	
-    	this.hook.add('hook1', (a, b) => {
+
+        this.hook.add('hook1', (a, b) => {
             this.view(a + b);
         });
 

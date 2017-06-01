@@ -1,13 +1,13 @@
 module.exports = {
 
     //middleware顺序
-    middleware: ['logger', 'common', 'session'],
+    middleware: ['koa-logger'],
 
     //http日志
-    logger: true,
+    'koa-logger': true,
 
     //favicon设置
-    favicon: 'www/favicon.ico',
+    'koa-favicon': 'www/favicon.ico',
 
     //body配置
     body: {
@@ -15,14 +15,11 @@ module.exports = {
     },
 
     //cors配置
-    cors: false,
+    'koa-cors': false,
 
     //session配置
-    session: false,
+    'koa-session2': false,
 
     //static配置
-    static: false,
-
-    //common配置
-    common: true
+    'koa-static-cache': false
 }

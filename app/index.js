@@ -70,44 +70,22 @@ module.exports = class Koahub {
 
         // config函数
         koahub.config = function (name, value) {
-
-            const env = koahub.koa.env;
             switch (arguments.length) {
-
                 case 0:
                     return koahub.configs;
                 case 1:
-
                     if (name.indexOf('.') !== -1) {
                         const names = name.split('.');
-                        if (koahub.configs[`${env}/${names[0]}`] && koahub.configs[`${env}/${names[0]}`][names[1]]) {
-                            return koahub.configs[`${env}/${names[0]}`][names[1]];
-                        }
                         return koahub.configs[names[0]][names[1]];
-                    } else {
-                        if (koahub.configs[`${env}/default`] && koahub.configs[`${env}/default`][name]) {
-                            return koahub.configs[`${env}/default`][name];
-                        }
-                        return koahub.configs.default[name];
                     }
+                    return koahub.configs.default[name];
                 case 2:
-
                     if (name.indexOf('.') !== -1) {
                         const names = name.split('.');
-                        if (koahub.configs[`${env}/${names[0]}`] && koahub.configs[`${env}/${names[0]}`][names[1]]) {
-                            koahub.configs[`${env}/${names[0]}`][names[1]] = value;
-                            return;
-                        }
                         koahub.configs[names[0]][names[1]] = value;
                         return;
-                    } else {
-                        if (koahub.configs[`${env}/default`] && koahub.configs[`${env}/default`][name]) {
-                            koahub.configs[`${env}/default`][name] = value;
-                            return;
-                        }
-                        koahub.configs.default[name] = value;
-                        return;
                     }
+                    koahub.configs.default[name] = value;
             }
         };
 
@@ -152,16 +130,25 @@ module.exports = class Koahub {
         for (let key of koahub.configs.middleware['middleware']) {
             if (!koahub.configs.middleware[key]) {
                 continue;
+            } else {
+                if (koahub.middlewares[key]) {
+                    this.use(koahub.middlewares[key](koahub.configs.middleware[key]));
+                    continue;
+                }
+
+                try {
+                    if (require(key)) {
+                        if(koahub.configs.middleware[key] === true){
+                            this.use(require(key)());
+                            continue;
+                        }
+                        this.use(require(key)(koahub.configs.middleware[key]));
+                        continue;
+                    }
+                } catch (err) {
+                    throw new Error(`The ${key} middleware not found`);
+                }
             }
-            if (!koahub.middlewares[key]) {
-                throw new Error(`The ${key} middleware not found, please export the middleware`);
-                continue;
-            }
-            if (koahub.configs.middleware[key] === true) {
-                this.use(koahub.middlewares[key]());
-                continue;
-            }
-            this.use(koahub.middlewares[key](koahub.configs.middleware[key]));
         }
     }
 

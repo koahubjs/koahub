@@ -1,10 +1,10 @@
 module.exports = {
 
-    session: false,
+    'koa-session2': false,
 
-    cors: true,
+    'koa-cors': true,
 
-    static: {
+    'koa-static-cache': {
         dir: 'www'
     }
 }

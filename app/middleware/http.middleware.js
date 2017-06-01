@@ -12,7 +12,7 @@ module.exports = function httpMiddleware() {
         let regexp, regres, index, url, path, query, method = ctx.method;
 
         // 注入params参数
-        ctx.params = {}
+        ctx.params = {};
 
         if (routers && routers.length) {
             for (let router in routers) {

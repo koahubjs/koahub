@@ -32,10 +32,22 @@ module.exports = class Controller {
                 }
             }
         }
+
+        for (let name in koahub.common) {
+            if (!this[name]) {
+                this[name] = koahub.common[name];
+            } else {
+                throw new Error(`Don\'t use the "${name}" method in the common.js`);
+            }
+        }
     }
 
     get hook() {
         return koahub.hook;
+    }
+
+    get config() {
+        return koahub.config;
     }
 
     isGet() {
