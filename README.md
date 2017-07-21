@@ -280,7 +280,7 @@ npm start
 
 
 ## 使用手册
-[KoaHub.js手册](http://js.koahub.com/public/docs/index.html)
+[KoaHub.js手册](https://github.com/koahubjs/koahub/tree/master/docs/README.md)
 
 ## 官网
-[KoaHub.js官网](http://js.koahub.com)
+[KoaHub.js官网](https://github.com/koahubjs)
