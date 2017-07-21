@@ -130,7 +130,7 @@ thinkjs 是一个非常优秀的框架，在开发效率和体验上占有绝对
 
 #### 性能测试
 
-![](https://github.com/koahubjs/koahub/tree/master/docs/wrk.png)
+![](https://raw.githubusercontent.com/koahubjs/koahub/master/docs/wrk.png)
 
 
 ### 创建项目
