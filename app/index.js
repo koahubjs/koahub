@@ -30,6 +30,15 @@ module.exports = class Koahub {
 
     loadErrors() {
 
+        // 捕捉中间件错误
+        this.koa.use(async function (ctx, next) {
+            try {
+                await next();
+            } catch (err) {
+                throw err;
+            }
+        });
+
         // 监控错误日志
         this.koa.on('error', function (err, ctx) {
             common.log(err);

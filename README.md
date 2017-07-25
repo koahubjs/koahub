@@ -270,7 +270,7 @@ npm start
 ## 启动信息
 
 ```text
-[2017-05-14 11:48:05] [Koahub] Koahub Version: 2.2.5
+[2017-05-14 11:48:05] [Koahub] Koahub Version: 2.2.6
 [2017-05-14 11:48:05] [Koahub] Koahub Website: http://js.koahub.com
 [2017-05-14 11:48:05] [Koahub] Nodejs Version: v8.0.0
 [2017-05-14 11:48:05] [Koahub] Nodejs Platform: darwin x64

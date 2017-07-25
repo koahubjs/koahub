@@ -88,7 +88,7 @@ module.exports = class extends base {
 ##### 服务 启动日志
 
 ```
-[2017-05-14 11:48:05] [Koahub] Koahub Version: 2.2.5
+[2017-05-14 11:48:05] [Koahub] Koahub Version: 2.2.6
 [2017-05-14 11:48:05] [Koahub] Koahub Website: http://js.koahub.com
 [2017-05-14 11:48:05] [Koahub] Nodejs Version: v8.0.0
 [2017-05-14 11:48:05] [Koahub] Nodejs Platform: darwin x64
@@ -176,7 +176,7 @@ npm start
 在项目目录下执行命令 `npm start`，如果能看到类似下面的内容，表示服务启动成功。
 
 ```
-[2017-05-14 11:48:05] [Koahub] Koahub Version: 2.2.5
+[2017-05-14 11:48:05] [Koahub] Koahub Version: 2.2.6
 [2017-05-14 11:48:05] [Koahub] Koahub Website: http://js.koahub.com
 [2017-05-14 11:48:05] [Koahub] Nodejs Version: v8.0.0
 [2017-05-14 11:48:05] [Koahub] Nodejs Platform: darwin x64
@@ -928,7 +928,7 @@ const io = socket(server);
   scripts:
    { compile: 'babel src/ --out-dir lib/ --watch --source-maps',
      test: 'mocha test/{,**/}*.test.js --recursive --require babel-polyfill --compilers js:babel-register' },
-  version: '2.2.5',
+  version: '2.2.6',
   app: { subdomainOffset: 2, proxy: false, env: 'development' },
   paths:
    { rootPath: '/Users/heqing/Downloads/koahub-demo-master',

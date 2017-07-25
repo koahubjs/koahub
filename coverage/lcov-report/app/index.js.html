@@ -1,0 +1,956 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for app/index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">app</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">89.71% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>122/136</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">84.62% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>44/52</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">91.67% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>22/24</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">89.71% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>122/136</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">53x</span>
+<span class="cline-any cline-yes">53x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">723x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">718x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">718x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">427x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">366x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">305x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">244x</span>
+<span class="cline-any cline-yes">244x</span>
+<span class="cline-any cline-yes">244x</span>
+<span class="cline-any cline-yes">122x</span>
+<span class="cline-any cline-yes">122x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">122x</span>
+<span class="cline-any cline-yes">122x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">305x</span>
+<span class="cline-any cline-yes">122x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">183x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">811x</span>
+<span class="cline-any cline-yes">811x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">750x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-yes">61x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">359x</span>
+<span class="cline-any cline-yes">62x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">359x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">54x</span>
+<span class="cline-any cline-yes">54x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">47x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">46x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const fs = require('fs');
+const Koa = require('koa');
+const http = require('http');
+const path = require('path');
+const assert = require('assert');
+const lodash = require('lodash');
+const convert = require('koa-convert');
+const debug = require('debug')('koahub');
+const deprecate = require('depd')('koahub');
+&nbsp;
+const common = require('./common');
+const pkg = require('./../package.json');
+const Hook = require('./lib/hook.class');
+const Loader = require('./lib/loader.class');
+const config = require('./config/default.config');
+const Controller = require('./lib/controller.class');
+const httpMiddleware = require('./middleware/http.middleware');
+&nbsp;
+module.exports = class Koahub {
+&nbsp;
+    constructor(options = {}) {
+&nbsp;
+        // 加载全局变量
+        global.koahub = pkg;
+&nbsp;
+        this.koa = koahub.koa = new Koa();
+        this.options = koahub.options = options;
+        this.init();
+    }
+&nbsp;
+    loadErrors() {
+&nbsp;
+        // 捕捉中间件错误
+        this.koa.use(async function (ctx, next) {
+            try {
+                await next();
+            } catch (err) {
+                throw err;
+            }
+        });
+&nbsp;
+        // 监控错误日志
+        this.koa.on('error', function (err, ctx) {
+            common.log(err);
+        });
+&nbsp;
+        // 捕获promise reject错误
+        process.on('unhandledRejection', <span class="fstat-no" title="function not covered" >fu</span>nction (reason, promise) {
+<span class="cstat-no" title="statement not covered" >            common.log(reason);</span>
+        });
+&nbsp;
+        // 捕获未知错误
+        process.on('uncaughtException', <span class="fstat-no" title="function not covered" >fu</span>nction (err) {
+<span class="cstat-no" title="statement not covered" >            common.log(err);</span>
+<span class="cstat-no" title="statement not covered" >            if (err.message.indexOf(' EADDRINUSE ') &gt; -1) {</span>
+<span class="cstat-no" title="statement not covered" >                process.exit();</span>
+            }
+        });
+    }
+&nbsp;
+    loadPaths() {
+&nbsp;
+        const root = this.options.root || process.env.ROOT || process.cwd();
+        const app = path.resolve(root, this.options.app || process.env.APP || 'app');
+&nbsp;
+        koahub.paths = {
+            app: app,
+            root: root
+        };
+    }
+&nbsp;
+    loadConfigs() {
+&nbsp;
+        koahub.configs = new Loader(__dirname, config.loader.configs);
+        koahub.configs = lodash.mergeWith(koahub.configs, new Loader(koahub.paths.app, config.loader.configs), common.arrayCustomizer);
+    }
+&nbsp;
+    loadUtils() {
+&nbsp;
+        // config函数
+        koahub.config = function (name, value) {
+            switch (arguments.length) {
+                case 0:
+                    return koahub.configs;
+                case 1:
+                    <span class="missing-if-branch" title="if path not taken" >I</span>if (name.indexOf('.') !== -1) {
+                        const names = <span class="cstat-no" title="statement not covered" >name.split('.');</span>
+<span class="cstat-no" title="statement not covered" >                        return koahub.configs[names[0]][names[1]];</span>
+                    }
+                    return koahub.configs.default[name];
+                case 2:
+                    <span class="missing-if-branch" title="if path not taken" >I</span>if (name.indexOf('.') !== -1) {
+                        const names = <span class="cstat-no" title="statement not covered" >name.split('.');</span>
+<span class="cstat-no" title="statement not covered" >                        koahub.configs[names[0]][names[1]] = value;</span>
+<span class="cstat-no" title="statement not covered" >                        return;</span>
+                    }
+                    koahub.configs.default[name] = value;
+            }
+        };
+&nbsp;
+        // common函数
+        if (fs.existsSync(path.resolve(koahub.paths.app, 'common.js'))) {
+            koahub.common = common.requireDefault(path.resolve(koahub.paths.app, 'common.js'));
+            assert(lodash.isPlainObject(koahub.common), 'Common.js must export plain object');
+        }
+&nbsp;
+        // controller继承
+        koahub.controller = Controller;
+    }
+&nbsp;
+    loadHooks() {
+&nbsp;
+        koahub.hook = new Hook();
+&nbsp;
+        // hook初始化
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (fs.existsSync(path.resolve(koahub.paths.app, 'hook.js'))) {
+<span class="cstat-no" title="statement not covered" >            koahub.hooks = common.requireDefault(path.resolve(koahub.paths.app, 'hook.js'));</span>
+<span class="cstat-no" title="statement not covered" >            assert(lodash.isPlainObject(koahub.hooks), 'Hook.js must export plain object');</span>
+        }
+&nbsp;
+        for (let key in koahub.hooks) {
+<span class="cstat-no" title="statement not covered" >            koahub.hook.add(key, koahub.hooks[key]);</span>
+        }
+    }
+&nbsp;
+    loadMiddlewares() {
+&nbsp;
+        koahub.middlewares = new Loader(__dirname, koahub.config('loader').middlewares);
+        koahub.middlewares = lodash.mergeWith(koahub.middlewares, new Loader(koahub.paths.app, koahub.config('loader').middlewares), common.arrayCustomizer);
+&nbsp;
+        // 中间件排序
+        for (let key in koahub.configs.middleware) {
+            if (!lodash.includes(koahub.configs.middleware['middleware'], key) &amp;&amp; key !== 'middleware') {
+                koahub.configs.middleware['middleware'].push(key);
+            }
+        }
+&nbsp;
+        // 自动加载中间件
+        for (let key of koahub.configs.middleware['middleware']) {
+            if (!koahub.configs.middleware[key]) {
+                continue;
+            } else {
+                if (koahub.middlewares[key]) {
+                    this.use(koahub.middlewares[key](koahub.configs.middleware[key]));
+                    continue;
+                }
+&nbsp;
+                try {
+                    <span class="missing-if-branch" title="else path not taken" >E</span>if (require(key)) {
+                        if(koahub.configs.middleware[key] === true){
+                            this.use(require(key)());
+                            continue;
+                        }
+                        this.use(require(key)(koahub.configs.middleware[key]));
+                        continue;
+                    }
+                } catch (err) {
+<span class="cstat-no" title="statement not covered" >                    throw new Error(`The ${key} middleware not found`);</span>
+                }
+            }
+        }
+    }
+&nbsp;
+    loadLoaders() {
+&nbsp;
+        for (let key in koahub.config('loader')) {
+&nbsp;
+            // 移除重复加载
+            if (key === 'configs' || key === 'middlewares') {
+                continue;
+            }
+            koahub[key] = new Loader(koahub.paths.app, koahub.config('loader')[key]);
+        }
+    }
+&nbsp;
+    loadModules() {
+&nbsp;
+        let modules = [];
+        for (let key in koahub.controllers) {
+            let paths = key.split('/');
+            if (paths.length &lt; 3) {
+                continue;
+            }
+            modules.push(paths[1]);
+        }
+        koahub.modules = lodash.union(modules);
+    }
+&nbsp;
+    init() {
+&nbsp;
+        this.loadErrors();
+        this.loadPaths();
+        this.loadConfigs();
+        this.loadUtils();
+        this.loadHooks();
+        this.loadMiddlewares();
+        this.loadLoaders();
+        this.loadModules();
+    }
+&nbsp;
+    // 默认支持koa middleware
+    use(fn) {
+&nbsp;
+        if (common.isGeneratorFunction(fn)) {
+            fn = convert(fn);
+        }
+        this.koa.use(fn);
+    }
+&nbsp;
+    // 支持express middleware
+    useExpress(fn) {
+&nbsp;
+        fn = common.expressMiddlewareToKoaMiddleware(fn);
+        this.use(fn);
+    }
+&nbsp;
+    // 获取koa
+    getKoa() {
+&nbsp;
+        deprecate('app.getKoa() has been deprecated, please use the app.use() to use middleware!');
+        return this.koa;
+    }
+&nbsp;
+    // 获取server
+    getServer() {
+&nbsp;
+        const server = http.Server(this.koa.callback());
+        return this.server = server;
+    }
+&nbsp;
+    loadHttpMiddlewares() {
+&nbsp;
+        // 加载http中间件
+        this.use(httpMiddleware().skip(function (ctx) {
+&nbsp;
+            const path = ctx.path;
+            const urlSuffix = koahub.config('url_suffix');
+&nbsp;
+            if (urlSuffix) {
+                const regexp = new RegExp(`${urlSuffix}$`);
+                if (regexp.test(path)) {
+                    ctx.path = path.substr(0, path.lastIndexOf(urlSuffix));
+                    return false;
+                }
+                return true;
+            }
+&nbsp;
+            // path验证，资源文件跳过中间件
+            if (/[^\/]+\.+\w+$/.test(path)) {
+                return true;
+            }
+&nbsp;
+            // path验证，无效跳过中间件
+            if (/\/\//.test(path)) {
+                return true;
+            }
+&nbsp;
+            return false;
+        }));
+    }
+&nbsp;
+    async run(port) {
+&nbsp;
+        // http中间件最后加载
+        this.loadHttpMiddlewares();
+&nbsp;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (!port) {
+            port = koahub.config('port');
+        }
+&nbsp;
+        await this.start(port);
+    }
+&nbsp;
+    async start(port) {
+&nbsp;
+        // 执行钩子 serverStart
+        await koahub.hook.run('serverStart');
+&nbsp;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (this.server) {
+            this.server.listen(port, this.started(port));
+        } else {
+<span class="cstat-no" title="statement not covered" >            this.getServer().listen(port, this.started(port));</span>
+        }
+    }
+&nbsp;
+    async started(port) {
+&nbsp;
+        // 执行钩子 serverStarted
+        await koahub.hook.run('serverStarted');
+&nbsp;
+        common.log(`Koahub Version: ${koahub.version}`);
+        common.log(`Koahub Website: http://js.koahub.com`);
+        common.log(`Nodejs Version: ${process.version}`);
+        common.log(`Nodejs Platform: ${process.platform} ${process.arch}`);
+        common.log(`Server Enviroment: ${this.koa.env}`);
+        common.log(`Server running at: http://127.0.0.1:${port}`);
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Jul 25 2017 12:31:32 GMT+0800 (CST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
