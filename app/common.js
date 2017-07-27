@@ -263,11 +263,10 @@ module.exports = {
     log(log, type = 'log') {
 
         if (typeof log === 'string') {
-            console[type](`[${moment().format('YYYY-MM-DD HH:mm:ss')}] [Koahub] [Log] ${log}`);
+            console[type](`[${moment().format('YYYY-MM-DD HH:mm:ss')}] [Koahub] ${log}`);
         } else {
             const msg = log.stack || log.toString();
             console[type]();
-            console[type](`[${moment().format('YYYY-MM-DD HH:mm:ss')}] [Koahub] [Log]`);
             console[type](msg);
             console[type]();
         }
