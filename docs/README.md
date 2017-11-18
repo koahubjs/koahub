@@ -267,9 +267,9 @@ koahub无伦是文件名还是控制器都默认区分大小写，很多在 `Win
 
 ES6 中有大量的语法糖可以简化我们的代码，让代码更加简洁高效。 Node.js 最新版本已经较好的支持了 ES6 的语法，即使有些语法不支持，也可以通过 Babel 编译来支持。
 
-#### constrcutor 方法
+#### constructor 方法
 
-控制器 `constrcutor` 方法请尽量不要使用，推荐使用 `_initialize` ，如果需要使用，必须调用 `super`
+控制器 `constructor` 方法请尽量不要使用，推荐使用 `_initialize` ，如果需要使用，必须调用 `super`
 
 ```javascript
 module.exports = class koahub.controller {
