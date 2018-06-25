@@ -67,13 +67,13 @@ module.exports = class Loader {
 
             if (regExp.test(name)) {
                 name = name.slice(0, name.lastIndexOf(options.suffix));
-
+                name = name.replace(/\\/g, '/');
                 options.filter.forEach(function (v, i) {
                     name = name.replace(v, '');
                 });
 
                 name = options.prefix + name;
-                name = name.replace(/\\/g, '/');
+               
 
                 loaders[name] = common.requireDefault(paths[key]);
             }
