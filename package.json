@@ -7,18 +7,18 @@
   },
   "dependencies": {
     "co": "4.6.0",
-    "debug": "2.6.8",
+    "debug": "^3.1.0",
     "depd": "1.1.0",
     "koa": "2.3.0",
-    "koa-cors": "0.0.16",
     "koa-body": "2.3.0",
     "koa-convert": "1.2.0",
+    "koa-cors": "0.0.16",
     "koa-favicon": "2.0.0",
     "koa-logger": "3.0.1",
     "koa-session2": "2.2.4",
     "koa-static-cache": "5.1.1",
     "lodash": "4.17.4",
-    "moment": "2.18.1",
+    "moment": "^2.22.2",
     "path-to-regexp": "1.7.0"
   },
   "devDependencies": {
