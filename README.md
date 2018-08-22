@@ -7,6 +7,8 @@
 
 KoaHub.js -- 中文最佳实践Node.js Web快速开发框架。支持Koa.js, Express.js中间件。
 
+当前项目已停止维护，推荐使用[Doodoo.js](https://github.com/doodooke/doodoo.js)
+
 ```javascript
 //base controller, admin/controller/base.controller.js
 module.exports = class extends koahub.controller {
